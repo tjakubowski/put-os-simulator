@@ -83,29 +83,40 @@ void VirtualMemory::load_program_from_file(PCB* pcb)
 }
 
 void VirtualMemory::load_program_from_char_vector(const std::vector<char> &program, PCB*pcb)
-{
-	std::cout << "ROMIAR PROGRAMU TO " << program.size() << std::endl; //do wyjebania potem
-	int base = get_base(program.size());
-	for (int i = 0; i < program.size(); i++)
-	{
-		pagefile[base + i] = program[i];
-	}
-
-	std::array<int, 2> segment{ base, program.size() };
-	pagefile_segment_tab.push_back(segment);
-
-	//usuwa segment jesli taki juz jest w pcb i dodaje nowy z is_in_ram == false
+{						 
+	bool is_arleady_in_virtualmemory = false;
 	for (int i = 0; i < pcb->segment_tab.size(); i++)
 	{
-		if (base == pcb->segment_tab[i].base)
+		if (program.size() == pcb->segment_tab[i].limit)
 		{
-			pcb->segment_tab.erase(pcb->segment_tab.begin() + i);
-			break;
+			for (int j = 0; j < pagefile_segment_tab.size(); j++)
+			{
+				if (pcb->segment_tab[i].base == pagefile_segment_tab[j][0] && pcb->segment_tab[i].limit == pagefile_segment_tab[j][1])
+				{
+					is_arleady_in_virtualmemory = true;
+					pcb->segment_tab[i].is_in_RAM = false;
+					//std::cout << "zmiana na false\n\n";//do usunieca potem
+				}
+			}
 		}
 	}
 
-	Segment temp(base, program.size(), false);
-	pcb->segment_tab.push_back(temp);
+	if (is_arleady_in_virtualmemory == false)
+	{
+		//std::cout << "ROMIAR PROGRAMU TO " << program.size() << std::endl; //do wyjebania potem
+		int base = get_base(program.size());
+		for (int i = 0; i < program.size(); i++)
+		{
+			pagefile[base + i] = program[i];
+		}
+
+		std::array<int, 2> segment{ base, program.size() };
+		pagefile_segment_tab.push_back(segment);
+
+		Segment temp(base, program.size(), false);
+		pcb->segment_tab.push_back(temp);
+	}
+
 
 }
 
