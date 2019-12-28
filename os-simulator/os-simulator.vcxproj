@@ -22,7 +22,7 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{A0CAB666-69F9-4DC4-855D-35C890690813}</ProjectGuid>
     <RootNamespace>ossimulator</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -123,6 +123,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="PCB.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Segment.h" />
+    <ClInclude Include="VirtualMemory.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="os-simulator.cpp" />
+    <ClCompile Include="PCB.cpp" />
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="Segment.cpp" />
+    <ClCompile Include="VirtualMemory.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="os-simulator.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
