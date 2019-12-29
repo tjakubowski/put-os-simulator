@@ -1,0 +1,10 @@
+#ifndef OS_SIMULATOR_PROCESSMANAGER_H
+#define OS_SIMULATOR_PROCESSMANAGER_H
+
+
+class ProcessManager {
+
+};
+
+
+#endif //OS_SIMULATOR_PROCESSMANAGER_H
