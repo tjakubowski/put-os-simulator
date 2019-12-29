@@ -1,19 +1,20 @@
 ﻿#pragma once
 #include <list>
-#include "PCB.h"
 #include <string>
+#include <algorithm>
+#include "PCB.h"
 
 class ProcessManager
 {
+	static int last_process_id_;
 	std::list<PCB*> processes_;
 	std::list<PCB*> ready_processes_;
 	std::list<PCB*> waiting_processes_;
 	PCB* running_process_ = nullptr;
 	PCB* dummy_process_ = nullptr;
 public:
-
-	ProcessManager() = default;
-	void CreateProcess(std::string process_name, std::string process_file);
+	ProcessManager();
+	void CreateProcess(std::string process_name, std::string process_file, int priority);
 
 	void KillProcess(PCB* process);
 	void KillProcess(int process_id);
