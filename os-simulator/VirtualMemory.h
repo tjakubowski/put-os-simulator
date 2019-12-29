@@ -5,9 +5,9 @@
 #include<string>
 #include<fstream>
 #include <vector>
-#include"PCB.h"
+#include"Process.h"
 
-extern class PCB;
+extern class Process;
 
 class VirtualMemory
 {
@@ -22,18 +22,18 @@ public:
 	int get_base(const int& limit); //znajduje adres poczatkowy adresowania 
 	int free_space_size();
 
-	std::vector<char> get_segment_to_RAM(const int& base, PCB *pcb);
+	std::vector<char> get_segment_to_RAM(const int& base, Process *pcb);
 
-	void load_program_from_file(PCB* pcb);
-	void load_program_from_char_vector(const std::vector<char>& program, PCB*pcb);
+	void load_program_from_file(Process* pcb);
+	void load_program_from_char_vector(const std::vector<char>& program, Process*pcb);
 
 	void remove_program_from_virtualmemory(const int &base);
-	void remove_segment_from_segment_tab(PCB *pcb, const int &base);
-	void remove_process(PCB*pcb);
+	void remove_segment_from_segment_tab(Process *pcb, const int &base);
+	void remove_process(Process*pcb);
 
 	void display_pagefile();
 	void display_pagefile_segment_tab();
-	void display_segment_tab(PCB*pcb);
+	void display_segment_tab(Process*pcb);
 };
 
 

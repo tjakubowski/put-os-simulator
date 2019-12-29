@@ -2,7 +2,7 @@
 #include "VirtualMemory.h"
 #include "Segment.h"
 
-extern class  PCB;
+extern class  Process;
 
 VirtualMemory::VirtualMemory()
 {
@@ -62,7 +62,7 @@ int VirtualMemory::get_base(const int& limit)
 	}
 }
 
-void VirtualMemory::load_program_from_file(PCB* pcb)
+void VirtualMemory::load_program_from_file(Process* pcb)
 {
 	std::vector<char>  program;
 	std::fstream stream(pcb->file_name, std::ios::in);
@@ -82,7 +82,7 @@ void VirtualMemory::load_program_from_file(PCB* pcb)
 	load_program_from_char_vector(program, pcb);
 }
 
-void VirtualMemory::load_program_from_char_vector(const std::vector<char> &program, PCB*pcb)
+void VirtualMemory::load_program_from_char_vector(const std::vector<char> &program, Process*pcb)
 {						 
 	bool is_arleady_in_virtualmemory = false;
 	for (int i = 0; i < pcb->segment_tab.size(); i++)
@@ -136,7 +136,7 @@ void VirtualMemory::remove_program_from_virtualmemory(const int &base)
 	}
 }
 
-void VirtualMemory::remove_segment_from_segment_tab(PCB* pcb, const int& base)
+void VirtualMemory::remove_segment_from_segment_tab(Process* pcb, const int& base)
 {
 	for (int i = 0; i < pcb->segment_tab.size(); i++)
 	{
@@ -147,7 +147,7 @@ void VirtualMemory::remove_segment_from_segment_tab(PCB* pcb, const int& base)
 	}
 }
 
-void VirtualMemory::remove_process(PCB*pcb)
+void VirtualMemory::remove_process(Process*pcb)
 {
 	for (int i = 0; i < pcb->segment_tab.size(); i++)
 	{
@@ -156,7 +156,7 @@ void VirtualMemory::remove_process(PCB*pcb)
 	pcb->segment_tab.clear();
 }
 
-std::vector<char> VirtualMemory::get_segment_to_RAM(const int& base, PCB *pcb) //tu dodaj dla pagefileSemgnt to z bool
+std::vector<char> VirtualMemory::get_segment_to_RAM(const int& base, Process *pcb) //tu dodaj dla pagefileSemgnt to z bool
 {
 	int limit = -1;
 	for (int i = 0; i < pagefile_segment_tab.size(); i++)
@@ -200,7 +200,7 @@ void VirtualMemory::display_pagefile_segment_tab()
 	}
 }
 
-void VirtualMemory::display_segment_tab(PCB* pcb)
+void VirtualMemory::display_segment_tab(Process* pcb)
 {
 	for (int i = 0; i < pcb->segment_tab.size(); i++)
 	{

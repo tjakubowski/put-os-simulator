@@ -3,7 +3,7 @@
 #include"Segment.h"
 #include <string>
 
-class PCB
+class Process
 {
 public:
 	enum State
@@ -22,8 +22,8 @@ private:
 	int instruction_counter_{};
 	std::vector<Segment> segment_tab_; // TODO: Consider changing its name
 public:
-	PCB(const std::string& name, const std::string& file_name, int priority, int id);
-	~PCB();
+	Process(const std::string& name, const std::string& file_name, int priority, int id);
+	~Process();
 
 	std::string name() const;
 	std::string file_name() const;

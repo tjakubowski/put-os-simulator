@@ -2,36 +2,36 @@
 #include <list>
 #include <string>
 #include <algorithm>
-#include "PCB.h"
+#include "Process.h"
 
 class ProcessManager
 {
 	static int last_process_id_;
-	std::list<PCB*> processes_;
-	std::list<PCB*> ready_processes_;
-	std::list<PCB*> waiting_processes_;
-	PCB* running_process_ = nullptr;
-	PCB* dummy_process_ = nullptr;
+	std::list<Process*> processes_;
+	std::list<Process*> ready_processes_;
+	std::list<Process*> waiting_processes_;
+	Process* running_process_ = nullptr;
+	Process* dummy_process_ = nullptr;
 public:
 	ProcessManager();
 	void CreateProcess(std::string process_name, std::string process_file, int priority);
 
-	void KillProcess(PCB* process);
+	void KillProcess(Process* process);
 	void KillProcess(int process_id);
 	void KillProcess(std::string process_name);
 	
-	PCB* GetProcess(int process_id);
-	PCB* GetProcess(std::string process_name);
+	Process* GetProcess(int process_id);
+	Process* GetProcess(std::string process_name);
 
-	void SetProcessRunning(PCB* process);
+	void SetProcessRunning(Process* process);
 	void SetProcessRunning(int process_id);
 	void SetProcessRunning(std::string process_name);
 	
-	void SetProcessReady(PCB* process);
+	void SetProcessReady(Process* process);
 	void SetProcessReady(int process_id);
 	void SetProcessReady(std::string process_name);
 	
-	void SetProcessWaiting(PCB* process);
+	void SetProcessWaiting(Process* process);
 	void SetProcessWaiting(int process_id);
 	void SetProcessWaiting(std::string process_name);
 };
