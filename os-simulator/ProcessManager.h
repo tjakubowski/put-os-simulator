@@ -8,6 +8,8 @@ class ProcessManager
 	std::list<PCB*> processes_;
 	std::list<PCB*> ready_processes_;
 	std::list<PCB*> waiting_processes_;
+	PCB* running_process_ = nullptr;
+	PCB* dummy_process_ = nullptr;
 public:
 	void CreateProcess(std::string process_name, std::string process_file);
 	void KillProcess(PCB process);
