@@ -125,6 +125,7 @@
   <ItemGroup>
     <ClInclude Include="PCB.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="ProcessManager.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Segment.h" />
     <ClInclude Include="VirtualMemory.h" />
@@ -133,6 +134,7 @@
     <ClCompile Include="os-simulator.cpp" />
     <ClCompile Include="PCB.cpp" />
     <ClCompile Include="pch.cpp" />
+    <ClCompile Include="ProcessManager.cpp" />
     <ClCompile Include="Segment.cpp" />
     <ClCompile Include="VirtualMemory.cpp" />
   </ItemGroup>
