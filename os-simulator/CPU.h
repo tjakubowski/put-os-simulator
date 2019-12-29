@@ -10,4 +10,8 @@ class CPU_M{
     void scheduling(Process Heap[], int* heapsize, int n, int* heapsize);
     //Porownanie procesow pod wzgledem priority
     bool compare(Process P1, Process P2);
+    //Wyciagniecie ze stosu procesu z najwiekszym priorytetem
+    Process extract_highest(Process Heap[], int* heapsize);
+    
+
 }
