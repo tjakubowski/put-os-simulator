@@ -53,12 +53,12 @@ void ProcessManager::KillProcess(std::string process_name)
 
 Process* ProcessManager::GetProcess(int process_id)
 {
-	return *std::find_if(processes_.begin(), processes_.end(), [process_id](const Process& process) { return process.id() == process_id; });
+	return *std::find_if(processes_.begin(), processes_.end(), [process_id](Process* process) { return process->id() == process_id; });
 }
 
 Process* ProcessManager::GetProcess(std::string process_name)
 {
-	return *std::find_if(processes_.begin(), processes_.end(), [process_name](const Process& process) { return process.name() == process_name; });
+	return *std::find_if(processes_.begin(), processes_.end(), [process_name](Process* process) { return process->name() == process_name; });
 }
 
 void ProcessManager::SetProcessRunning(Process* process)
