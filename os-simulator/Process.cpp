@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Process.h"
 
-Process::Process(const std::string& name, const std::string& file_name, const int priority, const int id) : name_(name), file_name_(file_name), id_(id), priority_(priority), registers_{}
+Process::Process(const std::string& name, const std::string& file_name, const int priority, const int id) : name_(name), file_name_(file_name), id_(id), priority_(priority)
 {
 }
 
