@@ -56,12 +56,22 @@ void ProcessManager::KillProcess(std::string process_name)
 
 Process* ProcessManager::GetProcess(int process_id)
 {
-	return *std::find_if(processes_.begin(), processes_.end(), [process_id](Process* process) { return process->id() == process_id; });
+	auto process = std::find_if(processes_.begin(), processes_.end(), [process_id](Process* process) { return process->id() == process_id; });
+
+	if (process == processes_.end())
+		throw std::exception("Process doesn't exist"); // TODO: Create own exception
+	
+	return *process;
 }
 
 Process* ProcessManager::GetProcess(std::string process_name)
 {
-	return *std::find_if(processes_.begin(), processes_.end(), [process_name](Process* process) { return process->name() == process_name; });
+	auto process = std::find_if(processes_.begin(), processes_.end(), [process_name](Process* process) { return process->name() == process_name; });
+
+	if (process == processes_.end())
+		throw std::exception("Process doesn't exist"); // TODO: Create own exception
+
+	return *process;
 }
 
 void ProcessManager::SetProcessRunning(Process* process)
