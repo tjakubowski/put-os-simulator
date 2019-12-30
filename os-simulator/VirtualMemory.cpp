@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "VirtualMemory.h"
 #include "Segment.h"
+#include"Process.h"
 
 extern class  Process;
 
@@ -65,7 +66,8 @@ int VirtualMemory::get_base(const int& limit)
 void VirtualMemory::load_program_from_file(Process* pcb)
 {
 	std::vector<char>  program;
-	std::fstream stream(pcb->file_name, std::ios::in);
+	std::string file_name = pcb->file_name();
+	std::fstream stream(file_name, std::ios::in);
 	if (stream.good() == true)
 	{
 		while (!stream.eof())
@@ -83,18 +85,20 @@ void VirtualMemory::load_program_from_file(Process* pcb)
 }
 
 void VirtualMemory::load_program_from_char_vector(const std::vector<char> &program, Process*pcb)
-{						 
+{
+	std::vector<Segment> segment_tab = pcb->segment_tab();
 	bool is_arleady_in_virtualmemory = false;
-	for (int i = 0; i < pcb->segment_tab.size(); i++)
+	for (int i = 0; i < segment_tab.size(); i++)
 	{
-		if (program.size() == pcb->segment_tab[i].limit)
+		if (program.size() == segment_tab[i].limit)
 		{
 			for (int j = 0; j < pagefile_segment_tab.size(); j++)
 			{
-				if (pcb->segment_tab[i].base == pagefile_segment_tab[j][0] && pcb->segment_tab[i].limit == pagefile_segment_tab[j][1])
+				if (segment_tab[i].base == pagefile_segment_tab[j][0] && segment_tab[i].limit == pagefile_segment_tab[j][1])
 				{
 					is_arleady_in_virtualmemory = true;
-					pcb->segment_tab[i].is_in_RAM = false;
+					segment_tab[i].is_in_RAM = false;
+					pcb->set_segment_tab(segment_tab);
 					//std::cout << "zmiana na false\n\n";//do usunieca potem
 				}
 			}
@@ -103,7 +107,8 @@ void VirtualMemory::load_program_from_char_vector(const std::vector<char> &progr
 
 	if (is_arleady_in_virtualmemory == false)
 	{
-		//std::cout << "ROMIAR PROGRAMU TO " << program.size() << std::endl; //do wyjebania potem
+		//std::cout << "ROMIAR PROGRAMU TO " << program.size() << std::endl; //do usuniecia potem
+		std::vector<Segment> segment_tab = pcb->segment_tab();
 		int base = get_base(program.size());
 		for (int i = 0; i < program.size(); i++)
 		{
@@ -114,7 +119,8 @@ void VirtualMemory::load_program_from_char_vector(const std::vector<char> &progr
 		pagefile_segment_tab.push_back(segment);
 
 		Segment temp(base, program.size(), false);
-		pcb->segment_tab.push_back(temp);
+		segment_tab.push_back(temp);
+		pcb->set_segment_tab(segment_tab);
 	}
 
 
@@ -138,37 +144,42 @@ void VirtualMemory::remove_program_from_virtualmemory(const int &base)
 
 void VirtualMemory::remove_segment_from_segment_tab(Process* pcb, const int& base)
 {
-	for (int i = 0; i < pcb->segment_tab.size(); i++)
+	std::vector<Segment> segment_tab = pcb->segment_tab();
+	for (int i = 0; i < segment_tab.size(); i++)
 	{
-		if (pcb->segment_tab[i].base == base)
+		if (segment_tab[i].base == base)
 		{
-			pcb->segment_tab.erase(pcb->segment_tab.begin() + i);
+			segment_tab.erase(segment_tab.begin() + i);
 		}
 	}
+	pcb->set_segment_tab(segment_tab);
 }
 
 void VirtualMemory::remove_process(Process*pcb)
 {
-	for (int i = 0; i < pcb->segment_tab.size(); i++)
+	std::vector<Segment> segment_tab = pcb->segment_tab();
+	for (int i = 0; i < segment_tab.size(); i++)
 	{
-		remove_program_from_virtualmemory(pcb->segment_tab[i].base);
+		remove_program_from_virtualmemory(segment_tab[i].base);
 	}
-	pcb->segment_tab.clear();
+	segment_tab.clear();
+	pcb->set_segment_tab(segment_tab);
 }
 
 std::vector<char> VirtualMemory::get_segment_to_RAM(const int& base, Process *pcb) //tu dodaj dla pagefileSemgnt to z bool
 {
+	std::vector<Segment> segment_tab = pcb->segment_tab();
 	int limit = -1;
 	for (int i = 0; i < pagefile_segment_tab.size(); i++)
 	{
 		if (pagefile_segment_tab[i][0] == base) {
 			limit = pagefile_segment_tab[i][1];
-			for (int j = 0; j < pcb->segment_tab.size(); j++)
+			for (int j = 0; j < segment_tab.size(); j++)
 			{
-				if (pcb->segment_tab[j].base == base)
+				if (segment_tab[j].base == base)
 				{
 					std::vector<char> result;
-					pcb->segment_tab[j].is_in_RAM = true;
+					segment_tab[j].is_in_RAM = true;
 					for (int index = 0; index < limit; index++) {
 						result.push_back(pagefile[base + index]);
 					}
@@ -176,6 +187,7 @@ std::vector<char> VirtualMemory::get_segment_to_RAM(const int& base, Process *pc
 					/*
 					 tutaj nie wiem czy wyjebac zawartosc segmentu z pagefila czy zostawic
 					 */
+					pcb->set_segment_tab(segment_tab);
 					return result;
 				}
 			}
@@ -202,10 +214,11 @@ void VirtualMemory::display_pagefile_segment_tab()
 
 void VirtualMemory::display_segment_tab(Process* pcb)
 {
-	for (int i = 0; i < pcb->segment_tab.size(); i++)
+	std::vector<Segment> segment_tab = pcb->segment_tab();
+	for (int i = 0; i < segment_tab.size(); i++)
 	{
-		std::cout << "<base: " << pcb->segment_tab[i].base << " limit: " << pcb->segment_tab[i].limit << " is in RAM: ";
-		if (pcb->segment_tab[i].is_in_RAM)
+		std::cout << "<base: " << segment_tab[i].base << " limit: " << segment_tab[i].limit << " is in RAM: ";
+		if (segment_tab[i].is_in_RAM)
 		{
 			std::cout << "true>";
 		}
