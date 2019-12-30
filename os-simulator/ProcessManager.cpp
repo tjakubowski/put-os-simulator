@@ -8,6 +8,12 @@ ProcessManager::ProcessManager()
 	SetProcessRunning(dummy_process_);
 }
 
+ProcessManager::~ProcessManager()
+{
+	delete dummy_process_;
+	delete running_process_;
+}
+
 void ProcessManager::CreateProcess(std::string process_name, std::string process_file, const int priority)
 {
 	const auto process = new Process(process_name, process_file, priority, ++last_process_id_);

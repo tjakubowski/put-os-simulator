@@ -14,6 +14,7 @@ class ProcessManager
 	Process* dummy_process_ = nullptr;
 public:
 	ProcessManager();
+	~ProcessManager();
 	void CreateProcess(std::string process_name, std::string process_file, int priority);
 
 	void KillProcess(Process* process);
