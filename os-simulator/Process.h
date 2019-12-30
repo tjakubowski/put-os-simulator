@@ -8,6 +8,7 @@ class Process
 public:
 	enum State
 	{
+		New,
 		Waiting,
 		Ready,
 		Running,
