@@ -126,7 +126,6 @@
     <ClInclude Include="Process.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="ProcessManager.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="Segment.h" />
     <ClInclude Include="VirtualMemory.h" />
   </ItemGroup>
