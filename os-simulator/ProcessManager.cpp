@@ -1,4 +1,7 @@
-﻿#include "ProcessManager.h"
+﻿#include "pch.h"
+#include "ProcessManager.h"
+#include <ostream>
+#include <iostream>
 
 int ProcessManager::last_process_id_ = 0;
 
