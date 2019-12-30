@@ -14,7 +14,10 @@ ProcessManager::ProcessManager()
 ProcessManager::~ProcessManager()
 {
 	delete dummy_process_;
-	delete running_process_;
+	
+	for (auto&& process : processes_)
+		delete process;
+	processes_.clear();
 }
 
 void ProcessManager::CreateProcess(std::string process_name, std::string process_file, const int priority)
