@@ -2,6 +2,7 @@
 #include<vector>
 #include"Segment.h"
 #include <string>
+#include <ostream>
 
 class Process
 {
@@ -39,5 +40,15 @@ public:
 	void set_priority(int priority);
 	void set_instruction_counter(int instruction_counter);
 	void set_segment_tab(const std::vector<Segment>& segment_tab);
+
+	friend std::ostream& operator<<(std::ostream& os, const Process& obj)
+	{
+		return os
+			<< "id: " << obj.id_
+			<< "\tname: " << obj.name_
+			<< "\tfile: " << obj.file_name_
+			<< "\tpriority: " << obj.priority_
+			<< "\tstate: " << obj.process_state_;
+	}
 };
 

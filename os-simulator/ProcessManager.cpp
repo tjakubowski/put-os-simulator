@@ -159,3 +159,60 @@ void ProcessManager::SetProcessWaiting(std::string process_name)
 {
 	SetProcessWaiting(GetProcess(process_name));
 }
+
+void ProcessManager::PrintAllProcesses() const
+{
+	std::cout << "# Printing all processes list" << std::endl;
+	for (auto process : processes_)
+		std::cout << *process << std::endl;
+}
+
+void ProcessManager::PrintWaitingProcesses() const
+{
+	std::cout << "# Printing waiting processes list" << std::endl;
+	for (auto process : waiting_processes_)
+		std::cout << *process << std::endl;
+}
+
+void ProcessManager::PrintReadyProcesses() const
+{
+	std::cout << "# Printing ready processes list" << std::endl;
+	for (auto process : ready_processes_)
+		std::cout << *process << std::endl;
+}
+
+void ProcessManager::PrintRunningProcess() const
+{
+	std::cout << "# Printing running process" << std::endl;
+	std::cout << *running_process_ << std::endl;
+}
+
+void ProcessManager::PrintProcesses() const
+{
+	std::cout << "# Printing all processes lists" << std::endl;
+	PrintAllProcesses();
+	std::cout << std::endl;
+	PrintWaitingProcesses();
+	std::cout << std::endl;
+	PrintReadyProcesses();
+	std::cout << std::endl;
+	PrintRunningProcess();
+	std::cout << std::endl;
+}
+
+void ProcessManager::PrintProcess(Process* process) 
+{
+	std::cout
+		<< "# Printing single process" << std::endl
+		<< *process << std::endl;
+}
+
+void ProcessManager::PrintProcess(int process_id) 
+{
+	PrintProcess(GetProcess(process_id));
+}
+
+void ProcessManager::PrintProcess(std::string process_name) 
+{
+	PrintProcess(GetProcess(process_name));
+}
