@@ -23,7 +23,7 @@ private:
 	std::vector<Segment> segment_tab_; // TODO: Consider changing its name
 public:
 	Process(const std::string& name, const std::string& file_name, int priority, int id);
-	~Process();
+	~Process() = default;
 
 	std::string name() const;
 	std::string file_name() const;
