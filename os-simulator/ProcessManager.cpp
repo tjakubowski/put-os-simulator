@@ -8,7 +8,7 @@ int ProcessManager::last_process_id_ = 0;
 ProcessManager::ProcessManager()
 {
 	dummy_process_ = new Process("dummy", "", 0, ++last_process_id_);
-	SetProcessRunning(dummy_process_);
+	running_process_ = dummy_process_;
 }
 
 ProcessManager::~ProcessManager()
@@ -35,7 +35,7 @@ void ProcessManager::KillProcess(Process* process)
 	case Process::Ready:
 		ready_processes_.remove(process); break;
 	case Process::Running:
-		SetProcessRunning(dummy_process_); break;
+		running_process_ = dummy_process_; break;
 	default: break;
 	}
 
