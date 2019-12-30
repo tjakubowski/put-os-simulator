@@ -94,6 +94,8 @@ int RAM::add_to_RAM(int id, string Filename) {
 			Free_blocks_list.erase(i);
 		}//troche nie mam pojecia co robie, ale chyba dziala
 
+		//jednak nie dzia³a
+
 		Process process(); //tutaj trzeba przekazac id, wielkosc, komendy i takie tam do listy procesów
 	}
 }
