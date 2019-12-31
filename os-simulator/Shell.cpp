@@ -35,7 +35,7 @@ bool Shell::stob(std::string str) {
 
 void Shell::help() {
 
-	std::cout << "<PUT-OS> " << "Dostepne komendy:\n\n";
+	std::cout << system_name << "Dostepne komendy:\n\n";
 
 	// -h
 
@@ -115,15 +115,15 @@ void Shell::perform_command() {
 					std::cout << "\n" << command[0] << " " << "[folder_name][file_name]\n";
 				}
 				else {
-					std::cout  << "<PUT-OS> "  << "Niepoprawna liczba argumentow.\n" ;
+					std::cout  << system_name  << arguments ;
 				}
 			}
 			else if (command.size() == 3) {
 				// metoda tworząca plik
-					std::cout <<  "<PUT-OS> "  << "Utworzono plik " << command[2] << ".\n";
+					std::cout <<  system_name  << "Utworzono plik " << command[2] << ".\n";
 			}
 			else {
-				std::cout <<  "<PUT-OS> "  << "Niepoprawna liczba argumentow.\n" ;
+				std::cout <<  system_name  << arguments ;
 			}
 			break;
 
@@ -134,21 +134,21 @@ void Shell::perform_command() {
 					std::cout << "\n" << command[0] << " " << "[nazwa_pilku][tryb]	tryb == (r | rw)\n";
 				}
 				else {
-					std::cout <<  "<PUT-OS> "  << "Niepoprawna liczba argumentow.\n" ;
+					std::cout <<  system_name  << arguments ;
 				}
 			}
 			else if (command.size() == 3) {
 
 				if (command[2] == "rw" || command[2] == "r") {
 					// metoda otwierająca plik
-					std::cout <<  "<PUT-OS> "  << "Otwarto plik.\n";
+					std::cout <<  system_name  << "Otwarto plik.\n";
 				}
 				else {
-					std::cout <<  "<PUT-OS> "  << "Nieprawidlowy tryb otwarcia.\n" ;
+					std::cout <<  system_name  << "Nieprawidlowy tryb otwarcia.\n" ;
 				}
 			}
 			else {
-				std::cout <<  "<PUT-OS> "  << "Niepoprawna liczba argumentow.\n" ;
+				std::cout <<  system_name  << arguments ;
 			}
 			break;
 
@@ -161,11 +161,11 @@ void Shell::perform_command() {
 				}
 				else {
 					// metoda zamykajaca plik
-					std::cout <<  "<PUT-OS> "  << "Zamknieto plik.\n";
+					std::cout <<  system_name  << "Zamknieto plik.\n";
 				}
 			}
 			else {
-				std::cout <<  "<PUT-OS> "  << "Niepoprawna liczba argumentow.\n" ;
+				std::cout <<  system_name  << arguments ;
 			}
 			break;
 
@@ -178,12 +178,12 @@ void Shell::perform_command() {
 					std::cout << "\n" << command[0] << " " << "[folder_name]\n";
 				}
 				else {
-					std::cout  << "<PUT-OS> "  << "Wyswietlenie zawartosci folderu.\n";
+					std::cout  << system_name  << "Wyswietlenie zawartosci folderu.\n";
 					// metoda wyswietlajaca zawartosc folderu
 				}
 			}
 			else {
-				std::cout  << "<PUT-OS> "  << "Niepoprawna liczba argumentow.\n" ;
+				std::cout  << system_name  << arguments ;
 			}
 			break;
 
@@ -194,15 +194,15 @@ void Shell::perform_command() {
 					std::cout << "\n" << command[0] << " " << "[folder_name][folder_to_create_name]\n";
 				}
 				else {
-					std::cout  << "<PUT-OS> "  << "Niepoprawna liczba argumentow.\n" ;
+					std::cout  << system_name  << arguments ;
 				}
 			}
 			else if (command.size() == 3) {
 				// metoda tworzaca katalog
-					std::cout  << "<PUT-OS> "  << "Utworzono katalog " << command[2] << ".\n";
+					std::cout  << system_name  << "Utworzono katalog " << command[2] << ".\n";
 			}
 			else {
-				std::cout  << "<PUT-OS> "  << "Niepoprawna liczba argumentow.\n" ;
+				std::cout  << system_name  << arguments ;
 			}
 			break;
 
@@ -214,11 +214,11 @@ void Shell::perform_command() {
 				}
 				else {
 					// metoda usuwajaca katalog
-					std::cout  << "<PUT-OS> "  << "Usunieto katalog" << command[1] << ".\n";
+					std::cout  << system_name  << "Usunieto katalog" << command[1] << ".\n";
 				}
 			}
 			else {
-				std::cout  << "<PUT-OS> "  << "Niepoprawna liczba argumentow.\n" ;
+				std::cout  << system_name  << arguments ;
 			}
 			break;
 		
@@ -230,15 +230,15 @@ void Shell::perform_command() {
 					
 				}
 				else {
-					std::cout  << "<PUT-OS> "  << "Niepoprawna liczba argumentow.\n" ;
+					std::cout  << system_name  << arguments ;
 				}
 			}
 			else if (command.size() == 3) {
 				// metoda zmieniajaca nazwe lub sciezke pliku
-					std::cout  << "<PUT-OS> "  << "Plik " << command[1] << " ma nowa nazwe " << command[2] << ".\n";
+					std::cout  << system_name  << "Plik " << command[1] << " ma nowa nazwe " << command[2] << ".\n";
 			}
 			else {
-				std::cout  << "<PUT-OS> "  << "Niepoprawna liczba argumentow.\n" ;
+				std::cout  << system_name  << arguments ;
 			}
 			break;
 
@@ -253,15 +253,15 @@ void Shell::perform_command() {
 					short int num = fsearch(command[1], 0);
 
 					if (num < 0) {
-						std::cout  << "<PUT-OS> "  << "Nie znaleziono pliku.\n" ;
+						std::cout  << system_name  << "Nie znaleziono pliku.\n" ;
 					}
 					else {
-						std::cout  << "<PUT-OS> "  << "Numer i-wezla wskazanego pliku to: " << num << std::endl;
+						std::cout  << system_name  << "Numer i-wezla wskazanego pliku to: " << num << std::endl;
 					}
 				}
 			}
 			else {
-				std::cout  << "<PUT-OS> "  << "Niepoprawna liczba argumentow.\n" ;
+				std::cout  << system_name  << arguments ;
 			}*/
 
 		// DYSK
@@ -274,24 +274,24 @@ void Shell::perform_command() {
 					std::cout << "[tryb]: a - wyswietla za pomoca znakow ASCII, h - wyswietla za pomoca kodu szesnastkowego\n";
 				}
 				else if (command[1] == "a" || command[1] == "h") {
-					std::cout << "<PUT-OS> " << "Wyswietlenie zawartosci bloku.\n";
+					std::cout << system_name << "Wyswietlenie zawartosci bloku.\n";
 					// metoda wyswietlajaca zawartosc calego dysku				
 				}
 				else {
-					std::cout << "<PUT-OS> " << "Niepoprawna liczba argumentow.\n";
+					std::cout << system_name << arguments;
 				}
 			}
 			else if (command.size() == 3) {
 				if (std::stoi(command[1]) >= 0) {
-					std::cout << "<PUT-OS> " << "Wyswietlenie bloku dyskowego.\n";
+					std::cout << system_name << "Wyswietlenie bloku dyskowego.\n";
 					// metoda wyswietlajaca zawartosc bloku dyskowego
 				}
 				else {
-					std::cout << "<PUT-OS> " << "Numer bloku musi byc liczba nieujemna.\n";
+					std::cout << system_name << "Numer bloku musi byc liczba nieujemna.\n";
 				}
 			}
 			else {
-				std::cout  << "<PUT-OS> "  << "Niepoprawna liczba argumentow.\n" ;
+				std::cout  << system_name  << arguments ;
 			}
 			break;
 
@@ -303,15 +303,15 @@ void Shell::perform_command() {
 					std::cout << "[tryb]: a - wyswietla za pomoca znakow ASCII, h - wyswietla za pomoca kodu szesnastkowego\n";
 				}
 				else if (command[1] == "a" || command[1] == "h") {
-					std::cout << "<PUT-OS> " << "Wyswietlenie zawartosci dysku.\n";
+					std::cout << system_name << "Wyswietlenie zawartosci dysku.\n";
 					// metoda wyswietlajaca zawartosc calego dysku				
 				}
 				else {
-					std::cout  << "<PUT-OS> "  << "Niepoprawna liczba argumentow.\n" ;
+					std::cout  << system_name  << arguments ;
 				}
 			}
 			else {
-				std::cout  << "<PUT-OS> "  << "Niepoprawna liczba argumentow.\n" ;
+				std::cout  << system_name  << arguments ;
 			}
 			break;
 
@@ -320,7 +320,7 @@ void Shell::perform_command() {
 		case commands::mem:
 
 			if (command.size() == 1) {
-				std::cout  << "<PUT-OS> "  << "Wyswietlenie aktualnego stanu pamieci RAM.\n";
+				std::cout  << system_name  << "Wyswietlenie aktualnego stanu pamieci RAM.\n";
 				// metoda wyswietlajaca pamiec RAM
 			}
 			else if (command.size() == 2) {
@@ -329,11 +329,11 @@ void Shell::perform_command() {
 					std::cout << "[] - brak argumentow\n";
 				}
 				else {
-					std::cout  << "<PUT-OS> "  << "Niepoprawna liczba argumentow.\n" ;
+					std::cout  << system_name  << arguments ;
 				}
 			}
 			else {
-				std::cout  << "<PUT-OS> "  << "Niepoprawna liczba argumentow.\n" ;
+				std::cout  << system_name  << arguments ;
 			}
 			break;
 
@@ -342,7 +342,7 @@ void Shell::perform_command() {
 		case commands::wmem:
 
 			if (command.size() == 1) {
-				std::cout  << "<PUT-OS> "  << "Wyswietlenie pliku wymiany.\n";
+				std::cout  << system_name  << "Wyswietlenie pliku wymiany.\n";
 				// metoda wyswietlajaca plik wymiany
 			}
 			else if (command.size() == 2) {
@@ -351,11 +351,11 @@ void Shell::perform_command() {
 					std::cout << "[] - brak argumentow\n";
 				}
 				else {
-					std::cout  << "<PUT-OS> "  << "Niepoprawna liczba argumentow.\n" ;
+					std::cout  << system_name  << arguments ;
 				}
 			}
 			else {
-				std::cout  << "<PUT-OS> "  << "Niepoprawna liczba argumentow.\n" ;
+				std::cout  << system_name  << arguments ;
 			}
 			break;
 
@@ -369,14 +369,14 @@ void Shell::perform_command() {
 					std::cout << "[nazwa_pliku] - plik zawierajacy program\n";
 				}
 				else {
-					std::cout << "<PUT-OS> " << "Niepoprawna liczba argumentow.\n";
+					std::cout << system_name << arguments;
 				}
 			}
 			else if (command.size() == 3) {
 				//metoda tworzaca proces z programem
 			}
 			else {
-				std::cout  << "<PUT-OS> "  << "Niepoprawna liczba argumentow.\n" ;
+				std::cout  << system_name  << arguments ;
 			}
 			break;
 
@@ -388,14 +388,14 @@ void Shell::perform_command() {
 					std::cout << "[nazwa_pliku] - plik zawierajacy program\n";
 				}
 				else {
-					std::cout  << "<PUT-OS> "  << "Niepoprawna liczba argumentow.\n" ;
+					std::cout  << system_name  << arguments ;
 				}
 			}
 			else if (command.size() == 3) {
 				// metoda ladujaca program do procesu
 			}
 			else {
-				std::cout  << "<PUT-OS> "  << "Niepoprawna liczba argumentow.\n" ;
+				std::cout  << system_name  << arguments ;
 			}
 			break;
 
@@ -410,11 +410,11 @@ void Shell::perform_command() {
 					std::cout << "[] - brak argumentow\n";
 				}
 				else {
-					std::cout  << "<PUT-OS> "  << "Niepoprawna liczba argumentow.\n" ;
+					std::cout  << system_name  << arguments ;
 				}
 			}
 			else {
-				std::cout  << "<PUT-OS> "  << "Niepoprawna liczba argumentow.\n" ;
+				std::cout  << system_name  << arguments ;
 			}
 			break;
 
@@ -431,11 +431,11 @@ void Shell::perform_command() {
 					std::cout << "[] - brak argumentow\n";
 				}
 				else {
-					std::cout  << "<PUT-OS> "  << "Niepoprawna liczba argumentow.\n" ;
+					std::cout  << system_name  << arguments ;
 				}
 			}
 			else {
-				std::cout  << "<PUT-OS> "  << "Niepoprawna liczba argumentow.\n" ;
+				std::cout  << system_name  << arguments ;
 			}
 			break;
 
@@ -452,18 +452,18 @@ void Shell::perform_command() {
 					std::cout << "[] - brak argumentow\n";
 				}
 				else {
-					std::cout  << "<PUT-OS> "  << "Niepoprawna liczba argumentow.\n" ;
+					std::cout  << system_name  << arguments ;
 				}
 			}
 			else {
-				std::cout  << "<PUT-OS> "  << "Niepoprawna liczba argumentow.\n" ;
+				std::cout  << system_name  << arguments ;
 			}
 			break;
 
 		// ERROR
 
 		default:
-			std::cout << "<PUT-OS> " << "Nie rozpoznano tej komendy.";
+			std::cout << system_name << "Nie rozpoznano tej komendy.";
 	}
 }
 

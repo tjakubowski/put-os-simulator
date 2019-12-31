@@ -66,6 +66,9 @@ private:
 	void help();						// wyswietla wszystkie komendy
 	void perform_command();				// wykonuje komende
 
+	std::string arguments = "Niepoprawna liczba argumentow!\n";
+	std::string system_name = "<PUT-OS> ";
+
 public:
 
 	void run();							// uruchomienie programu
