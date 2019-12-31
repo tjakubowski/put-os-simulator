@@ -1,17 +1,27 @@
 #pragma once
+#include <vector>
+#include <iostream>
 
 class CPU_M{
     private:
+
+	//Dodanie procesu do kopca
+	void insert_to_heap(std::vector<Process*> &heap, Process *P);
+
     //Utrzymanie kopca
-    void order_heap(Process Heap[], int* heapsize, int start);
-    //Dodanie procesu do kopca
-    void insert_to_heap(Process Heap[], int* heapsize, int priority);
-    //WYkonywanie procesu na gorze kopca
-    void scheduling(Process Heap[], int* heapsize, int n, int* heapsize);
-    //Porownanie procesow pod wzgledem priority
-    bool compare(Process P1, Process P2);
+	void order_heap(std::vector<Process*> &heap);
+    
+	
+   
+	//WYkonywanie procesu na gorze kopca
+    void scheduling(std::vector <Process> Heap, int* heapsize);
+    
+	//Porownanie procesow pod wzgledem priority
+	bool compare(Process *P1, Process *P2);
+
+
     //Wyciagniecie ze stosu procesu z najwiekszym priorytetem
-    Process extract_highest(Process Heap[], int* heapsize);
+    Process extract_highest(std::vector <Process> Heap, int* heapsize);
     
 
-}
+};
