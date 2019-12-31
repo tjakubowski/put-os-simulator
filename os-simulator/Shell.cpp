@@ -481,18 +481,3 @@ void Shell::run() {
 		perform_command();
 	}
 }
-
-int main() {
-
-	// inicjalizacja dysku
-
-	// inicjalizacja ram
-
-	// inicjalizacja pamięci wirtualnej
-
-	Shell shell;
-
-	shell.run();
-
-	return 0;
-}
