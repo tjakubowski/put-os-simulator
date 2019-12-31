@@ -163,6 +163,7 @@
     <ClCompile Include="ProcessManager.cpp" />
     <ClCompile Include="RAM.cpp" />
     <ClCompile Include="Segment.cpp" />
+    <ClCompile Include="Shell.cpp" />
     <ClCompile Include="VirtualMemory.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +173,7 @@
     <ClInclude Include="ProcessManager.h" />
     <ClInclude Include="RAM.h" />
     <ClInclude Include="Segment.h" />
+    <ClInclude Include="Shell.h" />
     <ClInclude Include="VirtualMemory.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
