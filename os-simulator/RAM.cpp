@@ -3,11 +3,11 @@
 #include<fstream>
 using namespace std;
 
-int RAM::add_to_RAM(int id, string Filename) {
+int RAM::add_to_RAM(Process* process) {
 	fstream file;
 	string commands, help, com[128];
 
-	file.open(Filename);
+	file.open(process->file_name);
 	int length = 0, counter = 0;
 
 	if (file.is_open())
@@ -16,7 +16,7 @@ int RAM::add_to_RAM(int id, string Filename) {
 		{
 			getline(file, help);
 			com[counter] = help;
-			counter++;
+			counter++;		 //string stream
 			for (int i = 0; i <= help.length(); i++)
 			{
 				if (help[i] != '\n')
@@ -52,50 +52,12 @@ int RAM::add_to_RAM(int id, string Filename) {
 	bool find_space = false;
 	if (free_space < length || free_space < 2)
 	{
-
+		return 1;
 	}
 	else {
-		find_space = true;
+
 	}
-	if (find_space == true) {
-		Free_blocks F_b;
-
-		if (last == 0) {
-			Free_blocks_list.pop_back();
-			F_b.begining = length + 1;
-			last = length + 1;
-			F_b.end = 128;
-			F_b.size = F_b.end - F_b.begining;
-			Free_blocks_list.push_back(F_b);
-		}
-		else {
-			list<Free_blocks>::iterator i;
-			for (i = Free_blocks_list.begin(); i != Free_blocks_list.end(); i++) {
-				if (i->size >= length) {
-					F_b.begining = i->begining + length;
-					break;
-				}
-			}
-			bool finder = false;
-			for (auto process : RAM_process_list) {
-				if (process.begining >= F_b.begining) {
-					F_b.end = process.begining - 1;
-					finder = true;
-					break;
-				}
-			}
-			if (finder == false) {
-				F_b.end = 128;
-			}
-			F_b.size = F_b.end - F_b.begining;
-			if (F_b.size > 0)
-				Free_blocks_list.emplace_front(F_b);
-
-			Free_blocks_list.erase(i);
-		}//troche nie mam pojecia co robie, ale chyba dziala
-
-		//jednak nie dzia³a
 
 		Process process(); //tutaj trzeba przekazac id, wielkosc, komendy i takie tam do listy procesów
-	}
+	
 }

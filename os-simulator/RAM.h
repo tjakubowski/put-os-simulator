@@ -9,26 +9,20 @@
 
 using namespace std;
 
-struct RAM_process {
-	int id;
-	int size;
-	int begining;
-	int MemoryPointer = 0;
-	string commands;
-};
-
 struct Free_blocks {
 	int size;
 	int begining;
 	int end = size + begining;
 };
 
-class RAM {
-	public:
+class RAM { //single tone do sprawdzenia
+	public: //private potem
 		int memory_capacity = 128;
 		int free_space = 128;
-		list<RAM_process> RAM_process_list;
+		list<Process*> RAM_process_list;
 		list<Free_blocks> Free_blocks_list;
+		int command_length;
+
 		RAM(){
 			Free_blocks F_b;
 			F_b.begining = 1;
@@ -39,8 +33,8 @@ class RAM {
 private:
 	int last = 0;
 public:
-		int add_to_RAM(int id, string filename);  //dodaæ wskaŸnik na proces jako argument albo ciagnac po id pobraæ kod programu z modu³u FAT
-		void delete_from_RAM();  //dodaæ wskaŸnik na proces jako argument
+		int add_to_RAM(Process* process);  //dodaæ wskaŸnik na proces jako argument albo ciagnac po id pobraæ kod programu z modu³u FAT
+		void delete_from_RAM(Process* process);  //dodaæ wskaŸnik na proces jako argument
 		string show_RAM(int id, int counter); //wyswietlenie zawartosci ram
 		char char_RAM(int id, int place);
 		
