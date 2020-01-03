@@ -6,6 +6,7 @@
 #include<list>
 #include<algorithm>
 #include<fstream>
+#include "ProcessManager.h"
 
 using namespace std;
 
@@ -15,12 +16,21 @@ struct Free_blocks {
 	int end = size + begining;
 };
 
+struct RAM_process
+{
+	int id;
+	int size;
+	int start;
+	string commands;
+	int MemoryPointer = 0;
+};
+
 class RAM { //single tone do sprawdzenia
 	public: //private potem
 		int memory_capacity = 128;
 		int free_space = 128;
-		list<Process*> RAM_process_list;
 		list<Free_blocks> Free_blocks_list;
+		list<RAM_process> RAM_processes_list;
 		int command_length;
 
 		RAM(){
@@ -33,7 +43,7 @@ class RAM { //single tone do sprawdzenia
 private:
 	int last = 0;
 public:
-		int add_to_RAM(Process* process);  //dodaæ wskaŸnik na proces jako argument albo ciagnac po id pobraæ kod programu z modu³u FAT
+		int add_to_RAM(string filename);  //dodaæ wskaŸnik na proces jako argument albo ciagnac po id pobraæ kod programu z modu³u FAT //zamienic na proces
 		void delete_from_RAM(Process* process);  //dodaæ wskaŸnik na proces jako argument
 		string show_RAM(int id, int counter); //wyswietlenie zawartosci ram
 		char char_RAM(int id, int place);

@@ -1,13 +1,18 @@
 #include "pch.h"
 #include "RAM.h"
+
 #include<fstream>
+
 using namespace std;
 
-int RAM::add_to_RAM(Process* process) {
+int RAM::add_to_RAM(string filename) { //zamienic na process
 	fstream file;
-	string commands, help, com[128];
+	string commands, help, line[128];
 
-	file.open(process->file_name);
+
+
+
+	file.open(filename);
 	int length = 0, counter = 0;
 
 	if (file.is_open())
@@ -15,23 +20,26 @@ int RAM::add_to_RAM(Process* process) {
 		while (file.good())
 		{
 			getline(file, help);
-			com[counter] = help;
+			line[counter] = help;
 			counter++;		 //string stream
-			for (int i = 0; i <= help.length(); i++)
+			for (int i = 0; i <= help.length(); i++) //todo do uzgodnienia z FAT jak ma wygl¹daæ czytanie. 
 			{
 				if (help[i] != '\n')
 					length++;
+
+
 			}
 			commands += help;
 			commands += '\n';
 		}
-	
+
+
 	}
 	else {
 		cout << "this file cannot be found. Try to change Filename parameter" << endl;
-	return 2;
+		return 2;
 	}
-	cout << "all commands together:" << commands << "\n";
+	//cout << "all commands together:" << commands << "\n";
 
 	bool empty = true;
 	for (int i = 0; i < commands.length(); i++)
@@ -45,19 +53,83 @@ int RAM::add_to_RAM(Process* process) {
 
 	if (empty)
 	{
-		cout << "this file is empty" << endl;
+		cout << "\nthis file is empty\n" << endl;
 		return 3;
 
 	}
 	bool find_space = false;
-	if (free_space < length || free_space < 2)
-	{
-		return 1;
-	}
-	else {
+	try {
+
+
+		if (free_space < length || free_space < 2)
+		{
+			cout << "\nthere is no enough space\n" << endl;
+			return 1;
+		}
+		else {
+			{
+				if (Free_blocks_list.empty() == false) {
+					for (auto e : Free_blocks_list)
+					{
+						if (e.size >= length)
+							find_space = true;
+					}
+				}
+				else {
+					find_space = true;
+				}
+				if (find_space) {
+					Free_blocks F_b; //to trzeba bêdzie chyba gdzieœ wczeœniej zainicjowaæ tbh.
+
+					if (last == 0) {
+						Free_blocks_list.pop_back();
+						F_b.begining = length + 1;
+						last = length + 1;
+						F_b.end = 128;
+						F_b.size = F_b.end - F_b.begining;
+						Free_blocks_list.push_back(F_b);
+					}
+					else {
+						list<Free_blocks>::iterator fbi;
+
+						for (fbi = Free_blocks_list.begin(); fbi != Free_blocks_list.end(); fbi++) {
+							if (fbi->size >= length)
+							{
+								F_b.begining = fbi->begining + length;
+								break;
+							}
+						}
+						bool finder = false;
+						for (auto a : RAM_processes_list) {
+							if (a.start >= F_b.begining) {
+								F_b.end = a.start - 1;
+								finder = true;
+								break;
+							}
+						}
+						if (!finder) {
+							F_b.end = 128;
+						}
+						F_b.size = F_b.end - F_b.begining;
+
+						if (F_b.size > 0)
+							Free_blocks_list.emplace_front(F_b);
+
+						Free_blocks_list.erase(fbi);
+					}
+
+					//tutaj przekazaæ trzeba 
+
+					free_space -= length;
+				}
+			}
+		}
 
 	}
+	catch (int) { return 1; };
+	
 
-		Process process(); //tutaj trzeba przekazac id, wielkosc, komendy i takie tam do listy procesów
+
+
 	
 }
