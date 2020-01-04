@@ -46,12 +46,11 @@ public: //private potem
 private:
 	int last = 0;
 public:
-	int add_to_RAM(string filename);  //dodaæ wskaŸnik na proces jako argument albo ciagnac po id pobraæ kod programu z modu³u FAT //zamienic na proces
+	int add_to_RAM(string filename, int id);  //dodaæ wskaŸnik na proces jako argument albo ciagnac po id pobraæ kod programu z modu³u FAT //zamienic na proces
 	void delete_from_RAM(string filename);  //dodaæ wskaŸnik na proces jako argument
-	string show_RAM(int id, int counter); //wyswietlenie zawartosci ram
+	void show_RAM(); //wyswietlenie zawartosci ram
 	char char_RAM(int id, int place);
+	string read_RAM();
 
-	void wait_for_RAM(); //nwm czy to potrzebne bedzie w ogole
-	void merge_Fb(); //to chyba mozna olac ale poki co jest
-	void fragment_Fb(); //jw
+
 };

@@ -5,7 +5,7 @@
 
 using namespace std;
 
-int RAM::add_to_RAM(string filename) { //zamienic na process
+int RAM::add_to_RAM(string filename, int id) { //zamienic na process
 	fstream file;
 	string commands, help, line[128];
 	int max_size = 0;
@@ -154,4 +154,27 @@ int RAM::add_to_RAM(string filename) { //zamienic na process
 
 
 	
+}
+
+void RAM::show_RAM() {
+	list<RAM_process>::iterator it;
+	int i = 0, ilosc_w = 0;
+	cout << "\n\tMEMORY\n  " << endl << "[ID]\t size\t  begining\t end" << endl;
+	for (it = RAM_processes_list.begin(); it != RAM_processes_list.end(); ++it)
+	{
+		cout << it->id << "\t " << it->size << "\t   " << it->start << "\t\t  " << it->start + it->size << endl;
+		i++;
+	}
+
+	if (i == 0)
+		cout << "Brak procesow w pamieci" << endl;
+
+	cout << "\nPozostalo wolnej pamieci:  " << endl;
+	for (auto e : Free_blocks_list)
+	{
+		cout << "\tStart: " << e.begining << " --> End: " << e.end << "  =  Size: " << e.size << endl;
+		ilosc_w += e.size;
+	}
+	cout << "Razem:  " << ilosc_w << endl;
+	cout << "" << endl;
 }
