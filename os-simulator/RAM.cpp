@@ -175,16 +175,17 @@ void RAM::show_RAM() {
 
 void RAM::delete_from_RAM(int id) {
 	int size = 0;
+	Free_blocks F_b;
 	try {
 		list<RAM_process>::iterator it;
-		bool tn = true;
+		bool id_not_exist = true;
 		for (it = RAM_processes_list.begin(); it != RAM_processes_list.end(); ++it) {
 			if (it->id == id) {
-				tn = false;
+				id_not_exist = false;
 				break;
 			}
 		}
-		if (tn) {
+		if (id_not_exist) {
 			std::cout << "tego procesu nie ma w pamieci";
 			throw 0;
 
@@ -193,7 +194,7 @@ void RAM::delete_from_RAM(int id) {
 		size = it->size;
 		int starting_point = it->start;
 
-		Free_blocks F_b;
+		
 		F_b.begining = starting_point;
 		F_b.size = it->size;
 		F_b.end = starting_point + F_b.size;
@@ -202,4 +203,14 @@ void RAM::delete_from_RAM(int id) {
 		RAM_processes_list.erase(it);
 	}
 	catch (int) { "nie ma takiego procesu w pamieci"; };
+	if (RAM_processes_list.empty()) {
+		std::cout << "JESTEM PUSTA CALKIEM!!!";
+		list<Free_blocks>::iterator fbi;
+		F_b.begining = 1;
+		F_b.end = 128;
+		F_b.size = F_b.end - F_b.begining;
+		Free_blocks_list.clear();
+		Free_blocks_list.push_back(F_b);
+
+	}
 }
