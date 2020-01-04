@@ -147,12 +147,6 @@ int RAM::add_to_RAM(string filename, int id) { //zamienic na process
 	catch (int) { return 1; };
 	//Process process(); //tutaj trzeba przekazac id, wielkosc, komendy i takie tam do listy procesów
 
-
-
-	
-
-
-
 	
 }
 
@@ -177,4 +171,35 @@ void RAM::show_RAM() {
 	}
 	cout << "Razem:  " << ilosc_w << endl;
 	cout << "" << endl;
+}
+
+void RAM::delete_from_RAM(int id) {
+	int size = 0;
+	try {
+		list<RAM_process>::iterator it;
+		bool tn = true;
+		for (it = RAM_processes_list.begin(); it != RAM_processes_list.end(); ++it) {
+			if (it->id == id) {
+				tn = false;
+				break;
+			}
+		}
+		if (tn) {
+			std::cout << "tego procesu nie ma w pamieci";
+			throw 0;
+
+		}
+		free_space += it->size;
+		size = it->size;
+		int starting_point = it->start;
+
+		Free_blocks F_b;
+		F_b.begining = starting_point;
+		F_b.size = it->size;
+		F_b.end = starting_point + F_b.size;
+		Free_blocks_list.push_back(F_b);
+
+		RAM_processes_list.erase(it);
+	}
+	catch (int) { "nie ma takiego procesu w pamieci"; };
 }

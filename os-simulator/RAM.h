@@ -47,7 +47,7 @@ private:
 	int last = 0;
 public:
 	int add_to_RAM(string filename, int id);  //dodaæ wskaŸnik na proces jako argument albo ciagnac po id pobraæ kod programu z modu³u FAT //zamienic na proces
-	void delete_from_RAM(string filename);  //dodaæ wskaŸnik na proces jako argument
+	void delete_from_RAM(int id);  //dodaæ wskaŸnik na proces jako argument
 	void show_RAM(); //wyswietlenie zawartosci ram
 	char char_RAM(int id, int place);
 	string read_RAM();
