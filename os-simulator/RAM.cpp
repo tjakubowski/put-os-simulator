@@ -8,7 +8,8 @@ using namespace std;
 int RAM::add_to_RAM(string filename) { //zamienic na process
 	fstream file;
 	string commands, help, line[128];
-
+	int max_size = 0;
+	int list_index = 0;
 
 
 
@@ -93,9 +94,26 @@ int RAM::add_to_RAM(string filename) { //zamienic na process
 						list<Free_blocks>::iterator fbi;
 
 						for (fbi = Free_blocks_list.begin(); fbi != Free_blocks_list.end(); fbi++) {
-							if (fbi->size >= length)
+
+
+							if (max_size < fbi->size) {
+								max_size = fbi->size;
+								list_index = distance(Free_blocks_list.begin(), fbi);
+							}
+
+						}
+
+						fbi = Free_blocks_list.begin();
+						advance(fbi, list_index);
+						fbi->biggest = true;
+
+						for (fbi = Free_blocks_list.begin(); fbi != Free_blocks_list.end(); fbi++) {
+
+
+							if (fbi->biggest == true && fbi->size >= length)
 							{
 								F_b.begining = fbi->begining + length;
+								fbi->biggest = false;
 								break;
 							}
 						}
@@ -127,6 +145,10 @@ int RAM::add_to_RAM(string filename) { //zamienic na process
 
 	}
 	catch (int) { return 1; };
+	//Process process(); //tutaj trzeba przekazac id, wielkosc, komendy i takie tam do listy procesów
+
+
+
 	
 
 
