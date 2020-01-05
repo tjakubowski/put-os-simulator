@@ -1,5 +1,5 @@
 CF wynik.txt
-RD C
+MI C 45
 JL 6
 AF wynik.txt C
 AF wynik.txt 61
@@ -14,4 +14,5 @@ AF wynik.txt A
 JZ 90
 AF wynik.txt 44
 JC 36
+EX
 EX
