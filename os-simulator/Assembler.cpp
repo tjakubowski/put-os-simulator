@@ -72,81 +72,81 @@ string* split(string toSplit)
 	return splitted;
 }
 
-void runCommand(string command, Assembler &reg)
+void runCommand(string c_line, Assembler &reg)
 {
-	string *commandLine = split(command);
-	cout << commandLine[0] << " " << commandLine[1] << " " << commandLine[2] << endl;
+	string *line = split(c_line);
+	cout << line[0] << " " << line[1] << " " << line[2] << endl;
 
 	reg.set_licznik(reg.get_licznik() + 6);
 
 
 	//MI rejestrX rejestrY/int
-	if (commandLine[0] == "MI") // Ustaw wartoœæ rejestru z commandLine[2] w commandLine[1]
+	if (line[0] == "MI") // Ustaw wartoœæ rejestru z commandLine[2] w commandLine[1]
 	{
-		if (commandLine[1] == "A")
+		if (line[1] == "A")
 		{
-			if (commandLine[2] == "B")
+			if (line[2] == "B")
 			{
 				reg.set_A(reg.get_B());
 			}
-			else if (commandLine[2] == "C")
+			else if (line[2] == "C")
 			{
 				reg.set_A(reg.get_C());
 			}
 			else
 			{
-				reg.set_A(stoi(commandLine[2]));
+				reg.set_A(stoi(line[2]));
 			}
 		}
-		else if (commandLine[1] == "B")
+		else if (line[1] == "B")
 		{
-			if (commandLine[2] == "A")
+			if (line[2] == "A")
 			{
 				reg.set_B(reg.get_A());
 			}
-			else if (commandLine[2] == "C")
+			else if (line[2] == "C")
 			{
 				reg.set_B(reg.get_C());
 			}
 			else
 			{
-				reg.set_B(stoi(commandLine[2]));
+				reg.set_B(stoi(line[2]));
 			}
 		}
-		else if (commandLine[1] == "C")
+		else if (line[1] == "C")
 		{
-			if (commandLine[2] == "A")
+			if (line[2] == "A")
 			{
 				reg.set_C(reg.get_A());
 			}
-			else if (commandLine[2] == "B")
+			else if (line[2] == "B")
 			{
 				reg.set_C(reg.get_B());
 			}
 			else
 			{
-				reg.set_C(stoi(commandLine[2]));
+				reg.set_C(stoi(line[2]));
 			}
 		}
 	}
 	//RD rejestrX
-	else if (commandLine[0] == "RD")
+	else if (line[0] == "RD")
 	{
-		if (commandLine[1] == "A")
+		if (line[1] == "A")
 		{
 			short int val;
 			cout << "Wpisz wartosc do rej. A: "; cin >> val;
 			cin.ignore();
 			reg.set_A(val);
 		}
-		else if (commandLine[1] == "B")
+		else if (line[1] == "B")
 		{
 			short int val;
 			cout << "Wpisz wartosc do rej. B: "; cin >> val;
 			cin.ignore();
 			reg.set_B(val);
 		}
-		else if (commandLine[1] == "C")
+		else if (line[1] == "C")
 		{
 			short int val;
 			cout << "Wpisz wartosc do rej. C: "; cin >> val;
@@ -155,370 +155,370 @@ void runCommand(string command, Assembler &reg)
 		}
 	}
 	/////////////////////////////////////////////////////////////////// brak brak brak
-	else if (commandLine[0] == "MV") // Ustaw wartosc rejestru na liczbe z commandLine[2]
+	else if (line[0] == "MV") // Ustaw wartosc rejestru na liczbe z commandLine[2]
 	{
-		if (commandLine[1] == "A")
+		if (line[1] == "A")
 		{
-			if(commandLine[2] == "B")
+			if(line[2] == "B")
 			{
 				reg.set_A(reg.get_B());
 			}
-			else if (commandLine[2] == "C")
+			else if (line[2] == "C")
 			{
 				reg.set_A(reg.get_C());
 			}
 			else
 			{
-				reg.set_A(stoi(commandLine[2]));
+				reg.set_A(stoi(line[2]));
 			}
 		}
-		else if (commandLine[1] == "B")
+		else if (line[1] == "B")
 		{
-			if (commandLine[2] == "A")
+			if (line[2] == "A")
 			{
 				reg.set_B(reg.get_A());
 			}
-			else if (commandLine[2] == "C")
+			else if (line[2] == "C")
 			{
 				reg.set_B(reg.get_C());
 			}
 			else
 			{
-				reg.set_B(stoi(commandLine[2]));
+				reg.set_B(stoi(line[2]));
 			}
 		}
-		else if (commandLine[1] == "C")
+		else if (line[1] == "C")
 		{
-			if (commandLine[2] == "A")
+			if (line[2] == "A")
 			{
 				reg.set_C(reg.get_A());
 			}
-			else if (commandLine[2] == "B")
+			else if (line[2] == "B")
 			{
 				reg.set_C(reg.get_B());
 			}
 			else
 			{
-				reg.set_C(stoi(commandLine[2]));
+				reg.set_C(stoi(line[2]));
 			}
 		}
 	}
 
-	else if (commandLine[0] == "AD") // AD rejestr/int ---> rejestr += rejestr/int
+	else if (line[0] == "AD") // AD rejestr/int ---> rejestr += rejestr/int
 	{
-		if (commandLine[1] == "A")
+		if (line[1] == "A")
 		{
-			if(commandLine[2]=="A")
+			if(line[2]=="A")
 			{
 				reg.set_A(reg.get_A() + reg.get_A());
 			}
-			else if(commandLine[2] == "B")
+			else if(line[2] == "B")
 			{
 				reg.set_A(reg.get_A() + reg.get_B());
 			}
-			else if(commandLine[2]=="C")
+			else if(line[2]=="C")
 			{
 				reg.set_A(reg.get_A() + reg.get_C());
 			}
 			else
 			{
-				reg.set_A(reg.get_A() + stoi(commandLine[2]));
+				reg.set_A(reg.get_A() + stoi(line[2]));
 			}
 		}
-		else if (commandLine[1] == "B")
+		else if (line[1] == "B")
 		{
-			if(commandLine[2]=="A")
+			if(line[2]=="A")
 			{
 				reg.set_B(reg.get_B() + reg.get_A());
 			}
-			else if (commandLine[2] == "B")
+			else if (line[2] == "B")
 			{
 				reg.set_B(reg.get_B() + reg.get_B());
 			}
-			else if (commandLine[2] == "C")
+			else if (line[2] == "C")
 			{
 				reg.set_B(reg.get_B() + reg.get_C());
 			}
 			else
 			{
-				reg.set_B(reg.get_B() + stoi(commandLine[2]));
+				reg.set_B(reg.get_B() + stoi(line[2]));
 			}
 		}
-		else if (commandLine[1] == "C")
+		else if (line[1] == "C")
 		{
 
-			if (commandLine[2] == "A")
+			if (line[2] == "A")
 			{
 				reg.set_C(reg.get_C() + reg.get_A());
 			}
-			else if(commandLine[2] == "B")
+			else if(line[2] == "B")
 			{
 				reg.set_C(reg.get_C() + reg.get_B());
 			}
-			else if (commandLine[2] == "C")
+			else if (line[2] == "C")
 			{
 				reg.set_C(reg.get_C() + reg.get_C());
 			}
 			else
 			{
-				reg.set_C(reg.get_C() + stoi(commandLine[2]));
+				reg.set_C(reg.get_C() + stoi(line[2]));
 			}
 		}
 		else
 		{
-			reg.set_A(reg.get_A() + stoi(commandLine[2]));
+			reg.set_A(reg.get_A() + stoi(line[2]));
 		}
 	}
 	//SB rejestrX rejestrY/int   SB int
-	else if (commandLine[0] == "SB") //SB rejest/int ---> rejestr -= rejestr/int
+	else if (line[0] == "SB") //SB rejest/int ---> rejestr -= rejestr/int
 	{
-		if (commandLine[1] == "A")
+		if (line[1] == "A")
 		{
-			if (commandLine[2] == "A")
+			if (line[2] == "A")
 			{
 				reg.set_A(reg.get_A() - reg.get_A());
 			}
-			else if (commandLine[2] == "B")
+			else if (line[2] == "B")
 			{
 				reg.set_A(reg.get_A() - reg.get_B());
 			}
-			else if (commandLine[2] == "C")
+			else if (line[2] == "C")
 			{
 				reg.set_A(reg.get_A() - reg.get_C());
 			}
 			else
 			{
-				reg.set_A(reg.get_A() - stoi(commandLine[2]));
+				reg.set_A(reg.get_A() - stoi(line[2]));
 			}
 		}
-		else if (commandLine[1] == "B")
+		else if (line[1] == "B")
 		{
-			if (commandLine[2] == "A")
+			if (line[2] == "A")
 			{
 				reg.set_B(reg.get_B() - reg.get_A());
 			}
-			else if (commandLine[2] == "B")
+			else if (line[2] == "B")
 			{
 				reg.set_B(reg.get_B() - reg.get_B());
 			}
-			else if (commandLine[2] == "C")
+			else if (line[2] == "C")
 			{
 				reg.set_B(reg.get_B() - reg.get_C());
 			}
 			else
 			{
-				reg.set_B(reg.get_B() - stoi(commandLine[2]));
+				reg.set_B(reg.get_B() - stoi(line[2]));
 			}
 		}
-		else if (commandLine[1] == "C")
+		else if (line[1] == "C")
 		{
-			if (commandLine[2] == "A")
+			if (line[2] == "A")
 			{
 				reg.set_C(reg.get_C() - reg.get_A());
 			}
-			else if (commandLine[2] == "B")
+			else if (line[2] == "B")
 			{
 				reg.set_C(reg.get_C() - reg.get_B());
 			}
-			else if (commandLine[2] == "C")
+			else if (line[2] == "C")
 			{
 				reg.set_C(reg.get_C() - reg.get_C());
 			}
 			else
 			{
-				reg.set_C(reg.get_C() - stoi(commandLine[2]));
+				reg.set_C(reg.get_C() - stoi(line[2]));
 			}
 		}
 		else
 		{
-			reg.set_A(reg.get_A() - stoi(commandLine[2]));
+			reg.set_A(reg.get_A() - stoi(line[2]));
 		}
 	}
 
 	//MU rejestrX rejestrY/int     MU int
-	else if (commandLine[0] == "MU") // 
+	else if (line[0] == "MU") // 
 	{
-		if (commandLine[1] == "A")
+		if (line[1] == "A")
 		{
-			if (commandLine[2] == "A")
+			if (line[2] == "A")
 			{
 				reg.set_A(reg.get_A() *reg.get_A());
 			}
-			else if (commandLine[2] == "B")
+			else if (line[2] == "B")
 			{
 				reg.set_A(reg.get_A() *reg.get_B());
 			}
-			else if (commandLine[2] == "C")
+			else if (line[2] == "C")
 			{
 				reg.set_A(reg.get_A() *reg.get_C());
 			}
 			else
 			{
-				reg.set_A(reg.get_A() *stoi(commandLine[2]));
+				reg.set_A(reg.get_A() *stoi(line[2]));
 			}
 		}
-		else if (commandLine[1] == "B")
+		else if (line[1] == "B")
 		{
-			if (commandLine[2] == "A")
+			if (line[2] == "A")
 			{
 				reg.set_B(reg.get_B() *reg.get_A());
 			}
-			else if (commandLine[2] == "B")
+			else if (line[2] == "B")
 			{
 				reg.set_B(reg.get_B() *reg.get_B());
 			}
-			else if (commandLine[2] == "C")
+			else if (line[2] == "C")
 			{
 				reg.set_B(reg.get_B() *reg.get_C());
 			}
 			else
 			{
-				reg.set_B(reg.get_B() *stoi(commandLine[2]));
+				reg.set_B(reg.get_B() *stoi(line[2]));
 			}
 		}
-		else if (commandLine[1] == "A")
+		else if (line[1] == "A")
 		{
-			if (commandLine[2] == "A")
+			if (line[2] == "A")
 			{
 				reg.set_C(reg.get_C() *reg.get_A());
 			}
-			else if (commandLine[2] == "B")
+			else if (line[2] == "B")
 			{
 				reg.set_C(reg.get_C() *reg.get_B());
 			}
-			else if (commandLine[2] == "C")
+			else if (line[2] == "C")
 			{
 				reg.set_C(reg.get_C() *reg.get_C());
 			}
 			else
 			{
-				reg.set_C(reg.get_C() *stoi(commandLine[2]));
+				reg.set_C(reg.get_C() *stoi(line[2]));
 			}
 		}
 		else
 		{
-			reg.set_A(reg.get_A() * stoi(commandLine[2]));
+			reg.set_A(reg.get_A() * stoi(line[2]));
 		}
 	}
 	//Jump gdy C!=0
-	else if (commandLine[0] == "JC")
+	else if (line[0] == "JC")
 	{
 		if (reg.get_C() != 0)
-			reg.set_licznik(stoi(commandLine[1]));
+			reg.set_licznik(stoi(line[1]));
 	}
 
 	//Jump gdy C==0
-	else if (commandLine[0] == "JZ")
+	else if (line[0] == "JZ")
 	{
 		if (reg.get_C() == 0)
-			reg.set_licznik(stoi(commandLine[1]));
+			reg.set_licznik(stoi(line[1]));
 	}
 
 	//Jump gdy C<0
-	else if (commandLine[0] == "JL")
+	else if (line[0] == "JL")
 	{
 		if (reg.get_C() < 0)
-			reg.set_licznik(stoi(commandLine[1]));
+			reg.set_licznik(stoi(line[1]));
 	}
 
 	//Jump zawsze
-	else if (commandLine[0] == "JP")
+	else if (line[0] == "JP")
 	{
-		reg.set_licznik(stoi(commandLine[1]));
+		reg.set_licznik(stoi(line[1]));
 	}
 
 	//Jump gdy C>0
-	else if (commandLine[0] == "JM")
+	else if (line[0] == "JM")
 	{
 		if (reg.get_C() > 0)
-			reg.set_licznik(stoi(commandLine[1]));
+			reg.set_licznik(stoi(line[1]));
 	}
 	//wyswitla rejestrX
-	else if (commandLine[0] == "PR")
+	else if (line[0] == "PR")
 	{
-		if (commandLine[1] == "A")
+		if (line[1] == "A")
 		{
 			cout << reg.get_A();
 		}
-		else if (commandLine[1] == "B")
+		else if (line[1] == "B")
 		{
 			cout << reg.get_B();
 		}
-		else if (commandLine[1] == "C")
+		else if (line[1] == "C")
 		{
 			cout << reg.get_C();
 		}
 	}
 	//CF nazwa
-	else if (commandLine[0] == "CF")
+	else if (line[0] == "CF")
 	{
-		cout << "Tworzenie pliku wyjsciowego o nazwie: " << commandLine[1] << endl;
+		cout << "Tworzenie pliku wyjsciowego o nazwie: " << line[1] << endl;
 		{
 			fstream plik;
-			plik.open(commandLine[1], ios::out);
+			plik.open(line[1], ios::out);
 			plik.close();
 		}
 	}
 
-	else if (commandLine[0] == "AF")
+	else if (line[0] == "AF")
 	{
-		if (commandLine[2] == "A")
+		if (line[2] == "A")
 		{
 			fstream plik;
-			plik.open(commandLine[1], ios::app);
+			plik.open(line[1], ios::app);
 			plik << reg.get_A();
 			plik.close();
 		}
-		else if (commandLine[2] == "B")
+		else if (line[2] == "B")
 		{
 			fstream plik;
-			plik.open(commandLine[1], ios::app);
+			plik.open(line[1], ios::app);
 			plik << reg.get_B();
 			plik.close();
 		}
-		else if (commandLine[2] == "C")
+		else if (line[2] == "C")
 		{
 			fstream plik;
-			plik.open(commandLine[1], ios::app);
+			plik.open(line[1], ios::app);
 			plik << reg.get_C();
 			plik.close();
 		}
 		else
 		{
 			fstream plik;
-			plik.open(commandLine[1], ios::app);
-			plik << (char)stoi(commandLine[2]);
+			plik.open(line[1], ios::app);
+			plik << (char)stoi(line[2]);
 			plik.close();
 		}
 	}
 	//zwieksza o 1 
-	else if (commandLine[0] == "IC")
+	else if (line[0] == "IC")
 	{
-		if (commandLine[1] == "A")
+		if (line[1] == "A")
 		{
 			reg.set_A(reg.get_A() + 1);
 		}
-		else if (commandLine[1] == "B")
+		else if (line[1] == "B")
 		{
 			reg.set_B(reg.get_B() + 1);
 		}
-		else if (commandLine[1] == "C")
+		else if (line[1] == "C")
 		{
 			reg.set_C(reg.get_C() + 1);
 		}
 	}
 	//zmnniejsza o 1
-	else if (commandLine[0] == "DC") // zmniejsza o 1 
+	else if (line[0] == "DC") // zmniejsza o 1 
 	{
-		if (commandLine[1] == "A")
+		if (line[1] == "A")
 		{
 			reg.set_A(reg.get_A() - 1);
 		}
-		else if (commandLine[1] == "B")
+		else if (line[1] == "B")
 		{
 			reg.set_B(reg.get_B() - 1);
 		}
-		else if (commandLine[1] == "C")
+		else if (line[1] == "C")
 		{
 			reg.set_C(reg.get_C() - 1);
 		}
@@ -526,43 +526,43 @@ void runCommand(string command, Assembler &reg)
 
 	//-------------------------usunaæ jak bym nie doda³ nic tutaj--------------------------------
 /*
-	else if (commandLine[0] == "FK")
+	else if (line[0] == "FK")
 	{
 		//funkcja tworzenia procesu o nazwie commandLine[1]
 	}
-	else if (commandLine[0] == "WT")
+	else if (line[0] == "WT")
 	{
 		//funkcja wstrzymania procesu o nazwie commandLine[1]
 	}
-	else if (commandLine[0] == "SE")
+	else if (line[0] == "SE")
 	{
-		//.sendCom(commandLine[1],commandLine[2]);
+		//
 	}
-	else if (commandLine[0] == "KL")
+	else if (line[0] == "KL")
 	{
-		//zabicie procesu o PID stoi(commandLine[1])
+		//zabicie procesu o PID stoi(line[1])
 	}
 */
 
 	//koniec programu
-	else if (commandLine[0] == "EX")
+	else if (line[0] == "EX")
 	{
 		reg.set_licznik(92);
 		cout << "Koniec programu ";
 	}
 	//otwiera program
-	else if (commandLine[0] == "FO")
+	else if (line[0] == "FO")
 	{
 	fstream plik;
-		plik.open(commandLine[1], ios::app);
+		plik.open(line[1], ios::app);
 	}
 	//glupie to! chyba wywale 
-	else if (commandLine[0] == "FC")
+	else if (line[0] == "FC")
 	{
 	fstream plik;
 	plik.close();
 	}
-	else if (commandLine[0] == "NP")
+	else if (line[0] == "NP")
 	{
 	//nic nie robi!
 	}
@@ -570,25 +570,20 @@ void runCommand(string command, Assembler &reg)
 
 void runProgram(string program[], Assembler &reg)
 {
-	string command;
+	string com;
 	while (reg.get_licznik() != 92)
 	{
-		command = program[reg.get_licznik() / 6];
-		runCommand(command, reg);
+		com = program[reg.get_licznik() / 6];
+		runCommand(com, reg);
 	}
 }
 
 int main()
 {
-	Assembler reg;				// clasa rejestr
-	string program[30];			// string program o tablicy 30 
+	Assembler ass;				// clasa rejestr
+	string program[30];			// string program o +tablicy 30 30*6
 	readFile(program,"ciagEulera.txt");	
-	
-	cout << program[0] << "cos";
-
-	// czytaj program
-	runProgram(program,reg);
-	cout << program[4];
+	runProgram(program,ass);
 	system("pause");
 	return 0;
 }
