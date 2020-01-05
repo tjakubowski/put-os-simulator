@@ -1,0 +1,17 @@
+CF wynik.txt
+RD C
+JL 6
+AF wynik.txt C
+AF wynik.txt 61
+MI B 0
+IC B
+MI A B
+MU A A
+SB A B
+AD A 41
+DC C
+AF wynik.txt A
+JZ 90
+AF wynik.txt 44
+JC 36
+EX
