@@ -216,3 +216,23 @@ void ProcessManager::PrintProcess(std::string process_name)
 {
 	PrintProcess(GetProcess(process_name));
 }
+
+std::list<Process*> ProcessManager::processes() const
+{
+	return processes_;
+}
+
+std::list<Process*> ProcessManager::ready_processes() const
+{
+	return ready_processes_;
+}
+
+std::list<Process*> ProcessManager::waiting_processes() const
+{
+	return waiting_processes_;
+}
+
+Process* ProcessManager::running_process() const
+{
+	return running_process_;
+}
