@@ -1,8 +1,4 @@
 ﻿#include <iostream>
-#include <vector>
-#include <sstream>
-#include <iterator>
-#include <typeinfo>
 #include "Shell.h"
 
 //PCB *p1 = new PCB(1);
@@ -29,8 +25,8 @@ unsigned short Shell::stous(std::string str) {
 }
 
 bool Shell::stob(std::string str) {
-	if (str == "rw") return true; // rw - read and write (tryb otwarcia wy³¹czny)
-	else if (str == "r") return false; // r - read olny (tryb otwarcia wspo³dzielony)
+	if (str == "rw") return true; // rw - read and write
+	else if (str == "r") return false; // r - read only
 }
 
 void Shell::help() {
@@ -110,35 +106,36 @@ void Shell::perform_command() {
 
 		case commands::cf:
 
-			if (command.size() == 2) {
+			switch (command.size()) {
+			case 2:
 				if (command[1] == "-h") {
 					std::cout << "\n" << command[0] << " " << "[folder_name][file_name]\n";
 				}
 				else {
-					std::cout  << system_name  << arguments ;
+					std::cout << system_name << arguments;
 				}
-			}
-			else if (command.size() == 3) {
+				break;
+			case 3:
 				// metoda tworząca plik
-					std::cout <<  system_name  << "Utworzono plik " << command[2] << ".\n";
-			}
-			else {
-				std::cout <<  system_name  << arguments ;
+				std::cout << system_name << "Utworzono plik " << command[2] << ".\n";
+				break;
+			default:
+				std::cout << system_name << arguments;
 			}
 			break;
 
 		case commands::op:
 
-			if (command.size() == 2) {
+			switch (command.size()) {
+			case 2:
 				if (command[1] == "-h") {
 					std::cout << "\n" << command[0] << " " << "[nazwa_pilku][tryb]	tryb == (r | rw)\n";
 				}
 				else {
 					std::cout <<  system_name  << arguments ;
 				}
-			}
-			else if (command.size() == 3) {
-
+				break;
+			case 3:
 				if (command[2] == "rw" || command[2] == "r") {
 					// metoda otwierająca plik
 					std::cout <<  system_name  << "Otwarto plik.\n";
@@ -146,25 +143,25 @@ void Shell::perform_command() {
 				else {
 					std::cout <<  system_name  << "Nieprawidlowy tryb otwarcia.\n" ;
 				}
-			}
-			else {
+				break;
+			default:
 				std::cout <<  system_name  << arguments ;
 			}
 			break;
 
 		case commands::cl:
 
-			if (command.size() == 2) {
+			switch (command.size()) {
+			case 2:
 				if (command[1] == "-h") {
 					std::cout << "\n" << command[0] << " " << "[file_name]\n";
-					
 				}
 				else {
 					// metoda zamykajaca plik
 					std::cout <<  system_name  << "Zamknieto plik.\n";
 				}
-			}
-			else {
+				break;
+			default:
 				std::cout <<  system_name  << arguments ;
 			}
 			break;
@@ -173,7 +170,8 @@ void Shell::perform_command() {
 
 		case commands::ls:
 
-			if (command.size() == 2) {
+			switch (command.size()) {
+			case 2:
 				if (command[1] == "-h") {
 					std::cout << "\n" << command[0] << " " << "[folder_name]\n";
 				}
@@ -181,34 +179,36 @@ void Shell::perform_command() {
 					std::cout  << system_name  << "Wyswietlenie zawartosci folderu.\n";
 					// metoda wyswietlajaca zawartosc folderu
 				}
-			}
-			else {
+				break;
+			default:
 				std::cout  << system_name  << arguments ;
 			}
 			break;
 
 		case commands::md:
 
-			if (command.size() == 2) {
+			switch (command.size()) {
+			case 2:
 				if (command[1] == "-h") {
 					std::cout << "\n" << command[0] << " " << "[folder_name][folder_to_create_name]\n";
 				}
 				else {
 					std::cout  << system_name  << arguments ;
 				}
-			}
-			else if (command.size() == 3) {
+				break;
+			case 3:
 				// metoda tworzaca katalog
-					std::cout  << system_name  << "Utworzono katalog " << command[2] << ".\n";
-			}
-			else {
+				std::cout  << system_name  << "Utworzono katalog " << command[2] << ".\n";
+				break;
+			default:
 				std::cout  << system_name  << arguments ;
 			}
 			break;
 
 		case commands::rd:
 
-			if (command.size() == 2) {
+			switch (command.size()) {
+			case 2:
 				if (command[1] == "-h") {
 					std::cout << "\n" << command[0] << " " << "[folder_name]\n";
 				}
@@ -216,15 +216,16 @@ void Shell::perform_command() {
 					// metoda usuwajaca katalog
 					std::cout  << system_name  << "Usunieto katalog" << command[1] << ".\n";
 				}
-			}
-			else {
+				break;
+			default:
 				std::cout  << system_name  << arguments ;
 			}
 			break;
 		
 		case commands::move:
 
-			if (command.size() == 2) {
+			switch (command.size()) {
+			case 2:
 				if (command[1] == "-h") {
 					std::cout << "\n" << command[0] << " " << "[file_name][new_file_name]\n";
 					
@@ -232,12 +233,12 @@ void Shell::perform_command() {
 				else {
 					std::cout  << system_name  << arguments ;
 				}
-			}
-			else if (command.size() == 3) {
+				break;
+			case 3:
 				// metoda zmieniajaca nazwe lub sciezke pliku
-					std::cout  << system_name  << "Plik " << command[1] << " ma nowa nazwe " << command[2] << ".\n";
-			}
-			else {
+				std::cout  << system_name  << "Plik " << command[1] << " ma nowa nazwe " << command[2] << ".\n";
+				break;
+			default:
 				std::cout  << system_name  << arguments ;
 			}
 			break;
@@ -268,7 +269,8 @@ void Shell::perform_command() {
 
 		case commands::sb:
 
-			if (command.size() == 2) {
+			switch (command.size()) {
+			case 2:
 				if (command[1] == "-h") {
 					std::cout << "\n" << command[0] << " [numer_bloku][tryb]\n";
 					std::cout << "[tryb]: a - wyswietla za pomoca znakow ASCII, h - wyswietla za pomoca kodu szesnastkowego\n";
@@ -280,8 +282,8 @@ void Shell::perform_command() {
 				else {
 					std::cout << system_name << arguments;
 				}
-			}
-			else if (command.size() == 3) {
+				break;
+			case 3:
 				if (std::stoi(command[1]) >= 0) {
 					std::cout << system_name << "Wyswietlenie bloku dyskowego.\n";
 					// metoda wyswietlajaca zawartosc bloku dyskowego
@@ -289,15 +291,16 @@ void Shell::perform_command() {
 				else {
 					std::cout << system_name << "Numer bloku musi byc liczba nieujemna.\n";
 				}
-			}
-			else {
+				break;
+			default:
 				std::cout  << system_name  << arguments ;
 			}
 			break;
 
 		case commands::sd:
 
-			if (command.size() == 2) {
+			switch (command.size()) {
+			case 2:
 				if (command[1] == "-h") {
 					std::cout << "\n" << command[0] << " [tryb]\n";
 					std::cout << "[tryb]: a - wyswietla za pomoca znakow ASCII, h - wyswietla za pomoca kodu szesnastkowego\n";
@@ -309,8 +312,8 @@ void Shell::perform_command() {
 				else {
 					std::cout  << system_name  << arguments ;
 				}
-			}
-			else {
+				break;
+			default:
 				std::cout  << system_name  << arguments ;
 			}
 			break;
@@ -319,11 +322,13 @@ void Shell::perform_command() {
 
 		case commands::mem:
 
-			if (command.size() == 1) {
+			switch (command.size()) {
+			case 1:
 				std::cout  << system_name  << "Wyswietlenie aktualnego stanu pamieci RAM.\n";
 				// metoda wyswietlajaca pamiec RAM
-			}
-			else if (command.size() == 2) {
+			
+				break;
+			case 2:
 				if (command[1] == "-h") {
 					std::cout << "\n" << command[0] << " " << "[]\n";
 					std::cout << "[] - brak argumentow\n";
@@ -331,8 +336,8 @@ void Shell::perform_command() {
 				else {
 					std::cout  << system_name  << arguments ;
 				}
-			}
-			else {
+				break;
+			default:
 				std::cout  << system_name  << arguments ;
 			}
 			break;
@@ -341,11 +346,12 @@ void Shell::perform_command() {
 
 		case commands::wmem:
 
-			if (command.size() == 1) {
+			switch (command.size()) {
+			case 1:
 				std::cout  << system_name  << "Wyswietlenie pliku wymiany.\n";
 				// metoda wyswietlajaca plik wymiany
-			}
-			else if (command.size() == 2) {
+				break;
+			case 2:
 				if (command[1] == "-h") {
 					std::cout << "\n" << command[0] << " " << "[]\n";
 					std::cout << "[] - brak argumentow\n";
@@ -353,8 +359,8 @@ void Shell::perform_command() {
 				else {
 					std::cout  << system_name  << arguments ;
 				}
-			}
-			else {
+				break;
+			default:
 				std::cout  << system_name  << arguments ;
 			}
 			break;
@@ -363,7 +369,8 @@ void Shell::perform_command() {
 
 		case commands::cp:
 
-			if (command.size() == 2) {
+			switch (command.size()) {
+			case 2:
 				if (command[1] == "-h") {
 					std::cout << "\n" << command[0] << " " << "[nazwa_procesu][nazwa_pliku]\n";
 					std::cout << "[nazwa_pliku] - plik zawierajacy program\n";
@@ -371,18 +378,19 @@ void Shell::perform_command() {
 				else {
 					std::cout << system_name << arguments;
 				}
-			}
-			else if (command.size() == 3) {
+				break;
+			case 3:
 				//metoda tworzaca proces z programem
-			}
-			else {
+				break;
+			default:
 				std::cout  << system_name  << arguments ;
 			}
 			break;
 
 		case commands::load:
 
-			if (command.size() == 2) {
+			switch (command.size()) {
+			case 2:
 				if (command[1] == "-h") {
 					std::cout << "\n" << command[0] << " " << "[nazwa_procesu][nazwa_pliku]\n";
 					std::cout << "[nazwa_pliku] - plik zawierajacy program\n";
@@ -390,21 +398,22 @@ void Shell::perform_command() {
 				else {
 					std::cout  << system_name  << arguments ;
 				}
-			}
-			else if (command.size() == 3) {
+				break;
+			case 3:
 				// metoda ladujaca program do procesu
-			}
-			else {
+				break;
+			default:
 				std::cout  << system_name  << arguments ;
 			}
 			break;
 
 		case commands::lp:
 
-			if (command.size() == 1) {
+			switch (command.size()) {
+			case 1:
 				// metoda wyswietlajaca wszystkie istniejace procesy
-			}
-			else if (command.size() == 2) {
+				break;
+			case 2:
 				if (command[1] == "-h") {
 					std::cout << "\n" << command[0] << " []\n";
 					std::cout << "[] - brak argumentow\n";
@@ -412,8 +421,8 @@ void Shell::perform_command() {
 				else {
 					std::cout  << system_name  << arguments ;
 				}
-			}
-			else {
+				break;
+			default:
 				std::cout  << system_name  << arguments ;
 			}
 			break;
@@ -422,10 +431,11 @@ void Shell::perform_command() {
 
 		case commands::help:
 
-			if (command.size() == 1) {
+			switch (command.size()) {
+			case 1:
 				help();
-			}
-			else if (command.size() == 2) {
+				break;
+			case 2:
 				if (command[1] == "-h") {
 					std::cout << "\n" << command[0] << " " << "[]\n";
 					std::cout << "[] - brak argumentow\n";
@@ -433,8 +443,8 @@ void Shell::perform_command() {
 				else {
 					std::cout  << system_name  << arguments ;
 				}
-			}
-			else {
+				break;
+			default:
 				std::cout  << system_name  << arguments ;
 			}
 			break;
@@ -443,10 +453,11 @@ void Shell::perform_command() {
 
 		case commands::sh:
 
-			if (command.size() == 1) {
+			switch (command.size()) {
+			case 1:
 				is_running = false;
-			}
-			else if (command.size() == 2) {
+				break;
+			case 2:
 				if (command[1] == "-h") {
 					std::cout << "\n" << command[0] << " " << "[]\n";
 					std::cout << "[] - brak argumentow\n";
@@ -454,8 +465,8 @@ void Shell::perform_command() {
 				else {
 					std::cout  << system_name  << arguments ;
 				}
-			}
-			else {
+				break;
+			default:
 				std::cout  << system_name  << arguments ;
 			}
 			break;
