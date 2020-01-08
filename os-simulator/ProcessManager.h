@@ -44,4 +44,9 @@ public:
 	void PrintProcess(Process* process);
 	void PrintProcess(int process_id);
 	void PrintProcess(std::string process_name);
+
+	std::list<Process*> processes() const;
+	std::list<Process*> ready_processes() const;
+	std::list<Process*> waiting_processes() const;
+	Process* running_process() const;
 };
