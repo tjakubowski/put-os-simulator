@@ -24,6 +24,7 @@ struct RAM_process
 	int start;
 	string commands;
 	int MemoryPointer = 0;
+
 };
 
 class RAM { //single tone do sprawdzenia

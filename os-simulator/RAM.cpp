@@ -10,6 +10,7 @@ int RAM::add_to_RAM(Process* process) { //zamienic na process
 	string commands, help, line[128];
 	int max_size = 0;
 	int list_index = 0;
+	int id = process->id();
 	
 	file.open(process->file_name());
 	int length = 0, counter = 0;
@@ -134,7 +135,13 @@ int RAM::add_to_RAM(Process* process) { //zamienic na process
 						Free_blocks_list.erase(fbi);
 					}
 
-					//tutaj przekazaæ trzeba 
+					RAM_process process;
+
+					process.id = id;
+					process.size = length;
+					process.commands = commands;
+					process.start = F_b.begining - length;
+					RAM_processes_list.push_back(process);
 
 					free_space -= length;
 				}
@@ -203,7 +210,7 @@ void RAM::delete_from_RAM(Process* process) {
 	}
 	catch (int) { "nie ma takiego procesu w pamieci"; };
 	if (RAM_processes_list.empty()) {
-		std::cout << "JESTEM PUSTA CALKIEM!!!";
+		//std::cout << "JESTEM PUSTA CALKIEM!!!";
 		list<Free_blocks>::iterator fbi;
 		F_b.begining = 1;
 		F_b.end = 128;
