@@ -5,15 +5,13 @@
 
 using namespace std;
 
-int RAM::add_to_RAM(string filename, int id) { //zamienic na process
+int RAM::add_to_RAM(Process* process) { //zamienic na process
 	fstream file;
 	string commands, help, line[128];
 	int max_size = 0;
 	int list_index = 0;
-
-
-
-	file.open(filename);
+	
+	file.open(process->file_name());
 	int length = 0, counter = 0;
 
 	if (file.is_open())
@@ -173,9 +171,10 @@ void RAM::show_RAM() {
 	cout << "" << endl;
 }
 
-void RAM::delete_from_RAM(int id) {
+void RAM::delete_from_RAM(Process* process) {
 	int size = 0;
 	Free_blocks F_b;
+	int id = process->id();
 	try {
 		list<RAM_process>::iterator it;
 		bool id_not_exist = true;
@@ -215,10 +214,11 @@ void RAM::delete_from_RAM(int id) {
 	}
 }
 
-char RAM::char_RAM(int id, int position) {
+char RAM::char_RAM(Process* process, int position) {
 	list<RAM_process>::iterator it;
 	string commands;
 	char character;
+	int id = process->id();
 	for (it = RAM_processes_list.begin(); it != RAM_processes_list.end(); it++) {
 		if (it->id == id) {
 			commands = it->commands;
@@ -236,9 +236,10 @@ char RAM::char_RAM(int id, int position) {
 
 }
 
-string RAM::read_RAM(int id, int counter) {
+string RAM::read_RAM(Process* process, int counter) {
 	list<RAM_process>::iterator it;
 	string commands, back;
+	int id = process->id();
 	for (it = RAM_processes_list.begin(); it != RAM_processes_list.end(); it++) 
 	{
 		if (it->id==id)
