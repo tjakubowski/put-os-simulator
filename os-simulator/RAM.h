@@ -50,7 +50,7 @@ public:
 	void delete_from_RAM(int id);  //dodaæ wskaŸnik na proces jako argument
 	void show_RAM(); //wyswietlenie zawartosci ram
 	char char_RAM(int id, int place);
-	string read_RAM();
+	string read_RAM(int id, int counter);
 
 
 };

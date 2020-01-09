@@ -214,3 +214,65 @@ void RAM::delete_from_RAM(int id) {
 
 	}
 }
+
+char RAM::char_RAM(int id, int position) {
+	list<RAM_process>::iterator it;
+	string commands;
+	char character;
+	for (it = RAM_processes_list.begin(); it != RAM_processes_list.end(); it++) {
+		if (it->id == id) {
+			commands = it->commands;
+		}
+	}
+	int pos = 0;
+	for (int i = 0; i < commands.length(); i++) {
+		if (i == position) {
+			pos = i;
+			break;
+		}
+
+	}
+	return commands[pos];
+
+}
+
+string RAM::read_RAM(int id, int counter) {
+	list<RAM_process>::iterator it;
+	string commands, back;
+	for (it = RAM_processes_list.begin(); it != RAM_processes_list.end(); it++) 
+	{
+		if (it->id==id)
+		{ 
+		int count = 0; int line = 1; int i = 0;
+
+		for (int i = 0; i < it->commands.length(); it++) 
+		{
+			if (it->commands[i] == '\n') {
+				count++;
+			}
+			if (count == counter) 
+				break;
+			
+			
+		}
+		if (it->commands[i] == ';')
+			i++;
+
+		int quant = 5, loop = 0;
+		for (int j = i; j <= commands.length(); j++)
+		{
+			if (j == it->commands.length())
+				break;
+
+			if (it->commands[j] != ';')
+			{
+				it->MemoryPointer++;
+				back += it->commands[j];
+			}
+			else break;
+		}
+	}
+	}
+	return back;
+
+}
