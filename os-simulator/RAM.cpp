@@ -214,3 +214,24 @@ void RAM::delete_from_RAM(int id) {
 
 	}
 }
+
+char RAM::char_RAM(int id, int position) {
+	list<RAM_process>::iterator it;
+	string commands;
+	char character;
+	for (it = RAM_processes_list.begin(); it != RAM_processes_list.end(); it++) {
+		if (it->id == id) {
+			commands = it->commands;
+		}
+	}
+	int pos = 0;
+	for (int i = 0; i < commands.length(); i++) {
+		if (i == position) {
+			pos = i;
+			break;
+		}
+
+	}
+	return commands[pos];
+
+}
