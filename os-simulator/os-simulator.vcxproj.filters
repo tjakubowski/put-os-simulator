@@ -66,6 +66,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Shell.h">
+    <ClInclude Include="Singleton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

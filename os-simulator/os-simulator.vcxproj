@@ -175,6 +175,7 @@
     <ClInclude Include="Segment.h" />
     <ClInclude Include="Shell.h" />
     <ClInclude Include="VirtualMemory.h" />
+    <ClInclude Include="Singleton.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
