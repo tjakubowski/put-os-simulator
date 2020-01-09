@@ -3,9 +3,12 @@
 #include <string>
 #include <algorithm>
 #include "Process.h"
+#include "Singleton.h"
 
-class ProcessManager
+class ProcessManager : public Singleton<ProcessManager>
 {
+	friend class Singleton<ProcessManager>;
+
 	static int last_process_id_;
 	std::list<Process*> processes_;
 	std::list<Process*> ready_processes_;
