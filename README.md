@@ -1,43 +1,43 @@
-﻿# Documentation
+# Documentation
 
 1. [Process](#process)
-  - [State](#state)
-  - [name_](#name_)
-  - [file_name_](#file_name_)
-  - [process_state_](#process_state_)
-  - [id_](#id_)
-  - [priority_](#priority_)
-  - [ax_](#ax_)
-  - [bx_](#bx_)
-  - [cx_](#cx_)
-  - [dx_](#dx_)
-  - [instruction_counter_](#instruction_counter_)
+    - [State](#state)
+    - [name_](#name_)
+    - [file_name_](#file_name_)
+    - [process_state_](#process_state_)
+    - [id_](#id_)
+    - [priority_](#priority_)
+    - [ax_](#ax_)
+    - [bx_](#bx_)
+    - [cx_](#cx_)
+    - [dx_](#dx_)
+    - [instruction_counter_](#instruction_counter_)
 2. [Process Manager](#process-manager)
-  - [last_process_id_](#last_process_id_)
-  - [processes_](#processes_)
-  - [ready_processes_](#ready_processes_)
-  - [waiting_processes_](#waiting_processes_)
-  - [running_process_](#running_process_)
-  - [dummy_process_](#dummy_process_)
-  - [KillProcess()](#killprocess)
-  - [GetProcess()](#getprocess)
-  - [SetProcessRunning()](#setprocessrunning)
-  - [SetProcessReady()](#setprocessready)
-  - [SetProcessWaiting()](#setprocesswaiting)
-  - [PrintAllProcesses()](#printallprocesses)
-  - [PrintWaitingProcesses()](#printwaitingprocesses)
-  - [PrintReadyProcesses()](#printreadyprocesses)
-  - [PrintRunningProcess()](#printrunningprocess)
-  - [PrintProcesses()](#printprocesses)
-  - [PrintProcess()](#printprocess)
+    - [last_process_id_](#last_process_id_)
+    - [processes_](#processes_)
+    - [ready_processes_](#ready_processes_)
+    - [waiting_processes_](#waiting_processes_)
+    - [running_process_](#running_process_)
+    - [dummy_process_](#dummy_process_)
+    - [KillProcess()](#killprocess)
+    - [GetProcess()](#getprocess)
+    - [SetProcessRunning()](#setprocessrunning)
+    - [SetProcessReady()](#setprocessready)
+    - [SetProcessWaiting()](#setprocesswaiting)
+    - [PrintAllProcesses()](#printallprocesses)
+    - [PrintWaitingProcesses()](#printwaitingprocesses)
+    - [PrintReadyProcesses()](#printreadyprocesses)
+    - [PrintRunningProcess()](#printrunningprocess)
+    - [PrintProcesses()](#printprocesses)
+    - [PrintProcess()](#printprocess)
 
 ## Process
 
 `Process` stores all important information about process in operation system.
 The most important information about process can be printed using stream operator:
 ``` cpp
-  std::cout << *process;
-  ```
+std::cout << *process;
+```
 
 ### State
 - **Type:** `enum`
