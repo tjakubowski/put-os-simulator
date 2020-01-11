@@ -1,5 +1,93 @@
 ﻿# Documentation
 
+1. [Process](#process)
+  - [State](#state)
+  - [name_](#name_)
+  - [file_name_](#file_name_)
+  - [process_state_](#process_state_)
+  - [id_](#id_)
+  - [priority_](#priority_)
+  - [ax_](#ax_)
+  - [bx_](#bx_)
+  - [cx_](#cx_)
+  - [dx_](#dx_)
+  - [instruction_counter_](#instruction_counter_)
+2. [Process Manager](#process-manager)
+  - [last_process_id_](#last_process_id_)
+  - [processes_](#processes_)
+  - [ready_processes_](#ready_processes_)
+  - [waiting_processes_](#waiting_processes_)
+  - [running_process_](#running_process_)
+  - [dummy_process_](#dummy_process_)
+  - [KillProcess()](#killprocess)
+  - [GetProcess()](#getprocess)
+  - [SetProcessRunning()](#setprocessrunning)
+  - [SetProcessReady()](#setprocessready)
+  - [SetProcessWaiting()](#setprocesswaiting)
+  - [PrintAllProcesses()](#printallprocesses)
+  - [PrintWaitingProcesses()](#printwaitingprocesses)
+  - [PrintReadyProcesses()](#printreadyprocesses)
+  - [PrintRunningProcess()](#printrunningprocess)
+  - [PrintProcesses()](#printprocesses)
+  - [PrintProcess()](#printprocess)
+
+## Process
+
+`Process` stores all important information about process in operation system.
+The most important information about process can be printed using stream operator:
+``` cpp
+  std::cout << *process;
+  ```
+
+### State
+- **Type:** `enum`
+- **Details:** Indicate current process state.
+- **Values:**
+  - `New`
+  - `Waiting`
+  - `Ready`
+  - `Running`
+
+### name_
+- **Type:** `std::string`
+- **Details:** Stores process name.
+
+### file_name_
+- **Type:** `std::string`
+- **Details:** Stores name of file containing process code.
+
+### process_state_
+- **Type:** `int`
+- **Details:** Stores process state - `State`.
+
+### id_
+- **Type:** `int`
+- **Details:** Stores the unique process id.
+
+### priority_
+- **Type:** `int`
+- **Details:** Stores process priority.
+
+### ax_
+- **Type:** `int`
+- **Details:** Stores AX register value.
+
+### bx_
+- **Type:** `int`
+- **Details:** Stores BX register value.
+
+### cx_
+- **Type:** `int`
+- **Details:** Stores CX register value.
+
+### dx_
+- **Type:** `int`
+- **Details:** Stores DX register value.
+
+### instruction_counter_
+- **Type:** `int`
+- **Details:** Holds the memory address of the next instruction that would be executed.
+
 ## Process Manager
 
 `ProccessManager` is a class that manages processes in the system - creating, killing and moving them between lists.
@@ -191,7 +279,7 @@
   ``` cpp
   process_manager.PrintProcess(2);
   ```
-  
+
 # Responsibilities
 
 | Module                           | User             |
