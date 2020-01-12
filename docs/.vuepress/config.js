@@ -1,3 +1,7 @@
+const glob = require('glob');
+
+const files = glob.sync('docs/**/*.md').map(f => '/' + f); 
+
 module.exports = {
     title: 'OS Simulator docs',
     description: 'Univeristy project docs',
@@ -14,10 +18,7 @@ module.exports = {
                 {
                     title: 'Documentation',
                     collapsable: false,
-                    children: [
-                        '/docs/process',
-                        '/docs/process-manager',
-                    ]
+                    children: files
                 }
             ]
         }
