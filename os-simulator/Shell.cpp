@@ -431,7 +431,7 @@ void Shell::check_change_state()
 	else if (change_state == 2) { 
 		// proces przeszedl w stan ready
 	}
-	else if (change_state == 3 {
+	else if (change_state == 3) {
 		// proces przeszedl w stan waiting
 	}
 	else if (change_state == 4) {
