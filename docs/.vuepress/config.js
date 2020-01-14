@@ -22,5 +22,6 @@ module.exports = {
                 }
             ]
         }
-    }
+    },
+    plugins: ['vuepress-plugin-nprogress', 'vuepress-plugin-smooth-scroll'],
 }
