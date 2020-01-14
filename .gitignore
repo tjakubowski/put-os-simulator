@@ -26,6 +26,9 @@ bld/
 [Ll]og/
 [Ll]ogs/
 
+# Vuepress documentation
+node_modules/
+
 # IntelliJ options directory
 .idea/
 

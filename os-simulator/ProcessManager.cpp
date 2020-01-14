@@ -24,9 +24,18 @@ void ProcessManager::CreateProcess(std::string process_name, std::string process
 {
 	const auto process = new Process(process_name, process_file, priority, ++last_process_id_);
 	processes_.push_back(process);
-	SetProcessWaiting(process);
-	// TODO: Consider moving it to new processes list
-	// TODO: Add setting resources for process
+
+	try
+	{
+		// Add process to RAM
+		SetProcessReady(process);
+	}
+	catch (std::exception & e)
+	{
+		std::cout << e.what();
+		// Add process to virtual memory
+		SetProcessWaiting(process);
+	}
 }
 
 void ProcessManager::KillProcess(Process* process)
