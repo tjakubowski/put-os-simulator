@@ -59,9 +59,7 @@ void CPU_M::order_heap(std::vector<Process*> &heap){
 
 void CPU_M::scheduling(std::vector<Process*> &heap)
 {
-	heap[0]->set_process_state(Running);
-	heap.pop(0);
-	order_heap(heap);
+	//
 }
 
 //just compare processes' priorities
