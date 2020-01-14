@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <iostream>
+#include "Process.h"
 
 class CPU_M{
     private:
