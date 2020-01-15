@@ -2,8 +2,7 @@
 #include <string>
 #include <fstream>
 
-#include <Singleton.h>
-
+#include "Singleton.h"
 using namespace std;
 
 class Assembler : public Singleton<Assembler>
