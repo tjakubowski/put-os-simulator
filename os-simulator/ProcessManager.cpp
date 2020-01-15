@@ -1,7 +1,5 @@
 ﻿#include "pch.h"
 #include "ProcessManager.h"
-#include <ostream>
-#include <iostream>
 
 int ProcessManager::last_process_id_ = 0;
 
@@ -169,51 +167,33 @@ void ProcessManager::SetProcessWaiting(std::string process_name)
 	SetProcessWaiting(GetProcess(process_name));
 }
 
-void ProcessManager::PrintAllProcesses() const
-{
-	std::cout << "# Printing all processes list" << std::endl;
-	for (auto process : processes_)
-		std::cout << *process << std::endl;
-}
-
-void ProcessManager::PrintWaitingProcesses() const
-{
-	std::cout << "# Printing waiting processes list" << std::endl;
-	for (auto process : waiting_processes_)
-		std::cout << *process << std::endl;
-}
-
-void ProcessManager::PrintReadyProcesses() const
-{
-	std::cout << "# Printing ready processes list" << std::endl;
-	for (auto process : ready_processes_)
-		std::cout << *process << std::endl;
-}
-
-void ProcessManager::PrintRunningProcess() const
-{
-	std::cout << "# Printing running process" << std::endl;
-	std::cout << *running_process_ << std::endl;
-}
-
 void ProcessManager::PrintProcesses() const
 {
-	std::cout << "# Printing all processes lists" << std::endl;
-	PrintAllProcesses();
-	std::cout << std::endl;
-	PrintWaitingProcesses();
-	std::cout << std::endl;
-	PrintReadyProcesses();
-	std::cout << std::endl;
-	PrintRunningProcess();
-	std::cout << std::endl;
+	TablePrinter table_printer;
+	table_printer.AddColumn("ID", 2);
+	table_printer.AddColumn("Name", 10);
+	table_printer.AddColumn("File", 10);
+	table_printer.AddColumn("Priority", 2);
+	table_printer.AddColumn("State", 2);
+
+	table_printer.PrintHeader();
+	for (auto process : processes_)
+		table_printer << process->id() << process->name() << process->file_name() << process->priority() << process->process_state();
+	table_printer.PrintFooter();
 }
 
 void ProcessManager::PrintProcess(Process* process) 
 {
-	std::cout
-		<< "# Printing single process" << std::endl
-		<< *process << std::endl;
+	TablePrinter table_printer;
+	table_printer.AddColumn("ID", 2);
+	table_printer.AddColumn("Name", 10);
+	table_printer.AddColumn("File", 10);
+	table_printer.AddColumn("Priority", 2);
+	table_printer.AddColumn("State", 2);
+
+	table_printer.PrintHeader();
+	table_printer << process->id() << process->name() << process->file_name() << process->priority() << process->process_state();
+	table_printer.PrintFooter();
 }
 
 void ProcessManager::PrintProcess(int process_id) 

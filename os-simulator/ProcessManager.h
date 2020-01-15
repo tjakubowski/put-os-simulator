@@ -2,6 +2,8 @@
 #include <list>
 #include <string>
 #include <algorithm>
+#include <iostream>
+#include "TablePrinter.h"
 #include "Process.h"
 #include "Singleton.h"
 
@@ -39,10 +41,6 @@ public:
 	void SetProcessWaiting(int process_id);
 	void SetProcessWaiting(std::string process_name);
 	
-	void PrintAllProcesses() const;
-	void PrintWaitingProcesses() const;
-	void PrintReadyProcesses() const;
-	void PrintRunningProcess() const;
 	void PrintProcesses() const;
 	void PrintProcess(Process* process);
 	void PrintProcess(int process_id);
