@@ -1,17 +1,14 @@
 >AD rejestrX rejestrY	- dodaj rejestrY do rejestruX  		- rejestrX += rejestrY
 >AD rejestrX int	- dodaj int do rejestruX  		- rejestrX += int
->AD int			- dodaj do rejestru A int		- rejestrA += int
 
 >SB rejestrX rejestrY	- odejmij rejestrY do rejestruX  	- rejestrX -= rejestrY
 >SB rejestrX int	- odejmij int do rejestruX  		- rejestrX -= int
->SB int			- odejmij int od rejestruA		- rejestrA -= int
 	
 >MV rejestrX rejestrY 	- przypisz rejestrX wartość rejestrY 	- rejestrX = rejestrY
 >MV rejestrX int	- przypisz rejestrX wartość int		- rejestrX = int
 
 >MU rejestrX rejestrY	- pomnóz rejestrX przez rejestrY	- rejestrX *= rejestrY
 >MU rejestrX int	- pomnóz rejestrX przez int		- rejestrX *= int
->MU int			- pomnóż rejestrA przez int		- rejestrA *= int
 
 >MI rejestrX rejestrY	- nadaje rejestrX rejestrY		- rejestrX = rejestrY
 >MI rejestrX int	- nadaje rejestrX int			- rejestrX = int
@@ -34,11 +31,18 @@
 
 
 Nie zrobione jeszcze
-FO nazwa 		- otworz plik o nazwie nazwa
-FC nazwa		- zamknij plik o nazwie nazwa
-DF nazwa		- usuń plik o nazwie nazwa
-CF nazwa 		- stwórz plik o nazwie nazwa
-SF nazwa nazwa2		- zmienia plik o nazwie nazwa na nazwa2
-AF nazwa tresc		- dopisuje do pliku o nazwie nazwa teskt tresc
-AR nazwa rejestr 	- dopisuje do pliku o nazwie nazwa wartosc rejestru
+--FO nazwa 		- otworz plik o nazwie nazwa
+--FC nazwa		- zamknij plik o nazwie nazwa
+--DF nazwa		- usuń plik o nazwie nazwa
+--CF nazwa 		- stwórz plik o nazwie nazwa
+--SF nazwa nazwa2		- zmienia plik o nazwie nazwa na nazwa2
+--AF nazwa tresc		- dopisuje do pliku o nazwie nazwa teskt tresc
+--AR nazwa rejestr 	- dopisuje do pliku o nazwie nazwa wartosc rejestru rejestr
+--PF nazwa		- wyświtla plik o nazwie nazwa
 
+-PS nazwa		- stworz proces o nazwie nazwa	
+-PO nazwa		- otworz proces o nazwie nazwa
+-PC nazwa plik priority - zamknij proces o nazwie nazwa plik priority
+-PD nazwa 		- usun proces o nazwie nazwa
+
+"

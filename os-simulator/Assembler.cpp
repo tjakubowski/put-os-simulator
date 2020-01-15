@@ -42,28 +42,81 @@ void Assembler::set_licznik(int v)
 	licznik = v;
 }
 
-void readFile(string myArray[], string fileName)
+
+int Assembler::ile_arg(const string command)
 {
-	using namespace std;
-
-	ifstream file(fileName);
-	if (file.is_open())
+	if (command == "AD")
+		return 2;
+	else if (command == "SB")
+		return 2;
+	else if (command == "MV")
+		return 2;
+	else if (command == "MU")
+		return 2;
+	else if (command == "MI")
+		return 2;
+	else if (command == "RD")
+		return 1;
+	else if (command == "IC")
+		return 1;
+	else if (command == "DC")
+		return 1;
+	else if (command == "JP")
+		return 1;
+	else if (command == "JC")
+		return 1;
+	else if (command == "JZ")
+		return 1;
+	else if (command == "JL")
+		return 1;
+	else if (command == "JM")
+		return 1;
+	else if (command == "EX")
+		return 0;
+	else if (command == "NP")
+		return 0;
+	else if (command == "FO")
+		return 1;
+	else if (command == "FC")
+		return 1;
+	else if (command == "DF")
+		return 1;
+	else if (command == "CF")
+		return 1;
+	else if (command == "SF")
+		return 2;
+	else if (command == "AF")
+		return 2;
+	else if (command == "AR")
+		return 2;
+	else if (command == "PF")
+		return 1;
+	else if (command == "PS")
+		return 1;
+	else if (command == "PO")
+		return 1;
+	else if (command == "PC")
+		return 3;
+	else if (command == "PD")
+		return 1;
+	else
 	{
-
-		for (int i = 0; i < 30; ++i)
-		{
-			getline(file, myArray[i]);
-			//cout << myArray[i] << endl;
-		}
+		std::cout << "\nNierozpoznano komendy w ILE_ARG!";
+		return 0;
 	}
-	file.close();
 }
 
+//przyjmuje string komendy i dzieli
 string* split(string toSplit)
 {
 	string* splitted = new string[5];
+	splitted[0] = "";
+	splitted[1] = "";
+	splitted[2] = "";
+	splitted[3] = "";
 	short counter = 0;
-	for (short i = 0; i < toSplit.length(); i++) {
+	for (short i = 0; i < toSplit.length(); i++)
+	{
 		if (toSplit[i] == ' ')
 			counter++;
 		else
@@ -75,13 +128,14 @@ string* split(string toSplit)
 void runCommand(string c_line, Assembler &reg)
 {
 	string *line = split(c_line);
-	cout << line[0] << " " << line[1] << " " << line[2] << endl;
+	cout << line[0] << " " << line[1] << " " << line[2]<< " " << line[3] << endl;
 
-	reg.set_licznik(reg.get_licznik() + 6);
+	string ss = line[0] + line[1] + line[2] + line[3];
+	int size_ss = ss.size();
+	reg.set_licznik(reg.get_licznik() + size_ss);
 
 
-	//MI rejestrX rejestrY/int
-	if (line[0] == "MI") // Ustaw wartoœæ rejestru z commandLine[2] w commandLine[1]
+	if (line[0] == "MI")	
 	{
 		if (line[1] == "A")
 		{
@@ -129,7 +183,7 @@ void runCommand(string c_line, Assembler &reg)
 			}
 		}
 	}
-	//RD rejestrX
+	
 	else if (line[0] == "RD")
 	{
 		if (line[1] == "A")
@@ -154,8 +208,8 @@ void runCommand(string c_line, Assembler &reg)
 			reg.set_C(val);
 		}
 	}
-	/////////////////////////////////////////////////////////////////// brak brak brak
-	else if (line[0] == "MV") // Ustaw wartosc rejestru na liczbe z commandLine[2]
+	
+	else if (line[0] == "MV") 
 	{
 		if (line[1] == "A")
 		{
@@ -204,7 +258,7 @@ void runCommand(string c_line, Assembler &reg)
 		}
 	}
 
-	else if (line[0] == "AD") // AD rejestr/int ---> rejestr += rejestr/int
+	else if (line[0] == "AD")
 	{
 		if (line[1] == "A")
 		{
@@ -264,13 +318,9 @@ void runCommand(string c_line, Assembler &reg)
 				reg.set_C(reg.get_C() + stoi(line[2]));
 			}
 		}
-		else
-		{
-			reg.set_A(reg.get_A() + stoi(line[2]));
-		}
 	}
-	//SB rejestrX rejestrY/int   SB int
-	else if (line[0] == "SB") //SB rejest/int ---> rejestr -= rejestr/int
+	
+	else if (line[0] == "SB")
 	{
 		if (line[1] == "A")
 		{
@@ -329,14 +379,9 @@ void runCommand(string c_line, Assembler &reg)
 				reg.set_C(reg.get_C() - stoi(line[2]));
 			}
 		}
-		else
-		{
-			reg.set_A(reg.get_A() - stoi(line[2]));
-		}
 	}
-
-	//MU rejestrX rejestrY/int     MU int
-	else if (line[0] == "MU") // 
+	
+	else if (line[0] == "MU")
 	{
 		if (line[1] == "A")
 		{
@@ -395,45 +440,37 @@ void runCommand(string c_line, Assembler &reg)
 				reg.set_C(reg.get_C() *stoi(line[2]));
 			}
 		}
-		else
-		{
-			reg.set_A(reg.get_A() * stoi(line[2]));
-		}
 	}
-	//Jump gdy C!=0
+	
 	else if (line[0] == "JC")
 	{
 		if (reg.get_C() != 0)
 			reg.set_licznik(stoi(line[1]));
 	}
-
-	//Jump gdy C==0
+	
 	else if (line[0] == "JZ")
 	{
 		if (reg.get_C() == 0)
 			reg.set_licznik(stoi(line[1]));
 	}
-
-	//Jump gdy C<0
+	
 	else if (line[0] == "JL")
 	{
 		if (reg.get_C() < 0)
 			reg.set_licznik(stoi(line[1]));
 	}
-
-	//Jump zawsze
+	
 	else if (line[0] == "JP")
 	{
 		reg.set_licznik(stoi(line[1]));
 	}
-
-	//Jump gdy C>0
+	
 	else if (line[0] == "JM")
 	{
 		if (reg.get_C() > 0)
 			reg.set_licznik(stoi(line[1]));
 	}
-	//wyswitla rejestrX
+	
 	else if (line[0] == "PR")
 	{
 		if (line[1] == "A")
@@ -449,9 +486,11 @@ void runCommand(string c_line, Assembler &reg)
 			cout << reg.get_C();
 		}
 	}
-	//CF nazwa
+	
 	else if (line[0] == "CF")
 	{
+		//Tworzy pusty plik
+		//bool FileM::CreateFile(const std::string& name)
 		cout << "Tworzenie pliku wyjsciowego o nazwie: " << line[1] << endl;
 		{
 			fstream plik;
@@ -462,36 +501,33 @@ void runCommand(string c_line, Assembler &reg)
 
 	else if (line[0] == "AF")
 	{
-		if (line[2] == "A")
-		{
-			fstream plik;
-			plik.open(line[1], ios::app);
-			plik << reg.get_A();
-			plik.close();
-		}
-		else if (line[2] == "B")
-		{
-			fstream plik;
-			plik.open(line[1], ios::app);
-			plik << reg.get_B();
-			plik.close();
-		}
-		else if (line[2] == "C")
-		{
-			fstream plik;
-			plik.open(line[1], ios::app);
-			plik << reg.get_C();
-			plik.close();
-		}
-		else
-		{
+			//zapisz tresc do pliku o podanej nazwie
+			//bool WriteFile(const std::string& name, const std::string& tresc);
 			fstream plik;
 			plik.open(line[1], ios::app);
 			plik << (char)stoi(line[2]);
 			plik.close();
+	}
+	
+	else if (line[0] == "AR")
+	{
+		if (line[2] == "A")
+		{
+			//zapisz tresc do pliku o podanej nazwie
+			//bool WriteFile(const std::string& name, const std::string& tresc);
+		}
+		else if (line[2] == "B")
+		{
+			//zapisz tresc do pliku o podanej nazwie
+			//bool WriteFile(const std::string& name, const std::string& tresc);
+		}
+		else if (line[2] == "C")
+		{
+			//zapisz tresc do pliku o podanej nazwie
+			//bool WriteFile(const std::string& name, const std::string& tresc);
 		}
 	}
-	//zwieksza o 1 
+	
 	else if (line[0] == "IC")
 	{
 		if (line[1] == "A")
@@ -507,8 +543,8 @@ void runCommand(string c_line, Assembler &reg)
 			reg.set_C(reg.get_C() + 1);
 		}
 	}
-	//zmnniejsza o 1
-	else if (line[0] == "DC") // zmniejsza o 1 
+	
+	else if (line[0] == "DC") 
 	{
 		if (line[1] == "A")
 		{
@@ -523,68 +559,86 @@ void runCommand(string c_line, Assembler &reg)
 			reg.set_C(reg.get_C() - 1);
 		}
 	}
+	
+	else if (line[0] == "PS")		// Tworzy proces
+	{
 
-	//-------------------------usunaæ jak bym nie doda³ nic tutaj--------------------------------
-/*
-	else if (line[0] == "FK")
-	{
-		//funkcja tworzenia procesu o nazwie commandLine[1]
 	}
-	else if (line[0] == "WT")
+	
+	else if (line[0] == "PO")		// Otwiera proces
 	{
-		//funkcja wstrzymania procesu o nazwie commandLine[1]
-	}
-	else if (line[0] == "SE")
-	{
-		//
-	}
-	else if (line[0] == "KL")
-	{
-		//zabicie procesu o PID stoi(line[1])
-	}
-*/
 
-	//koniec programu
-	else if (line[0] == "EX")
-	{
-		reg.set_licznik(92);
-		cout << "Koniec programu ";
 	}
-	//otwiera program
+	
+	else if (line[0] == "PC")		//Zamyka proces
+	{
+
+	}
+	
+	else if (line[0] == "PD" )		//Kasuje proces
+	{
+
+	}
+	
 	else if (line[0] == "FO")
 	{
-	fstream plik;
-		plik.open(line[1], ios::app);
+		//otwiera plik
+		//bool FileM::OpenFile(const std::string& name);
 	}
-	//glupie to! chyba wywale 
+
 	else if (line[0] == "FC")
 	{
-	fstream plik;
-	plik.close();
+		//zamyka plik
+		//bool FileM::CloseFile(const std::string& name);
 	}
+	
+	else if (line[0] == "DF")
+	{
+		//kasuje plik
+		//bool FileM::DeleteFile(const std::string& name)
+	}
+	
+	else if (line[0] == "PF")
+	{
+		//wyswietla plik
+		//bool FileM::PrintFile(const std::string& name)
+	}
+
+	else if (line[0] == "SF")
+	{
+		//zmienia nazwe pliku
+		//bool FileM::ReplaceNewName(const std::string& name, const std::string& name2);
+	}
+
 	else if (line[0] == "NP")
 	{
-	//nic nie robi!
+		//nic nie robi!
 	}
-}
 
-void runProgram(string program[], Assembler &reg)
-{
-	string com;
-	while (reg.get_licznik() != 92)
+	else if (line[0] == "EX")		//Koniec programu
 	{
-		com = program[reg.get_licznik() / 6];
-		runCommand(com, reg);
+	reg.set_licznik(-1);
+	cout << "Koniec programu ";
 	}
+
 }
 
+//do tej funkcji dostaje stringa od Kacpra po tym jak ustalimy juz ile argumentow rozkaz i dostaje go calego xd
+void runProgram(string program, Assembler &reg)
+{
+	string com = program;
+	runCommand(com, reg);
+}
+/*
 int main()
 {
-	Assembler ass;				// clasa rejestr
-	string program[30];			// string program o +tablicy 30 30*6
-	readFile(program,"ciagEulera.txt");	
+	Assembler ass;
+	string program;
+	cout << "\nPodaj program: ";
+	cin >> program;
+	cout << ass.ile_arg(program);
 	runProgram(program,ass);
 	system("pause");
 	return 0;
 }
-
+*/

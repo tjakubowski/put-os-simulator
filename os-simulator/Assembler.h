@@ -2,10 +2,13 @@
 #include <string>
 #include <fstream>
 
+#include <Singleton.h>
+
 using namespace std;
 
-class Assembler
+class Assembler : public Singleton<Assembler>
 {
+	friend class Singleton<Assembler>;
 	int licznik = 0;
 	short int registerA;
 	short int registerB;
@@ -30,12 +33,11 @@ public:
 
 	int get_licznik();
 	void set_licznik(int);
+	int ile_arg(string command);
 };
-
-void open_file(string tab[], string plik); // otwiera i odczytuje plik z pliku który zosta³ podany 
 
 string* split(string toSplit);
 
-void runComand(string command, Assembler &ass);
+void runCommand(string c_line, Assembler &reg);
 
-void runProgram(string program[], Assembler &ass);
+void runProgram(string program, Assembler &reg);
