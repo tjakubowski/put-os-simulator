@@ -5,6 +5,10 @@
 
 using namespace std;
 
+bool compare(const Free_blocks& a, const Free_blocks& b) {
+	return a.begining < b.begining;
+}
+
 int RAM::add_to_RAM(Process* process) { //zamienic na process
 	fstream file;
 	string commands, help, line[128];
@@ -283,4 +287,40 @@ string RAM::read_RAM(Process* process, int counter) {
 	}
 	return back;
 
+}
+
+void RAM::merge_RAM() {
+	list<Free_blocks>::iterator it, it2, it3;
+	int loop = 0;
+	bool help = false;
+	Free_blocks_list.sort(compare);
+
+	do {
+		help = false;
+		loop = 0;
+		for (it = Free_blocks_list.begin(); it != Free_blocks_list.end(); ++it) 
+		{
+			if (loop >= 1) {
+				if (it->begining == it2->end) {
+					Free_blocks F_b;
+					help = true;
+					F_b.begining = it->begining;
+					F_b.end = it->end;
+					F_b.size = it->size + it2->size;
+
+					Free_blocks_list.push_front(F_b);
+				}
+				if (help == true) {
+					Free_blocks_list.sort(compare);
+					it++;
+					Free_blocks_list.erase(it2, it);
+				}
+			}
+			if (help == true) {
+				break;
+				loop++;
+				it2 = it;
+			}
+		} 
+	} while (help == true);
 }

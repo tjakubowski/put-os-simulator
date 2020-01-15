@@ -51,6 +51,6 @@ public:
 	void show_RAM(); //wyswietlenie zawartosci ram
 	char char_RAM(Process* process, int place);
 	string read_RAM(Process* process, int counter);
-
+	void merge_RAM();
 
 };
