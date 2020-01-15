@@ -2,10 +2,12 @@
 #include "Shell.h"
 #include "FileM.h"
 #include "RAM.h"
+#include "Assembler.h"
 
 extern FileM disc;
 extern RAM ram;
 extern int change_state;
+extern Assembler ass;
 
 void Shell::create_command() {
 
