@@ -1,5 +1,5 @@
 #include "Assembler.h"
-
+#include "pch.h"
 using namespace std;
 
 short int Assembler::get_A()
