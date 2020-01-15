@@ -15,6 +15,21 @@ bool FileM::Clearall()
 	}
 }
 
+bool FileM::OpenFile(const std::string& , int process_id) /
+{
+
+	Semaphore::Wait();
+
+	PrintFile(name);
+
+}
+
+bool FileM::CloseFile(const std::string& name)
+{
+	Semaphore::Signal();
+
+
+}
 
 //Szuka pierwszego wolnego bloku w FAT
 int FileM::FindFreeBlock()
@@ -38,6 +53,7 @@ bool FileM::CreateFile(const std::string& name)
 	int hjelp;
 	hjelp = FindFreeBlock();
 
+
 	if (hjelp == -1)
 	{
 		printf_s("Blad: Brak wolnego miejsca na dysku\n");
@@ -56,6 +72,7 @@ bool FileM::CreateFile(const std::string& name)
 	FileTable.Busy[hjelp-1] = true;
 	FileTable.Next[hjelp-1] = -1;
 	FreeBlockCount--;
+
 	return true;
 }
 	

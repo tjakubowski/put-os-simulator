@@ -1,13 +1,13 @@
 #include "pch.h"
 #include <iostream>
-#include "Shell.h"
-#include "FileM.h"
+//#include "Shell.h"
+//#include "FileM.h"
 #include "RAM.h"
-#include "Assembler.h"
+//#include "Assembler.h"
 
-FileM disc;
+//FileM disc;
 RAM ram;
-Assembler ass;
+//Assembler ass;
 
 
 //PCB *p1 = new PCB(1);
@@ -17,7 +17,7 @@ std::string code;
 
 int main()
 {
-	Shell shell;
+	//Shell shell;
 
 	std::cout << "OS Simulator" << std::endl;
 
