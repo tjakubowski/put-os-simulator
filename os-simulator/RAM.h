@@ -1,5 +1,6 @@
 #pragma once
 #include<iostream>
+#include "Singleton.h"
 #include "Process.h"
 #include<conio.h>
 #include<string>
@@ -27,15 +28,16 @@ struct RAM_process
 
 };
 
-class RAM { //single tone do sprawdzenia
-public: //private potem
+class RAM : public Singleton<RAM> { //single tone do sprawdzenia
+	friend class Singleton<RAM>;
+ //private potem
 	int memory_capacity = 128;
 	int free_space = 128;
 	list<Free_blocks> Free_blocks_list;
 	list<RAM_process> RAM_processes_list;
 	int command_length;
 	//string memory[128];
-
+public:
 	RAM() {
 		Free_blocks F_b;
 		F_b.begining = 1;
@@ -45,6 +47,7 @@ public: //private potem
 	}
 private:
 	int last = 0;
+	void merge_RAM();
 public:
 	int add_to_RAM(Process* process);
 	//dodaæ wskaŸnik na proces jako argument albo ciagnac po id pobraæ kod programu z modu³u FAT //zamienic na proces
@@ -52,6 +55,6 @@ public:
 	void show_RAM(); //wyswietlenie zawartosci ram
 	char char_RAM(Process* process, int place);
 	string read_RAM(Process* process, int counter);
-	void merge_RAM();
+
 
 };
