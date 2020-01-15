@@ -43,16 +43,16 @@ void ProcessManager::KillProcess(Process* process)
 	switch (process->process_state())
 	{
 	case Process::Waiting:
-		waiting_processes_.remove(process); break;
+		waiting_processes_.erase(std::remove(waiting_processes_.begin(), waiting_processes_.end(), process), waiting_processes_.end()); break;
 	case Process::Ready:
-		ready_processes_.remove(process); break;
+		ready_processes_.erase(std::remove(ready_processes_.begin(), ready_processes_.end(), process), ready_processes_.end()); break;
 	case Process::Running:
 		running_process_ = dummy_process_; break;
 	default: break;
 	}
 
-	processes_.remove(process);
-		
+	processes_.erase(std::remove(processes_.begin(), processes_.end(), process), processes_.end());
+
 	delete process;
 }
 
@@ -91,9 +91,9 @@ void ProcessManager::SetProcessRunning(Process* process)
 	switch(process->process_state())
 	{
 	case Process::Waiting:
-		waiting_processes_.remove(process); break;
+		waiting_processes_.erase(std::remove(waiting_processes_.begin(), waiting_processes_.end(), process), waiting_processes_.end()); break;
 	case Process::Ready:
-		ready_processes_.remove(process); break;
+		ready_processes_.erase(std::remove(ready_processes_.begin(), ready_processes_.end(), process), ready_processes_.end()); break;
 	case Process::Running:
 		return;
 	default: break;
@@ -120,7 +120,7 @@ void ProcessManager::SetProcessReady(Process* process)
 	switch (process->process_state())
 	{
 	case Process::Waiting:
-		waiting_processes_.remove(process); break;
+		waiting_processes_.erase(std::remove(waiting_processes_.begin(), waiting_processes_.end(), process), waiting_processes_.end()); break;
 	case Process::Ready:
 		return;
 	case Process::Running:
@@ -151,7 +151,7 @@ void ProcessManager::SetProcessWaiting(Process* process)
 	case Process::Running:
 		SetProcessRunning(dummy_process_); break;
 	case Process::Ready:
-		ready_processes_.remove(process); break;
+		ready_processes_.erase(std::remove(ready_processes_.begin(), ready_processes_.end(), process), ready_processes_.end()); break;
 	default: break;
 	}
 
@@ -226,17 +226,17 @@ void ProcessManager::PrintProcess(std::string process_name)
 	PrintProcess(GetProcess(process_name));
 }
 
-std::list<Process*> ProcessManager::processes() const
+std::vector<Process*> ProcessManager::processes() const
 {
 	return processes_;
 }
 
-std::list<Process*> ProcessManager::ready_processes() const
+std::vector<Process*> ProcessManager::ready_processes() const
 {
 	return ready_processes_;
 }
 
-std::list<Process*> ProcessManager::waiting_processes() const
+std::vector<Process*> ProcessManager::waiting_processes() const
 {
 	return waiting_processes_;
 }

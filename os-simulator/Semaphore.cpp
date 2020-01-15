@@ -18,9 +18,9 @@ bool Semaphore::Wait()
 
 	else
 	{
-		string active_processes = Semaphore::ProcessM->GetProcess->name;
+		string active_processes = Semaphore::ProcessM->GetProcess->name();
 		queue.push(active_processes);
-		Semaphore::ProcessM->PrintWaitingProcesses;
+		Semaphore::ProcessM->PrintWaitingProcesses();
 		
 		
 		return false;								//nie 
@@ -31,7 +31,7 @@ void Semaphore::Signal()
 	if (queue.empty() == false)
 	{
 		string procesName = queue.front();
-		Semaphore::ProcessM->PrintReadyProcesses;
+		Semaphore::ProcessM->PrintReadyProcesses();
 		queue.pop();
 		value++;
 	}

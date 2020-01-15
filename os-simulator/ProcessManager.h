@@ -10,9 +10,9 @@ class ProcessManager : public Singleton<ProcessManager>
 	friend class Singleton<ProcessManager>;
 
 	static int last_process_id_;
-	std::list<Process*> processes_;
-	std::list<Process*> ready_processes_;
-	std::list<Process*> waiting_processes_;
+	std::vector<Process*> processes_;
+	std::vector<Process*> ready_processes_;
+	std::vector<Process*> waiting_processes_;
 	Process* running_process_ = nullptr;
 	Process* dummy_process_ = nullptr;
 public:
@@ -48,8 +48,8 @@ public:
 	void PrintProcess(int process_id);
 	void PrintProcess(std::string process_name);
 
-	std::list<Process*> processes() const;
-	std::list<Process*> ready_processes() const;
-	std::list<Process*> waiting_processes() const;
+	std::vector<Process*> processes() const;
+	std::vector<Process*> ready_processes() const;
+	std::vector<Process*> waiting_processes() const;
 	Process* running_process() const;
 };

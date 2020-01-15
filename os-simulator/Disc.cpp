@@ -1,5 +1,5 @@
 ﻿#include "Disc.h"
-
+#include "pch.h"
 
 //Num = liczba blocków
 char* Drive::Block(int Num)
