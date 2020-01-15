@@ -151,7 +151,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Assembler.cpp" />
     <ClCompile Include="CPU.cpp" />
+    <ClCompile Include="Disc.cpp" />
+    <ClCompile Include="FileM.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -163,19 +166,30 @@
     <ClCompile Include="ProcessManager.cpp" />
     <ClCompile Include="RAM.cpp" />
     <ClCompile Include="Segment.cpp" />
+    <ClCompile Include="Semaphore.cpp" />
     <ClCompile Include="Shell.cpp" />
     <ClCompile Include="VirtualMemory.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Assembler.h" />
     <ClInclude Include="CPU.h" />
+    <ClInclude Include="DirectoryFile.h" />
+    <ClInclude Include="Disc.h" />
+    <ClInclude Include="FAT.h" />
+    <ClInclude Include="FileM.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Process.h" />
     <ClInclude Include="ProcessManager.h" />
     <ClInclude Include="RAM.h" />
     <ClInclude Include="Segment.h" />
+    <ClInclude Include="Semaphore.h" />
     <ClInclude Include="Shell.h" />
     <ClInclude Include="VirtualMemory.h" />
     <ClInclude Include="Singleton.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ciagEulera.txt" />
+    <Text Include="Polecenia_assemblerowe.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

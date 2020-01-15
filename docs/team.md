@@ -1,8 +1,5 @@
-# OS simulator
-## Documentation
-https://tjakubowski.github.io/put-os-simulator/
+# Team
 
-## Team
 | Module                           | User             |
 | -------------------------------- | ---------------- |
 | CPU scheduling (priority method) | @ggEx86          |

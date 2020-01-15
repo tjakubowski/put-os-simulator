@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Process.h"
 
+
+
 Process::Process(const std::string& name, const std::string& file_name, const int priority, const int id) : name_(name), file_name_(file_name), id_(id), priority_(priority)
 {
 }
@@ -38,6 +40,46 @@ void Process::set_process_state(State process_state)
 int Process::id() const
 {
 	return id_;
+}
+
+int Process::ax() const
+{
+	return ax_;
+}
+
+void Process::set_ax(int ax)
+{
+	ax_ = ax;
+}
+
+int Process::bx() const
+{
+	return bx_;
+}
+
+void Process::set_bx(int bx)
+{
+	bx_ = bx;
+}
+
+int Process::cx() const
+{
+	return cx_;
+}
+
+void Process::set_cx(int cx)
+{
+	cx_ = cx;
+}
+
+int Process::dx() const
+{
+	return dx_;
+}
+
+void Process::set_dx(int dx)
+{
+	dx_ = dx;
 }
 
 int Process::priority() const
