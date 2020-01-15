@@ -46,7 +46,8 @@ public: //private potem
 private:
 	int last = 0;
 public:
-	int add_to_RAM(Process* process);  //dodaæ wskaŸnik na proces jako argument albo ciagnac po id pobraæ kod programu z modu³u FAT //zamienic na proces
+	int add_to_RAM(Process* process);
+	//dodaæ wskaŸnik na proces jako argument albo ciagnac po id pobraæ kod programu z modu³u FAT //zamienic na proces
 	void delete_from_RAM(Process* process);  //dodaæ wskaŸnik na proces jako argument
 	void show_RAM(); //wyswietlenie zawartosci ram
 	char char_RAM(Process* process, int place);
