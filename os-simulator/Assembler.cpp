@@ -107,7 +107,7 @@ int Assembler::ile_arg(const string command)
 }
 
 //przyjmuje string komendy i dzieli
-string* split(string toSplit)
+string* Assembler::split(string toSplit)
 {
 	string* splitted = new string[5];
 	splitted[0] = "";
@@ -125,7 +125,7 @@ string* split(string toSplit)
 	return splitted;
 }
 
-void runCommand(string c_line, Assembler &reg)
+void Assembler::runCommand(string c_line, Assembler &reg)
 {
 	string *line = split(c_line);
 	cout << line[0] << " " << line[1] << " " << line[2]<< " " << line[3] << endl;
@@ -562,7 +562,7 @@ void runCommand(string c_line, Assembler &reg)
 	
 	else if (line[0] == "PS")		// Tworzy proces
 	{
-
+		ProcessManager::GetInstance().CreateProcess(line[1],line[2], stoi(line[3]));
 	}
 	
 	else if (line[0] == "PO")		// Otwiera proces
@@ -577,7 +577,7 @@ void runCommand(string c_line, Assembler &reg)
 	
 	else if (line[0] == "PD" )		//Kasuje proces
 	{
-
+	ProcessManager::GetInstance().KillProcess(line[1]);
 	}
 	
 	else if (line[0] == "FO")
@@ -617,14 +617,17 @@ void runCommand(string c_line, Assembler &reg)
 
 	else if (line[0] == "EX")		//Koniec programu
 	{
-	reg.set_licznik(-1);
-	cout << "Koniec programu ";
+		reg.set_licznik(-1);
+		cout << "Koniec programu ";
 	}
-
+	else 
+	{
+		std::cout << "\nNierozpoznano rozkazu " << line[0];
+	}
 }
 
 //do tej funkcji dostaje stringa od Kacpra po tym jak ustalimy juz ile argumentow rozkaz i dostaje go calego xd
-void runProgram(string program, Assembler &reg)
+void Assembler::runProgram(string program, Assembler &reg)
 {
 	string com = program;
 	runCommand(com, reg);

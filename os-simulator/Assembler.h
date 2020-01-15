@@ -1,8 +1,8 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-
 #include "Singleton.h"
+#include "ProcessManager.h"
 using namespace std;
 
 class Assembler : public Singleton<Assembler>
@@ -33,10 +33,14 @@ public:
 	int get_licznik();
 	void set_licznik(int);
 	int ile_arg(string command);
+
+	string* split(string toSplit);
+
+	void runCommand(string c_line, Assembler& reg);
+
+	void runProgram(string program, Assembler& reg);
+
+	void savefile();
 };
 
-string* split(string toSplit);
 
-void runCommand(string c_line, Assembler &reg);
-
-void runProgram(string program, Assembler &reg);
