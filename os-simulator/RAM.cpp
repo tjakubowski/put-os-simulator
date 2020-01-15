@@ -211,6 +211,7 @@ void RAM::delete_from_RAM(Process* process) {
 		Free_blocks_list.push_back(F_b);
 
 		RAM_processes_list.erase(it);
+		merge_RAM();
 	}
 	catch (int) { "nie ma takiego procesu w pamieci"; };
 	if (RAM_processes_list.empty()) {

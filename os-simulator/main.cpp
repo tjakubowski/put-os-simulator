@@ -11,6 +11,7 @@ RAM ram;
 int change_state = 0;
 std::string code;
 
+
 int main()
 {
 	Shell shell;
