@@ -14,6 +14,7 @@
     <ClCompile Include="Semaphore.cpp" />
     <ClCompile Include="Disc.cpp" />
     <ClCompile Include="FileM.cpp" />
+    <ClCompile Include="TablePrinter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CPU.h" />
@@ -31,6 +32,7 @@
     <ClInclude Include="DirectoryFile.h" />
     <ClInclude Include="Disc.h" />
     <ClInclude Include="FAT.h" />
+    <ClInclude Include="TablePrinter.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Polecenia_assemblerowe.txt" />

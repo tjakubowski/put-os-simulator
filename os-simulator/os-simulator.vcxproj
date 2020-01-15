@@ -169,6 +169,7 @@
     <ClCompile Include="Semaphore.cpp" />
     <ClCompile Include="Shell.cpp" />
     <ClCompile Include="VirtualMemory.cpp" />
+    <ClCompile Include="TablePrinter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Assembler.h" />
@@ -186,6 +187,7 @@
     <ClInclude Include="Shell.h" />
     <ClInclude Include="VirtualMemory.h" />
     <ClInclude Include="Singleton.h" />
+    <ClInclude Include="TablePrinter.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ciagEulera.txt" />
