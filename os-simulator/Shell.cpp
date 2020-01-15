@@ -2,6 +2,7 @@
 #include "Shell.h"
 #include "FileM.h"
 #include "RAM.h"
+#include "pch.h"
 #include "Assembler.h"
 
 extern FileM disc;

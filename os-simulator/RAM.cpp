@@ -165,7 +165,7 @@ void RAM::show_RAM() {
 	cout << "\n\tMEMORY\n  " << endl << "[ID]\t size\t  begining\t end" << endl;
 	for (it = RAM_processes_list.begin(); it != RAM_processes_list.end(); ++it)
 	{
-		cout << it->id << "\t " << it->size << "\t   " << it->start << "\t\t  " << it->start + it->size << endl;
+		cout << it->id << "\t " << it->size << "\t   " << it->start << "\t\t  " << it->start + it->size << it->commands<< endl;
 		i++;
 	}
 
