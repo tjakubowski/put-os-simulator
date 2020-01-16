@@ -15,7 +15,7 @@ bool FileM::Clearall()
 	}
 }
 
-bool FileM::OpenFile(const std::string& , int process_id) /
+bool FileM::OpenFile(const std::string& , int process_id)
 {
 
 	Semaphore::Wait();

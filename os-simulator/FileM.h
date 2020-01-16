@@ -52,6 +52,8 @@ private:
 
 	bool Clearall();
 
+	bool OpenFile(const std::string&, int process_id);
+
 
 
 

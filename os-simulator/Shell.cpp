@@ -1,9 +1,6 @@
-﻿#include <iostream>
-#include "Shell.h"
-#include "FileM.h"
-#include "RAM.h"
+﻿#include "Shell.h"
 #include "pch.h"
-#include "Assembler.h"
+#include <iostream>
 
 extern int change_state;
 
@@ -29,7 +26,7 @@ void Shell::help() {
 
 	std::cout << "[command] -h - wyswietla pomoc dla wybranej komendy\n\n";
 
-	for (auto &e : helpdesk)
+	for (const auto &e : helpdesk)
 	{
 		std::cout << e.second;
 	}
