@@ -1,37 +1,31 @@
-
 #include "pch.h"
-#include <iostream>
 #include "Semaphore.h"
-#include "ProcessManager.h"
-Semaphore::Semaphore(int k, ProcessManager *process)
+
+
+Semaphore::Semaphore(int k)
 {
 	value = k;
-	ProcessM = process;
 }
-bool Semaphore::Wait()
+void Semaphore::Wait(std::string name)
 {
 	if (value > 0)
 	{
-		value = value - 1;
-		return true;								//wykonujê siê 
+		value--;
 	}
 
 	else
 	{
-		string active_processes = Semaphore::ProcessM->GetProcess->name();
-		queue.push(active_processes);
-		Semaphore::ProcessM->PrintWaitingProcesses();
-		
-		
-		return false;								//nie 
+		value--;
+		queue.push(name);
+		ProcessManager::GetInstance().SetProcessWaiting(name);
 	}
 }
 void Semaphore::Signal()
-{ 
+{
 	if (queue.empty() == false)
 	{
-		string procesName = queue.front();
-		Semaphore::ProcessM->PrintReadyProcesses();
+		string name = queue.front();
+		ProcessManager::GetInstance().SetProcessReady(name);
 		queue.pop();
 		value++;
 	}
