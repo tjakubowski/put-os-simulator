@@ -27,7 +27,7 @@ void Process::set_file_name(const std::string& file_name)
 	file_name_ = file_name;
 }
 
-int Process::process_state() const
+Process::State Process::process_state() const
 {
 	return process_state_;
 }

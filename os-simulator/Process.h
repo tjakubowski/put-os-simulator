@@ -17,7 +17,7 @@ public:
 private:
 	std::string name_;
 	std::string file_name_;
-	int process_state_{};
+	State process_state_{};
 	int id_;
 	int priority_;
 	int ax_ = 0;
@@ -32,7 +32,7 @@ public:
 
 	std::string name() const;
 	std::string file_name() const;
-	int process_state() const;
+	State process_state() const;
 	int id() const;
 	int priority() const;
 	int ax() const;
