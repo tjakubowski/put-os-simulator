@@ -15,11 +15,13 @@ public:
 		Running,
 	};
 private:
+	const int min_priority_ = 0;
+	const int max_priority_ = 15;
 	std::string name_;
 	std::string file_name_;
 	State process_state_{};
 	int id_;
-	int priority_;
+	int priority_{};
 	int ax_ = 0;
 	int bx_ = 0;
 	int cx_ = 0;
