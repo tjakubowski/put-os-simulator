@@ -2,24 +2,32 @@
 #include <vector>
 #include <iostream>
 #include "Process.h"
+#include "ProcessManager.h"
+#include "Singleton.h"
 
-class CPU_M{
-    private:
 
-	static void heapify(std::vector<Process*> &heap, int n, int i);
-
+class CPU_M : public Singleton<CPU_M>{
+	friend class Singleton<CPU_M>;
+	
+	public:
 	//Dodanie procesu do kopca
-	static void insert_to_heap(std::vector<Process*> &heap, Process *P);
+	static void insert_to_heap(std::vector<Process*> &heap, Process *p);
 
+	//WYkonywanie procesu na gorze kopca
+    static void scheduling(std::vector <Process*> &heap);
+	
+	//Print the heap with ID and PRIORITY
+	static void print_heap(std::vector<Process*> &heap);
+	
+	private:
+	
     //Utrzymanie kopca
 	static void order_heap(std::vector<Process*> &heap);
    
-	//WYkonywanie procesu na gorze kopca
-    void scheduling(std::vector <Process*> &heap);
-    
+	static void heapify(std::vector<Process*> &heap, int n, int i);
+   
 	//Porownanie procesow pod wzgledem priority
-	bool compare(Process *P1, Process *P2);
+	bool compare(Process *p1, Process *p2);
 
-	//Print the heap with ID and PRIORITY
-	static void printheap(std::vector<Process*> &heap);
+	
 };
