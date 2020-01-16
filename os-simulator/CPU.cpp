@@ -74,13 +74,11 @@ void CPU_M::scheduling(std::vector<Process*> &heap)
 				break;
 			}
 		}
-		ProcessManager::GetInstance();
-		//ProcessManager::SetProcessRunning(heap[pos]);
+		ProcessManager::GetInstance().SetProcessRunning(heap[pos]);
 
 	}
 	else {
-		ProcessManager::GetInstance();
-		//ProcessManager::SetProcessRunning(heap[pos]);
+		ProcessManager::GetInstance().SetProcessRunning(heap[0]);
 		heap.erase(heap.begin());
 	}
 }
