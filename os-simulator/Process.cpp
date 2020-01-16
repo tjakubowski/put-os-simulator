@@ -1,10 +1,9 @@
 #include "pch.h"
 #include "Process.h"
 
-
-
-Process::Process(const std::string& name, const std::string& file_name, const int priority, const int id) : name_(name), file_name_(file_name), id_(id), priority_(priority)
+Process::Process(const std::string& name, const std::string& file_name, const int priority, const int id) : name_(name), file_name_(file_name), id_(id)
 {
+	set_priority(priority);
 }
 
 std::string Process::name() const
@@ -27,7 +26,7 @@ void Process::set_file_name(const std::string& file_name)
 	file_name_ = file_name;
 }
 
-int Process::process_state() const
+Process::State Process::process_state() const
 {
 	return process_state_;
 }
@@ -89,6 +88,11 @@ int Process::priority() const
 
 void Process::set_priority(int priority)
 {
+	if (priority < min_priority_)
+		throw std::exception("Minimum priority value is "); // TODO: Add priority value in exception message
+	if (priority > max_priority_)
+		throw std::exception("Maximum priority value is "); // TODO: Add priority value in exception message
+	
 	priority_ = priority;
 }
 

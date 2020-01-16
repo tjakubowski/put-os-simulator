@@ -15,11 +15,13 @@ public:
 		Running,
 	};
 private:
+	const int min_priority_ = 0;
+	const int max_priority_ = 15;
 	std::string name_;
 	std::string file_name_;
-	int process_state_{};
+	State process_state_{};
 	int id_;
-	int priority_;
+	int priority_{};
 	int ax_ = 0;
 	int bx_ = 0;
 	int cx_ = 0;
@@ -32,7 +34,7 @@ public:
 
 	std::string name() const;
 	std::string file_name() const;
-	int process_state() const;
+	State process_state() const;
 	int id() const;
 	int priority() const;
 	int ax() const;
@@ -63,5 +65,18 @@ public:
 			<< "\tpriority: " << process.priority_
 			<< "\tstate: " << process.process_state_;
 	}
+	
+	friend std::ostream& operator<<(std::ostream& os, State& state)
+	{
+		switch(state)
+		{
+		case New: os << "New"; break;
+		case Waiting: os << "Waiting"; break;
+		case Ready: os << "Ready"; break;
+		case Running: os << "Running"; break;
+		}
+		return os;
+	}
+
 };
 
