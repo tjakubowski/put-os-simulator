@@ -1,12 +1,12 @@
 #pragma once
-#include<iostream>
+#include <iostream>
 #include "Singleton.h"
 #include "Process.h"
-#include<conio.h>
-#include<string>
-#include<list>
-#include<algorithm>
-#include<fstream>
+#include <conio.h>
+#include <string>
+#include <list>
+#include <algorithm>
+#include <fstream>
 #include "ProcessManager.h"
 
 using namespace std;

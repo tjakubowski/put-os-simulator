@@ -13,7 +13,7 @@ private:
 
 		sb, sd,
 		
-		mem,
+		mem, cmem,
 		
 		wmem,
 		
@@ -46,6 +46,7 @@ private:
 		{"sd",commands::sd},
 
 		{"mem",commands::mem},
+		{"cmem",commands::cmem},
 
 		{"wmem",commands::wmem},
 
@@ -79,10 +80,11 @@ private:
 		{"sd","sd - wyswietla zawartosc dysku\n"},
 
 		{"mem","mem - wyswietla aktualny stan pamieci RAM\n"},
+		{"cmem","cmem [id_procesu][komorka] - wyswietla pojedyncza komorke pamieci\n"},
 
 		{"wmem","wmem - wyswietla plik pamieci wirtualnej\n"},
 
-		{"cp","cp [nazwa_procesu] - tworzy nowy proces\n"},
+		{"cp","cp [nazwa_procesu][nazwa_pliku][priorytet] - tworzy nowy proces\n"},
 		{"load","load [nazwa_procesu][nazwa_pliku] - wczytuje program do procesu\n"},
 		{"lp","lp - wyswietla liste utworzonych procesow\n\n"},
 		{"kp","kp - zamyka proces\n"},

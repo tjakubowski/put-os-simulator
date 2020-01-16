@@ -21,7 +21,7 @@ int main()
 
 	std::cout << "OS Simulator" << std::endl;
 
-	shell.run();
+	//shell.run();
 	
 	return 0;
 }

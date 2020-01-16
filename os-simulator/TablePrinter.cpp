@@ -24,7 +24,7 @@ void TablePrinter::PrintLine()
 
 void TablePrinter::AddColumn(std::string column_name, unsigned int column_width, bool column_align_left)
 {
-	column_width = std::max(column_width, column_name.size());
+	column_width = std::max(column_width, (unsigned int)column_name.size());
 	columns_.push_back({ column_name, column_width, column_align_left });
 }
 

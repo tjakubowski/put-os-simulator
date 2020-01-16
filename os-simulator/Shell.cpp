@@ -1,14 +1,8 @@
-﻿#include <iostream>
-#include "Shell.h"
-#include "FileM.h"
-#include "RAM.h"
+﻿#include "Shell.h"
 #include "pch.h"
-#include "Assembler.h"
+#include <iostream>
 
-extern FileM disc;
-extern RAM ram;
 extern int change_state;
-extern Assembler ass;
 
 void Shell::create_command() {
 
@@ -32,7 +26,7 @@ void Shell::help() {
 
 	std::cout << "[command] -h - wyswietla pomoc dla wybranej komendy\n\n";
 
-	for (auto &e : helpdesk)
+	for (const auto &e : helpdesk)
 	{
 		std::cout << e.second;
 	}
@@ -211,7 +205,7 @@ void Shell::perform_command() {
 					std::cout << helpdesk[command[0]];
 				}
 				else {
-					if (disc.InvestigateFile(command[1])) {
+					if (1) { // w warunku metoda zwracajaca bool wyszukujaca nazwy pliku w tablicy FAT
 						std::cout << "Plik o nazwie \"" << command[1] << "\" istnieje\n";
 					}
 					else {
@@ -281,7 +275,7 @@ void Shell::perform_command() {
 			switch (command.size()) {
 			case 1:
 				std::cout  << system_name  << "Wyswietlenie aktualnego stanu pamieci RAM.\n";
-				ram.show_RAM();			
+				//ram.show_RAM();			
 				break;
 			case 2:
 				if (command[1] == "-h") {
@@ -293,6 +287,26 @@ void Shell::perform_command() {
 				break;
 			default:
 				std::cout  << system_name  << arguments ;
+			}
+			break;
+
+		case commands::cmem:
+
+			switch (command.size()) {
+			case 3:
+				std::cout << system_name << "Wyswietlenie komorki " << command[2] << " nalezacej do procesu o id " << command[1] << "\n";
+				//ram.show_RAM();			
+				break;
+			case 2:
+				if (command[1] == "-h") {
+					std::cout << helpdesk[command[0]];
+				}
+				else {
+					std::cout << system_name << arguments;
+				}
+				break;
+			default:
+				std::cout << system_name << arguments;
 			}
 			break;
 
@@ -331,7 +345,7 @@ void Shell::perform_command() {
 					std::cout << system_name << arguments;
 				}
 				break;
-			case 3:
+			case 4:
 				//metoda tworzaca proces z programem
 				break;
 			default:
