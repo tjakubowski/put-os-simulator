@@ -65,5 +65,18 @@ public:
 			<< "\tpriority: " << process.priority_
 			<< "\tstate: " << process.process_state_;
 	}
+	
+	friend std::ostream& operator<<(std::ostream& os, State& state)
+	{
+		switch(state)
+		{
+		case New: os << "New"; break;
+		case Waiting: os << "Waiting"; break;
+		case Ready: os << "Ready"; break;
+		case Running: os << "Running"; break;
+		}
+		return os;
+	}
+
 };
 

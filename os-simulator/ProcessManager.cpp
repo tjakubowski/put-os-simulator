@@ -174,7 +174,7 @@ void ProcessManager::PrintProcesses() const
 	table_printer.AddColumn("Name", 10);
 	table_printer.AddColumn("File", 10);
 	table_printer.AddColumn("Priority", 2);
-	table_printer.AddColumn("State", 2);
+	table_printer.AddColumn("State", 7);
 
 	table_printer.PrintHeader();
 	for (auto process : processes_)
@@ -189,7 +189,7 @@ void ProcessManager::PrintProcess(Process* process)
 	table_printer.AddColumn("Name", 10);
 	table_printer.AddColumn("File", 10);
 	table_printer.AddColumn("Priority", 2);
-	table_printer.AddColumn("State", 2);
+	table_printer.AddColumn("State", 7);
 
 	table_printer.PrintHeader();
 	table_printer << process->id() << process->name() << process->file_name() << process->priority() << process->process_state();
