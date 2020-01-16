@@ -13,14 +13,18 @@ class ProcessManager : public Singleton<ProcessManager>
 
 	static int last_process_id_;
 	std::vector<Process*> processes_;
-	std::vector<Process*> ready_processes_;
+	std::vector<Process*> new_processes_;
 	std::vector<Process*> waiting_processes_;
+	std::vector<Process*> ready_processes_;
 	Process* running_process_ = nullptr;
 	Process* dummy_process_ = nullptr;
+	void RemoveFromVector(Process* process, std::vector<Process*>& vector) const;
+	void SetProcessNew(Process* process);
+	
 public:
 	ProcessManager();
 	~ProcessManager();
-	void CreateProcess(std::string process_name, std::string process_file, int priority);
+	Process* CreateProcess(std::string process_name, std::string process_file, int priority);
 
 	void KillProcess(Process* process);
 	void KillProcess(int process_id);
@@ -47,7 +51,8 @@ public:
 	void PrintProcess(std::string process_name);
 
 	std::vector<Process*> processes() const;
-	std::vector<Process*> ready_processes() const;
+	std::vector<Process*> new_processes() const;
 	std::vector<Process*> waiting_processes() const;
+	std::vector<Process*> ready_processes() const;
 	Process* running_process() const;
 };
