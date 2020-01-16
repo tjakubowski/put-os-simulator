@@ -1,21 +1,31 @@
 #pragma once
 #include <queue>
 #include <string>
+#include "Singleton.h"
+#include "ProcessManager.h"
+
 using namespace std;
 class ProcessManager;
 
 class Semaphore
 {
-public:
+protected:
 	int value;
 	queue<string> queue;
-	ProcessManager *ProcessM;
-	bool Wait();
+
+public:
+
+	void Wait(std::string name);
 	void Signal();
-	Semaphore(int k, ProcessManager *process);
-	Semaphore()
-	{
-		value = 1;
-		ProcessM = nullptr;
-	}
+
+	Semaphore(int k) : value(k) {}
+
+
+	//krokowy
+	/*
+	void/bool print_value();
+	void/bool print_queue();
+
+	*/
+
 };
