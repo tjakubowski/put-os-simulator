@@ -28,11 +28,11 @@
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Assembler.h" />
     <ClInclude Include="FileM.h" />
-    <ClInclude Include="Semaphore.h" />
     <ClInclude Include="DirectoryFile.h" />
     <ClInclude Include="Disc.h" />
     <ClInclude Include="FAT.h" />
     <ClInclude Include="TablePrinter.h" />
+    <ClInclude Include="Semaphore.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Polecenia_assemblerowe.txt" />

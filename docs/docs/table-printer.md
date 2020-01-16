@@ -8,13 +8,14 @@
 	TablePrinter table_printer;
 	table_printer.AddColumn("ID", 2);
 	table_printer.AddColumn("Name", 10);
+	table_printer.AddColumn("File", 10);
 	table_printer.AddColumn("Priority", 2);
 
     // Printing table
 	table_printer.PrintHeader();
 	for (auto process : processes_) {
         // Adding data
-        table_printer << process->id() << process->name() << process->priority();
+        table_printer << process->id() << process->name() << process->file_name() << process->priority();
     }
 	table_printer.PrintFooter();
     ```
