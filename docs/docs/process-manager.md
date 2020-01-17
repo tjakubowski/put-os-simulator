@@ -8,15 +8,20 @@
 
 ## processes_
 - **Type:** `std::list<Process*>`
-- **Details:** Stores pointers to all processes except dummy one.
+- **Details:** Stores pointers to all processes.
 
-## ready_processes_
+## new_processes_
 - **Type:** `std::list<Process*>`
-- **Details:** Stores pointers to all ready processes.
+- **Details:** Stores pointers to all new processes.
+- **Details:** Stores pointers to all processes.
 
 ## waiting_processes_
 - **Type:** `std::list<Process*>`
 - **Details:** Stores pointers to all waiting processes.
+
+## ready_processes_
+- **Type:** `std::list<Process*>`
+- **Details:** Stores pointers to all ready processes.
 
 ## running_process_
 - **Type:** `Process*`
@@ -34,10 +39,10 @@
   - `{int} priority`
 
 - **Usage:**
-  Creates new process with given name, name of file with process code and priority used in CPU scheduler.
+  Creates new process with given name, name of file with process code and priority used in CPU scheduler and returns its pointer.
 
   ``` cpp
-  process_manager.CreateProcess("helloworld", "hello_world.txt", 2);
+  ProcessManager::GetInstance().CreateProcess("helloworld", "hello_world.txt", 2);
   ```
   
 ## KillProcess()
@@ -49,13 +54,13 @@
   Kills the process and removes it from every list of processes.
 
   ``` cpp
-  process_manager.KillProcess(process);
+  ProcessManager::GetInstance().KillProcess(process);
   ```
   ``` cpp
-  process_manager.KillProcess("helloworld");
+  ProcessManager::GetInstance().KillProcess("helloworld");
   ```
   ``` cpp
-  process_manager.KillProcess(2);
+  ProcessManager::GetInstance().KillProcess(2);
   ```  
   
 ## GetProcess()
@@ -67,46 +72,28 @@
   Returns pointer to the queried process
 
   ``` cpp
-  auto found_process = process_manager.GetProcess("helloworld");
+  auto found_process = ProcessManager::GetInstance().GetProcess("helloworld");
   ```
   ``` cpp
-  auto found_process = process_manager.GetProcess(2);
+  auto found_process = ProcessManager::GetInstance().GetProcess(2);
   ```
-  
-## SetProcessRunning()
+
+## SetProcessNew()
 
 - **Arguments:**
   - `{Process*} process | {int} process_id | {std::string} process_name`
 
 - **Usage:**
-  Sets process state to `State::Running` and sets `running_process` to it. Removes process from any other liss of processes except `processes_`.
-
-  ``` cpp
-  process_manager.SetProcessRunning(process);
-  ```
-  ``` cpp
-  process_manager.SetProcessRunning("helloworld");
-  ```
-  ``` cpp
-  process_manager.SetProcessRunning(2);
-  ```
+  Sets process state to `State::New`.
   
-## SetProcessReady()
-
-- **Arguments:**
-  - `{Process*} process | {int} process_id | {std::string} process_name`
-
-- **Usage:**
-  Sets process state to `State::Ready` and sets `running_process` to it. Removes process from any other list of processes except `processes_`.
-
   ``` cpp
-  process_manager.SetProcessReady(process);
+  ProcessManager::GetInstance().SetProcessNew(process);
   ```
   ``` cpp
-  process_manager.SetProcessReady("helloworld");
+  ProcessManager::GetInstance().SetProcessNew("helloworld");
   ```
   ``` cpp
-  process_manager.SetProcessReady(2);
+  ProcessManager::GetInstance().SetProcessNew(2);
   ```
 
 ## SetProcessWaiting()
@@ -118,58 +105,66 @@
   Sets process state to `State::Waiting` and sets `running_process` to it. Removes process from any other list of processes except `processes_`.
   
   ``` cpp
-  process_manager.SetProcessWaiting(process);
+  ProcessManager::GetInstance().SetProcessWaiting(process);
   ```
   ``` cpp
-  process_manager.SetProcessWaiting("helloworld");
+  ProcessManager::GetInstance().SetProcessWaiting("helloworld");
   ```
   ``` cpp
-  process_manager.SetProcessWaiting(2);
+  ProcessManager::GetInstance().SetProcessWaiting(2);
   ```
+  
+## SetProcessReady()
 
-## PrintAllProcesses()
+- **Arguments:**
+  - `{Process*} process | {int} process_id | {std::string} process_name`
 
 - **Usage:**
-  Prints out processes from `processes_` list.
-  
-  ``` cpp
-  process_manager.PrintAllProcesses();
-  ```
+  Sets process state to `State::Ready` and sets `running_process` to it. Removes process from any other list of processes except `processes_`.
 
-## PrintWaitingProcesses()
+  ``` cpp
+  ProcessManager::GetInstance().SetProcessReady(process);
+  ```
+  ``` cpp
+  ProcessManager::GetInstance().SetProcessReady("helloworld");
+  ```
+  ``` cpp
+  ProcessManager::GetInstance().SetProcessReady(2);
+  ```
+  
+## SetProcessRunning()
+
+- **Arguments:**
+  - `{Process*} process | {int} process_id | {std::string} process_name`
 
 - **Usage:**
-  Prints out processes from `waiting_processes_` list.
-  
+  Sets process state to `State::Running` and sets `running_process` to it. Removes process from any other liss of processes except `processes_`.
+
   ``` cpp
-  process_manager.PrintWaitingProcesses();
+  ProcessManager::GetInstance().SetProcessRunning(process);
+  ```
+  ``` cpp
+  ProcessManager::GetInstance().SetProcessRunning("helloworld");
+  ```
+  ``` cpp
+  ProcessManager::GetInstance().SetProcessRunning(2);
   ```
 
-## PrintReadyProcesses()
-
-- **Usage:**
-  Prints out processes from `ready_processes_` list.
-  
-  ``` cpp
-  process_manager.PrintReadyProcesses();
-  ```
-
-## PrintRunningProcess()
-
-- **Usage:**
-  Prints out currently running process `running_process_`.
-  
-  ``` cpp
-  process_manager.PrintRunningProcess();
-  ```
-  
 ## PrintProcesses()
 
+- **Arguments:**
+  - `{std::vector<Process*>} processes (optional)`
+
 - **Usage:**
-  Prints out all lists of processes and `running_process_`.
+  Prints out all processes or given list of processes
   
   ``` cpp
-  process_manager.PrintProcesses();
+  ProcessManager::GetInstance().PrintProcesses();
+  ```
+  Prints out all processes or given list of processes
+  
+  ``` cpp
+  ProcessManager::GetInstance().PrintProcesses(ProcessManager::GetInstance().ready_processes());
   ```
   
 ## PrintProcess()
@@ -181,11 +176,11 @@
   Prints out given `process` or found one by passing its `process_id` or `process_name`.
   
   ``` cpp
-  process_manager.PrintProcess(process);
+  ProcessManager::GetInstance().PrintProcess(process);
   ```
   ``` cpp
-  process_manager.PrintProcess("helloworld");
+  ProcessManager::GetInstance().PrintProcess("helloworld");
   ```
   ``` cpp
-  process_manager.PrintProcess(2);
+  ProcessManager::GetInstance().PrintProcess(2);
   ```
