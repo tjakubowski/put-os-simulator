@@ -6,6 +6,8 @@ int ProcessManager::last_process_id_ = 0;
 
 ProcessManager::ProcessManager()
 {
+	InitializeProcessPrinter();
+	
 	dummy_process_ = CreateProcess("dummy", "dummy", 0);
 	SetProcessRunning(dummy_process_);
 }
@@ -195,38 +197,33 @@ void ProcessManager::SetProcessRunning(std::string process_name)
 	SetProcessRunning(GetProcess(process_name));
 }
 
-void ProcessManager::PrintProcesses(std::vector<Process*> processes) const
+void ProcessManager::InitializeProcessPrinter()
 {
-	TablePrinter table_printer;
-	table_printer.AddColumn("ID", 2);
-	table_printer.AddColumn("Name", 10);
-	table_printer.AddColumn("File", 10);
-	table_printer.AddColumn("Priority", 2);
-	table_printer.AddColumn("State", 7);
-
-	table_printer.PrintHeader();
-	for (auto process : processes)
-		table_printer << process->id() << process->name() << process->file_name() << process->priority() << process->process_state();
-	table_printer.PrintFooter();
+	process_printer_.AddColumn("ID", 2);
+	process_printer_.AddColumn("Name", 10);
+	process_printer_.AddColumn("File", 10);
+	process_printer_.AddColumn("Priority", 2);
+	process_printer_.AddColumn("State", 7);
 }
 
-void ProcessManager::PrintProcesses() const
+void ProcessManager::PrintProcesses(std::vector<Process*> processes)
+{
+	process_printer_.PrintHeader();
+	for (auto process : processes)
+		process_printer_ << process->id() << process->name() << process->file_name() << process->priority() << process->process_state();
+	process_printer_.PrintFooter();
+}
+
+void ProcessManager::PrintProcesses()
 {
 	PrintProcesses(processes_);
 }
 
 void ProcessManager::PrintProcess(Process* process) 
 {
-	TablePrinter table_printer;
-	table_printer.AddColumn("ID", 2);
-	table_printer.AddColumn("Name", 10);
-	table_printer.AddColumn("File", 10);
-	table_printer.AddColumn("Priority", 2);
-	table_printer.AddColumn("State", 7);
-
-	table_printer.PrintHeader();
-	table_printer << process->id() << process->name() << process->file_name() << process->priority() << process->process_state();
-	table_printer.PrintFooter();
+	process_printer_.PrintHeader();
+	process_printer_ << process->id() << process->name() << process->file_name() << process->priority() << process->process_state();
+	process_printer_.PrintFooter();
 }
 
 void ProcessManager::PrintProcess(int process_id) 

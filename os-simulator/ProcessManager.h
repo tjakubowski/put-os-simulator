@@ -18,6 +18,8 @@ class ProcessManager : public Singleton<ProcessManager>
 	std::vector<Process*> ready_processes_;
 	Process* running_process_ = nullptr;
 	Process* dummy_process_ = nullptr;
+	TablePrinter process_printer_;
+	void InitializeProcessPrinter();
 	void RemoveFromVector(Process* process, std::vector<Process*>& vector) const;
 	void SetProcessNew(Process* process);
 	
@@ -36,7 +38,7 @@ public:
 	void SetProcessRunning(Process* process);
 	void SetProcessRunning(int process_id);
 	void SetProcessRunning(std::string process_name);
-	
+
 	void SetProcessReady(Process* process);
 	void SetProcessReady(int process_id);
 	void SetProcessReady(std::string process_name);
@@ -45,8 +47,8 @@ public:
 	void SetProcessWaiting(int process_id);
 	void SetProcessWaiting(std::string process_name);
 	
-	void PrintProcesses(std::vector<Process*> processes) const;
-	void PrintProcesses() const;
+	void PrintProcesses(std::vector<Process*> processes);
+	void PrintProcesses();
 	void PrintProcess(Process* process);
 	void PrintProcess(int process_id);
 	void PrintProcess(std::string process_name);
