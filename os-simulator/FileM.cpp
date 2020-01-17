@@ -16,15 +16,17 @@ bool FileM::Clearall()
 	}
 }
 
-string FileM::OpenFile(const std::string& name, std::string ProcessName)
+string FileM::OpenFile(Process*pcb)
 {
+	std::string name = pcb->file_name();//nazwa pliku powinno byc filename 
+	std::string ProcessName = pcb->name();
 	if (InvestigateFile(name) == false)
 	{
 			std::cout << "Blad: Nie istnieje plik o nazwie " << name << endl;
-			return false;
+		//	return false;//jak moze byc w funkcji ktora zwraca stringa return false???
 	}
 	
-	 Wait(ProcessName);
+	 //Wait(ProcessName);//wyjebuje tu blad napraw to
 	
 	//przeslij PLIK stringiem.
 	return SendFile(name);

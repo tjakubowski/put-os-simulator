@@ -17,7 +17,7 @@ public:
 	friend class Singleton<FileM>;
 	FileM();
 	//Instrukcja Otworzenia Pliku
-	string OpenFile(const std::string& name, std::string ProcessName);
+	string OpenFile(Process*pcb);
 	//instrukcja Zamknięcia Pliku
 	bool CloseFile(const std::string& name);
 	//stworz plik
