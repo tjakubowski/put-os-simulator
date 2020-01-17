@@ -71,7 +71,7 @@ bool VMSegment::operator<(const VMSegment& s) const
 }
 
 bool VirtualMemory::create_program(Process* pcb, std::string file) {
-
+	//dodaj zaladowanie stringa z FileM
 	std::vector<Segment*> segment_tab = pcb->segment_tab();
 	Segment* text_pcbseg = new Segment();
 	Segment* data_pcbseg = new Segment();
