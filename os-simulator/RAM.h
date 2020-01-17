@@ -36,7 +36,7 @@ class RAM : public Singleton<RAM> { //single tone do sprawdzenia
 	list<Free_blocks> Free_blocks_list;
 	list<RAM_process> RAM_processes_list;
 	int command_length;
-	//string memory[128];
+	string memory[128];
 public:
 	RAM() {
 		Free_blocks F_b;

@@ -155,6 +155,11 @@ int RAM::add_to_RAM(Process* process,const int& segment) { //zamienic na process
 					segment_tab[segment]->is_in_RAM = true;
 					segment_tab[segment]->baseRAM = RAM_process.start;
 					process->set_segment_tab(segment_tab);
+					int j = 0;
+					for (auto i = RAM_process.start; i < (RAM_process.size + RAM_process.start); i++) {
+						memory[i] = commands[0];
+						j++;
+					}
 
 
 
