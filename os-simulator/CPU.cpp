@@ -55,10 +55,11 @@ void CPU_M::order_heap(std::vector<Process*> &heap){
 	}
 }
 
-void CPU_M::scheduling(std::vector<Process*> &heap)
+void CPU_M::scheduling()
 {
-	auto rp = ProcessManager::GetInstance().running_process();
-	if (rp->priority() < heap[0]->priority()) {
+	auto running_p = ProcessManager::GetInstance().running_process();
+	auto heap = ProcessManager::GetInstance().ready_processes();
+	if (running_p->priority() < heap[0]->priority()) {
 		if (heap.size() > 1) {
 			int pos;
 			int tmp_id = heap[0]->id();

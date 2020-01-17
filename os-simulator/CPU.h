@@ -14,7 +14,7 @@ class CPU_M : public Singleton<CPU_M>{
 	void insert_to_heap(std::vector<Process*> &heap, Process *p);
 
 	//WYkonywanie procesu na gorze kopca
-    void scheduling(std::vector <Process*> &heap);
+    void scheduling();
 	
 	//Print the heap with ID and PRIORITY
 	void print_heap(std::vector<Process*> &heap);
