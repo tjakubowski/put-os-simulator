@@ -57,6 +57,15 @@
   table_printer.AddColumn("id", 2, false);
   ```
 
+## ClearColumns()
+
+- **Usage:**
+  Clears table layout by removing all columns.
+
+  ``` cpp
+  table_printer.ClearColumns();
+  ```
+
 ## PrintHeader()
 
 - **Usage:**
