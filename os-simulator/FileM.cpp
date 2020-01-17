@@ -22,7 +22,7 @@ std::string FileM::OpenFile(Process*pcb)
 	std::string ProcessName = pcb->name();
 	if (InvestigateFile(name) == false)
 	{
-			std::cout << "Blad: Nie istnieje plik o nazwie " << name << "\n";
+		std::cout << "Blad: Nie istnieje plik o nazwie " << name << "\n";
 		//	return false;//jak moze byc w funkcji ktora zwraca stringa return false???
 	}
 	

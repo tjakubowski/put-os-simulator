@@ -19,7 +19,7 @@ public:
 	//Instrukcja Otworzenia Pliku
 	std::string OpenFile(Process*pcb);
 	//instrukcja Zamknięcia Pliku
-	bool CloseFile(std::string ProcessName)
+	bool CloseFile(std::string ProcessName);
 	//stworz plik
 	bool CreateFile(const std::string& name);
 	//usun plik
@@ -31,7 +31,7 @@ public:
 	//zapisz tresc do pliku o podanej nazwie
 	bool WriteFile(const std::string& name, const std::string& tresc);
 	//Przesyla plik jako string
-	string SendFile(const std::string& name);
+	std::string SendFile(const std::string& name);
 	//Wyswietla plik za pomoca couta
 	bool PrintFile(const std::string& name);
 	//Szuka pliku true - istnieje false - nie istnieje
