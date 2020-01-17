@@ -54,7 +54,8 @@ public:
 	void delete_from_RAM(Process* process);  //dodaæ wskaŸnik na proces jako argument
 	void show_RAM(); //wyswietlenie zawartosci ram
 	char char_RAM(Process* process, int place);
-	string read_RAM(Process* process, int counter);
+	string read_RAM(Process* process, int counter); 
+	bool modify_RAM(Process* process, int position, int byte);
 
 
 };
