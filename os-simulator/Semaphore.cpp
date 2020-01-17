@@ -50,13 +50,23 @@ void Semaphore::show_Semaphore()
 	table_printer << value;
 	table_printer.PrintFooter();
 
-	TablePrinter table_printer;
-	table_printer.AddColumn("Aktualny rozmiar kolejki", 2);
-	table_printer.AddColumn("poczatek kolejki", 2);
-	table_printer.AddColumn("koniec kolejki", 2);
-	table_printer.PrintHeader();
+	table_printer.ClearColumns();
+
 	
-		std::cout << queue.size()<<queue.front()<<queue.back() << std::endl;
+	if (queue.size() == 0)
+	{
+		std::cout << "\nKolejka jest pusta\n" << std::endl;
+	}
+	else
+	{
+		table_printer.AddColumn("Aktualny rozmiar kolejki", 2);
+		table_printer.AddColumn("poczatek kolejki", 2);
+		table_printer.AddColumn("koniec kolejki", 2);
+		table_printer.PrintHeader();
+
+		std::cout << queue.size() << queue.front() << queue.back() << std::endl;
+
+		table_printer.PrintFooter();
+	}
 	
-	table_printer.PrintFooter();
 }
