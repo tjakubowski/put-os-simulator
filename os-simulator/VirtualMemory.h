@@ -4,39 +4,43 @@
 #include<vector>
 #include<string>
 #include<fstream>
+#include"Singleton.h"
 #include <vector>
 #include"Process.h"
 
 extern class Process;
 
-class VirtualMemory
-{
+class VMSegment {
 public:
-	static const int kvirtualmemory_size = 2048;
-	std::array<char, kvirtualmemory_size> pagefile;
-	std::vector<std::array<int, 2>> pagefile_segment_tab; // base and limit in array
+	
+	int base, limit;
+	VMSegment(int base, int limit) {
+		this->base = base;
+		this->limit = limit;
+	}
+	VMSegment() {
 
-	VirtualMemory();
-	~VirtualMemory();
-
-	int get_base(const int& limit); //znajduje adres poczatkowy adresowania 
-	int free_space_size();
-
-	std::vector<char> get_segment_to_RAM(const int& base, Process *pcb);
-
-	void load_program_from_file(Process* pcb);
-	void load_program_from_char_vector(const std::vector<char>& program, Process*pcb);
-
-	void remove_program_from_virtualmemory(const int &base);
-	void remove_segment_from_segment_tab(Process *pcb, const int &base);
-	void remove_process(Process*pcb);
-
-	void display_pagefile();
-	void display_pagefile_segment_tab();
-	void display_segment_tab(Process*pcb);
+	}
+	bool operator<(const VMSegment& s) const;
 };
 
+class VirtualMemory : public Singleton <VirtualMemory>{
+	friend class Singleton<VirtualMemory>;
+public:
+	static const int kvirtualmemory_size = 4096;
+	std::array<char, kvirtualmemory_size> pagefile;
+	std::vector<VMSegment> pagefile_segment_tab;
 
-
-
-
+	int get_base(const int& limit); //znajduje adres poczatkowy adresowania (wolne miejsce) 
+	VirtualMemory();
+	~VirtualMemory();
+	bool create_program(Process* pcb, std::string data);
+	bool load_to_virtualmemory(Process* pcb, const std::string data);
+	bool load_program_to_ram(Process* pcb);
+	bool delete_program(Process* pcb);//usuwa program z ram i vm
+	std::string get_segment(Process* pcb, const int segment);
+	void display_pagefile();
+	void display_pagefile_segment_tab();
+	void display_segment_tab(Process* pcb);
+	//bool create_program(Process* pcb, std::string data);//testowa
+};

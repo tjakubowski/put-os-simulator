@@ -1,3 +1,4 @@
+.data
 CF wynik.txt
 MI C 45
 JL 6
