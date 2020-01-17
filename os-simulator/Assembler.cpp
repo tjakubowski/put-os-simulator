@@ -52,17 +52,39 @@ void Assembler::set_licznik(int v)
 {
 	licznik = v;
 }
-/*
+
 void saveFile(Assembler& reg,Process*pcb)
 {
-	//std::string program=pcb->text_seg
-	
-	for (int i = reg.get_licznik, int j = 0; j < reg.ile_arg("TUTAJ STRING Z KOMENDAMI WSTAW"); i++)
+	string program = pcb->text_segment();
+	string pom_com = "";
+	string com = "";
+	com = program[reg.get_licznik()] + program[(reg.get_licznik() + 1)];
+	int i, j;
+	for (i = reg.get_licznik(), j = 0; j < reg.ile_arg(com)+1; i++)
 	{
-		if()
+		if (program[i] == ' ')
+		{
+			j++;
+		}
+		pom_com += program[i];
 	}
+	reg.runCommand(pom_com, reg);
+	reg.set_licznik(reg.countLine(pom_com) + 2);
 }
-*/
+
+int Assembler::countLine(std::string line)
+{
+	int licznik = 0;
+	for (int i = 0; i < line.size(); i++)
+	{
+		if (line[i] != ' ')
+		{
+			licznik++;
+		}
+	}
+	return licznik;
+}
+
 int Assembler::ile_arg(const string command)
 {
 	if (command == "AD")
@@ -512,13 +534,13 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 		//Tworzy pusty plik
 		//bool FileM::CreateFile(const std::string& name)
 		cout << "Tworzenie pliku wyjsciowego o nazwie: " << line[1] << endl;
-		{
+		
 			/*
 			fstream plik;
 			plik.open(line[1], ios::out);
 			plik.close();
 			*/
-		}
+		
 	}
 
 	else if (line[0] == "AF")
@@ -654,16 +676,19 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 void Assembler::runProgram()
 {
 	Assembler reg;
-	auto process_run = ProcessManager::GetInstance().running_process();
-	reg.set_A = process_run->set_ax;
-	reg.set_B = process_run->set_bx;
-	reg.set_C = process_run->set_cx;
-	reg.set_D = process_run->set_dx;
-	reg.get_licznik = process_run->set_instruction_counter;
+	auto process_run = ProcessManager::GetInstance().running_process(); // wykonywany proces process_run
+	reg.set_A(process_run->ax());
+	reg.set_B(process_run->bx());
+	reg.set_C(process_run->cx());
+	reg.set_D(process_run->dx());
+	reg.set_licznik(process_run->instruction_counter());
+	reg.saveFile(reg, process_run);
 
-	string com = reg.commands[reg.licznikLine];
-	runCommand(com, reg);
-	reg.licznikLine++;
+	process_run->set_ax(reg.get_A());
+	process_run->set_bx(reg.get_B());
+	process_run->set_cx(reg.get_C());
+	process_run->set_dx(reg.get_D());
+	//get_licznik jest wczesniej zrobione
 }
 /*
 int main()
