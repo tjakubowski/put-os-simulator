@@ -115,3 +115,13 @@ void Process::set_segment_tab(const std::vector<Segment*>& segment_tab)
 {
 	segment_tab_ = segment_tab;
 }
+
+std::string Process::text_segment() {
+	return segment_tab_[0]->data;
+}
+std::string Process::data_segment() {
+	return segment_tab_[1]->data;
+}
+std::string Process::message_segment() {
+	return segment_tab_[2]->data;
+}

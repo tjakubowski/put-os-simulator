@@ -42,6 +42,9 @@ public:
 	std::vector<Segment*> segment_tab_;//0 text segment, 1 data segment, 2 message
 	std::vector<Segment*> segment_tab() const;
 	void set_segment_tab(const std::vector<Segment*>& segment_tab);
+	std::string text_segment();
+	std::string data_segment();
+	std::string message_segment();
 	
 
 	void set_name(const std::string& name);
