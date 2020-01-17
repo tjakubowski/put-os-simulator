@@ -201,7 +201,7 @@ void RAM::show_RAM() {
 	std::cout << endl;
 	std::cout << endl;
 	for (int i = 0; i < 127; i++) {
-		std::cout << i << ": " << memory[i] << endl;
+		std::cout << i << ": " << memory[i] << "\t";
 	}
 }
 
