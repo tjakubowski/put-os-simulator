@@ -14,10 +14,10 @@ public:
 	struct File
 	{
 		Semaphore sem;
-		string name;
+		std::string name;
 		int adres;
 
-		File(string name, int adres) :sem(1)
+		File(std::string name, int adres) :sem(1)
 		{
 			this->name = name;
 			this->adres = adres;
