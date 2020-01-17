@@ -196,6 +196,7 @@ void RAM::delete_from_RAM(Process* process) {
 	int size = 0;
 	Free_blocks F_b;
 	int id = process->id();
+	auto segment_tab = process->segment_tab();
 	
 		list<RAM_process>::iterator it;
 		bool id_not_exist = true;
@@ -219,6 +220,12 @@ void RAM::delete_from_RAM(Process* process) {
 		F_b.size = it->size;
 		F_b.end = starting_point + F_b.size;
 		Free_blocks_list.push_back(F_b);
+
+		for (int i = 0; i < segment_tab.size(); i++) {
+			segment_tab[i]->baseRAM = -1;
+			segment_tab[i]->is_in_RAM = false;
+		}
+		process->set_segment_tab(segment_tab);
 
 		RAM_processes_list.erase(it);
 		merge_RAM();
