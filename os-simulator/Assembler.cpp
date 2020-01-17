@@ -1,5 +1,6 @@
-#include "Assembler.h"
 #include "pch.h"
+#include "Assembler.h"
+
 using namespace std;
 
 short int Assembler::get_A()
@@ -41,8 +42,61 @@ void Assembler::set_licznik(int v)
 {
 	licznik = v;
 }
+void Assembler::savefile(string withfile, Assembler& reg)
+{
+	int j = 0;
+	string pom = "";
+	string pomCommand[500];
 
+	for (int i = 0; i < withfile.size(); i++)
+	{
+		if (withfile[i] == ' ')
+		{
+			pomCommand[j] = pom;
+			j++;
+			pom = "";
+		}
+		else
+		{
+			pom += withfile[i];
+		}
+	}
+	pomCommand[j] = pom;
+	int ile = 0;
+	int x = 0;
+	for (int i = 0; i < j; i++)
+	{
 
+		ile = reg.ile_arg(pomCommand[i]);
+		if (ile == 0)
+		{
+			reg.commands[x] = "";
+			reg.commands[x] = pomCommand[i];
+		}
+		else if (ile == 1)
+		{
+
+			reg.commands[x] = pomCommand[i] + " " + pomCommand[++i];
+			i += 1;
+		}
+		else if (ile == 2)
+		{
+			reg.commands[x] = pomCommand[i] + " " + pomCommand[i + 1] + " " + pomCommand[i + 2];
+			i += 2;
+		}
+		else if (ile == 3)
+		{
+			reg.commands[x] = pomCommand[i] + " " + pomCommand[++i] + " " + pomCommand[++i] + " " + pomCommand[++i];
+			i += 3;
+		}
+		else if (ile == 4)
+		{
+			reg.commands[x] = pomCommand[i] + pomCommand[++i] + pomCommand[++i] + pomCommand[++i] + pomCommand[++i];
+			i = +4;
+		}
+		x++;
+	}
+}
 int Assembler::ile_arg(const string command)
 {
 	if (command == "AD")
@@ -125,17 +179,17 @@ string* Assembler::split(string toSplit)
 	return splitted;
 }
 
-void Assembler::runCommand(string c_line, Assembler &reg)
+void Assembler::runCommand(string c_line, Assembler& reg)
 {
-	string *line = split(c_line);
-	cout << line[0] << " " << line[1] << " " << line[2]<< " " << line[3] << endl;
+	string* line = split(c_line);
+	cout << line[0] << " " << line[1] << " " << line[2] << " " << line[3] << endl;
 
 	string ss = line[0] + line[1] + line[2] + line[3];
 	int size_ss = ss.size();
 	reg.set_licznik(reg.get_licznik() + size_ss);
 
 
-	if (line[0] == "MI")	
+	if (line[0] == "MI")
 	{
 		if (line[1] == "A")
 		{
@@ -183,7 +237,7 @@ void Assembler::runCommand(string c_line, Assembler &reg)
 			}
 		}
 	}
-	
+
 	else if (line[0] == "RD")
 	{
 		if (line[1] == "A")
@@ -208,12 +262,12 @@ void Assembler::runCommand(string c_line, Assembler &reg)
 			reg.set_C(val);
 		}
 	}
-	
-	else if (line[0] == "MV") 
+
+	else if (line[0] == "MV")
 	{
 		if (line[1] == "A")
 		{
-			if(line[2] == "B")
+			if (line[2] == "B")
 			{
 				reg.set_A(reg.get_B());
 			}
@@ -262,15 +316,15 @@ void Assembler::runCommand(string c_line, Assembler &reg)
 	{
 		if (line[1] == "A")
 		{
-			if(line[2]=="A")
+			if (line[2] == "A")
 			{
 				reg.set_A(reg.get_A() + reg.get_A());
 			}
-			else if(line[2] == "B")
+			else if (line[2] == "B")
 			{
 				reg.set_A(reg.get_A() + reg.get_B());
 			}
-			else if(line[2]=="C")
+			else if (line[2] == "C")
 			{
 				reg.set_A(reg.get_A() + reg.get_C());
 			}
@@ -281,7 +335,7 @@ void Assembler::runCommand(string c_line, Assembler &reg)
 		}
 		else if (line[1] == "B")
 		{
-			if(line[2]=="A")
+			if (line[2] == "A")
 			{
 				reg.set_B(reg.get_B() + reg.get_A());
 			}
@@ -305,7 +359,7 @@ void Assembler::runCommand(string c_line, Assembler &reg)
 			{
 				reg.set_C(reg.get_C() + reg.get_A());
 			}
-			else if(line[2] == "B")
+			else if (line[2] == "B")
 			{
 				reg.set_C(reg.get_C() + reg.get_B());
 			}
@@ -319,7 +373,7 @@ void Assembler::runCommand(string c_line, Assembler &reg)
 			}
 		}
 	}
-	
+
 	else if (line[0] == "SB")
 	{
 		if (line[1] == "A")
@@ -380,97 +434,97 @@ void Assembler::runCommand(string c_line, Assembler &reg)
 			}
 		}
 	}
-	
+
 	else if (line[0] == "MU")
 	{
 		if (line[1] == "A")
 		{
 			if (line[2] == "A")
 			{
-				reg.set_A(reg.get_A() *reg.get_A());
+				reg.set_A(reg.get_A() * reg.get_A());
 			}
 			else if (line[2] == "B")
 			{
-				reg.set_A(reg.get_A() *reg.get_B());
+				reg.set_A(reg.get_A() * reg.get_B());
 			}
 			else if (line[2] == "C")
 			{
-				reg.set_A(reg.get_A() *reg.get_C());
+				reg.set_A(reg.get_A() * reg.get_C());
 			}
 			else
 			{
-				reg.set_A(reg.get_A() *stoi(line[2]));
+				reg.set_A(reg.get_A() * stoi(line[2]));
 			}
 		}
 		else if (line[1] == "B")
 		{
 			if (line[2] == "A")
 			{
-				reg.set_B(reg.get_B() *reg.get_A());
+				reg.set_B(reg.get_B() * reg.get_A());
 			}
 			else if (line[2] == "B")
 			{
-				reg.set_B(reg.get_B() *reg.get_B());
+				reg.set_B(reg.get_B() * reg.get_B());
 			}
 			else if (line[2] == "C")
 			{
-				reg.set_B(reg.get_B() *reg.get_C());
+				reg.set_B(reg.get_B() * reg.get_C());
 			}
 			else
 			{
-				reg.set_B(reg.get_B() *stoi(line[2]));
+				reg.set_B(reg.get_B() * stoi(line[2]));
 			}
 		}
 		else if (line[1] == "A")
 		{
 			if (line[2] == "A")
 			{
-				reg.set_C(reg.get_C() *reg.get_A());
+				reg.set_C(reg.get_C() * reg.get_A());
 			}
 			else if (line[2] == "B")
 			{
-				reg.set_C(reg.get_C() *reg.get_B());
+				reg.set_C(reg.get_C() * reg.get_B());
 			}
 			else if (line[2] == "C")
 			{
-				reg.set_C(reg.get_C() *reg.get_C());
+				reg.set_C(reg.get_C() * reg.get_C());
 			}
 			else
 			{
-				reg.set_C(reg.get_C() *stoi(line[2]));
+				reg.set_C(reg.get_C() * stoi(line[2]));
 			}
 		}
 	}
-	
+
 	else if (line[0] == "JC")
 	{
 		if (reg.get_C() != 0)
 			reg.set_licznik(stoi(line[1]));
 	}
-	
+
 	else if (line[0] == "JZ")
 	{
 		if (reg.get_C() == 0)
 			reg.set_licznik(stoi(line[1]));
 	}
-	
+
 	else if (line[0] == "JL")
 	{
 		if (reg.get_C() < 0)
 			reg.set_licznik(stoi(line[1]));
 	}
-	
+
 	else if (line[0] == "JP")
 	{
 		reg.set_licznik(stoi(line[1]));
 	}
-	
+
 	else if (line[0] == "JM")
 	{
 		if (reg.get_C() > 0)
 			reg.set_licznik(stoi(line[1]));
 	}
-	
+
 	else if (line[0] == "PR")
 	{
 		if (line[1] == "A")
@@ -486,29 +540,33 @@ void Assembler::runCommand(string c_line, Assembler &reg)
 			cout << reg.get_C();
 		}
 	}
-	
+
 	else if (line[0] == "CF")
 	{
 		//Tworzy pusty plik
 		//bool FileM::CreateFile(const std::string& name)
 		cout << "Tworzenie pliku wyjsciowego o nazwie: " << line[1] << endl;
 		{
+			/*
 			fstream plik;
 			plik.open(line[1], ios::out);
 			plik.close();
+			*/
 		}
 	}
 
 	else if (line[0] == "AF")
 	{
-			//zapisz tresc do pliku o podanej nazwie
-			//bool WriteFile(const std::string& name, const std::string& tresc);
-			fstream plik;
-			plik.open(line[1], ios::app);
-			plik << (char)stoi(line[2]);
-			plik.close();
+		//zapisz tresc do pliku o podanej nazwie
+		//bool WriteFile(const std::string& name, const std::string& tresc);
+		/*
+		fstream plik;
+		plik.open(line[1], ios::app);
+		plik << (char)stoi(line[2]);
+		plik.close();
+		*/
 	}
-	
+
 	else if (line[0] == "AR")
 	{
 		if (line[2] == "A")
@@ -527,7 +585,7 @@ void Assembler::runCommand(string c_line, Assembler &reg)
 			//bool WriteFile(const std::string& name, const std::string& tresc);
 		}
 	}
-	
+
 	else if (line[0] == "IC")
 	{
 		if (line[1] == "A")
@@ -543,8 +601,8 @@ void Assembler::runCommand(string c_line, Assembler &reg)
 			reg.set_C(reg.get_C() + 1);
 		}
 	}
-	
-	else if (line[0] == "DC") 
+
+	else if (line[0] == "DC")
 	{
 		if (line[1] == "A")
 		{
@@ -559,27 +617,27 @@ void Assembler::runCommand(string c_line, Assembler &reg)
 			reg.set_C(reg.get_C() - 1);
 		}
 	}
-	
+
 	else if (line[0] == "PS")		// Tworzy proces
 	{
-		ProcessManager::GetInstance().CreateProcess(line[1],line[2], stoi(line[3]));
+		//ProcessManager::GetInstance().CreateProcess(line[1],line[2], stoi(line[3]));
 	}
-	
+
 	else if (line[0] == "PO")		// Otwiera proces
 	{
 
 	}
-	
+
 	else if (line[0] == "PC")		//Zamyka proces
 	{
 
 	}
-	
-	else if (line[0] == "PD" )		//Kasuje proces
+
+	else if (line[0] == "PD")		//Kasuje proces
 	{
-	ProcessManager::GetInstance().KillProcess(line[1]);
+		//ProcessManager::GetInstance().KillProcess(line[1]);
 	}
-	
+
 	else if (line[0] == "FO")
 	{
 		//otwiera plik
@@ -591,13 +649,13 @@ void Assembler::runCommand(string c_line, Assembler &reg)
 		//zamyka plik
 		//bool FileM::CloseFile(const std::string& name);
 	}
-	
+
 	else if (line[0] == "DF")
 	{
 		//kasuje plik
 		//bool FileM::DeleteFile(const std::string& name)
 	}
-	
+
 	else if (line[0] == "PF")
 	{
 		//wyswietla plik
@@ -620,28 +678,34 @@ void Assembler::runCommand(string c_line, Assembler &reg)
 		reg.set_licznik(-1);
 		cout << "Koniec programu ";
 	}
-	else 
+	else
 	{
 		std::cout << "\nNierozpoznano rozkazu " << line[0];
 	}
 }
 
 //do tej funkcji dostaje stringa od Kacpra po tym jak ustalimy juz ile argumentow rozkaz i dostaje go calego xd
-void Assembler::runProgram(string program, Assembler &reg)
+void Assembler::runProgram(Assembler& reg)
 {
-	string com = program;
+	string com = reg.commands[reg.licznikLine];
 	runCommand(com, reg);
+	reg.licznikLine++;
 }
 /*
 int main()
 {
-	Assembler ass;
+	Assembler reg;
 	string program;
 	cout << "\nPodaj program: ";
-	cin >> program;
-	cout << ass.ile_arg(program);
-	runProgram(program,ass);
+	getline(cin, program);
+
+
+	reg.savefile(program, reg);
+	//reg.runCommand(reg);
+	reg.runProgram(reg);
+	reg.runProgram(reg);
 	system("pause");
 	return 0;
+
 }
 */
