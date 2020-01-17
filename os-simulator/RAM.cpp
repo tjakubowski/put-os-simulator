@@ -10,7 +10,7 @@ bool compare(const Free_blocks& a, const Free_blocks& b) {
 	return a.begining < b.begining;
 }
 
-int RAM::add_to_RAM(Process* process) { //zamienic na process
+int RAM::add_to_RAM(Process* process,const int& segment) { //zamienic na process
 	fstream file;
 	string commands, help, line[128];
 	int max_size = 0;
@@ -20,7 +20,7 @@ int RAM::add_to_RAM(Process* process) { //zamienic na process
 	
 	int length = 0, counter = 0;
 	auto segment_tab = process->segment_tab();
-	if (segment_tab[1]->data != "") {
+	if (segment_tab[segment]->data != "") {
 		help = segment_tab[1]->data;
 		length = help.size();
 		
@@ -152,8 +152,8 @@ int RAM::add_to_RAM(Process* process) { //zamienic na process
 					RAM_process.start = F_b.begining - length;
 					RAM_processes_list.push_back(RAM_process);
 
-					segment_tab[1]->is_in_RAM = true;
-					segment_tab[1]->baseRAM = RAM_process.start;
+					segment_tab[segment]->is_in_RAM = true;
+					segment_tab[segment]->baseRAM = RAM_process.start;
 					process->set_segment_tab(segment_tab);
 
 
