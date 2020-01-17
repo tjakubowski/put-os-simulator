@@ -21,7 +21,6 @@ public:
 		{
 			this->name = name;
 			this->adres = adres;
-
 		}
 		File() :sem(1)
 		{
