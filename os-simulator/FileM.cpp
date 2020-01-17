@@ -16,13 +16,13 @@ bool FileM::Clearall()
 	}
 }
 
-string FileM::OpenFile(Process*pcb)
+std::string FileM::OpenFile(Process*pcb)
 {
 	std::string name = pcb->file_name();//nazwa pliku powinno byc filename 
 	std::string ProcessName = pcb->name();
 	if (InvestigateFile(name) == false)
 	{
-			std::cout << "Blad: Nie istnieje plik o nazwie " << name << endl;
+			std::cout << "Blad: Nie istnieje plik o nazwie " << name << "\n";
 		//	return false;//jak moze byc w funkcji ktora zwraca stringa return false???
 	}
 	
@@ -35,7 +35,7 @@ string FileM::OpenFile(Process*pcb)
 
 bool FileM::CloseFile(std::string ProcessName)
 {
-	Signal(ProcessName);
+	//Signal(ProcessName);
 }
 
 //Szuka pierwszego wolnego bloku w FAT
@@ -62,7 +62,7 @@ bool FileM::CreateFile(const std::string& name)
 
 	if (temp == -1)
 	{
-		std::cout << "Blad: Brak wolnego miejsca na dysku" << endl;
+		std::cout << "Blad: Brak wolnego miejsca na dysku\n";
 		return false;
 	}
 
@@ -73,7 +73,7 @@ bool FileM::CreateFile(const std::string& name)
 			return false;
 	}
 
-	DIR.File(name, temp);
+	//DIR.File(name, temp);
 
 	DIR.Name[temp2-1] = name;
 	DIR.First[temp2-1] = temp;
@@ -105,7 +105,7 @@ bool FileM::DeleteFile(const std::string& name)
 	int x = FindFile(name);
 	if (x == -1)
 	{
-		std::cout << "Blad: Nie istnieje plik o nazwie " << name << endl;
+		std::cout << "Blad: Nie istnieje plik o nazwie " << name << "\n";
 		return false;
 	}
 	
@@ -144,14 +144,14 @@ bool FileM::AddNewName(const std::string& name, const std::string& name2)
 	int x = FindFile(name);
 	if (x == -1)
 	{
-		std::cout << "Blad: Nie istnieje plik o nazwie " << name << endl;
+		std::cout << "Blad: Nie istnieje plik o nazwie " << name << "\n";
 		return false;
 	}
 
 	int temp = FindFreeDirectory();
 	if (temp == -1)
 	{
-		std::cout << "Blad: Nie istnieje plik o nazwie " << name << endl;
+		std::cout << "Blad: Nie istnieje plik o nazwie " << name << "\n";
 		return false;
 	}
 	DIR.Name[temp] += name2;
@@ -167,19 +167,21 @@ bool FileM::ReplaceNewName(const std::string& name, const std::string& name2)
 			DIR.Name[i] = name2;
 		if (i == dysk.BlockCount - 1 && DIR.Name[i] != name2)
 		{
-			std::cout << "Blad: Nie istnieje plik o nazwie " << name << endl;
+			std::cout << "Blad: Nie istnieje plik o nazwie " << name << "\n";
 			return false;
 		}
 	}
 	return true;
 }
 
+
+/*
 bool FileM::WriteFile(const std::string& name, const std::string& tresc)
 {
 	int z[32], DoDysku, LicznikBitow = 0, PoprzedniBlok, temp;
 	int DlugoscTresci = tresc.length();
 	int x = FindFile(name);
-	const char  cstr[tresc.size()+1];
+	char  cstr[tresc.size()+1];
 	//std::copy(tresc.begin(), tresc.end(), cstr);
 	//cstr[tresc.size()]='\n';
 
@@ -240,13 +242,13 @@ bool FileM::WriteFile(const std::string& name, const std::string& tresc)
 	}
 	return true;
 }
-
+*/
 bool FileM::PrintFile(const std::string& name)
 {
 	int x = FindFile(name);
 	if (x == -1)
 	{
-		std::cout << "Blad: Nie istnieje plik o nazwie " << name << endl;
+		std::cout << "Blad: Nie istnieje plik o nazwie " << name << "\n";
 		return false;
 	}
 	for (int i = 0; i < dysk.BlockSize; i++)
@@ -263,9 +265,9 @@ bool FileM::PrintFile(const std::string& name)
 
 
 		}
-		temp = FileTable.Next[temp];s
+		temp = FileTable.Next[temp];
 	}
-	cout<<("\n");
+	std::cout<<("\n");
 	return true;
 }
 
@@ -286,7 +288,6 @@ bool FileM::ListFAT() const
 			printf("%d. Busy: True, Nastepny Blok Pamieci: %d\n", i+1, FileTable.Next[i]);
 		else
 			printf("%d. Busy: False, Nastepny Blok Pamieci: -\n", i+1);
-
 	}
 }
 
@@ -306,18 +307,18 @@ bool FileM::Stats() const
 {
 	std::string Wyswietl;
 	Wyswietl += "Miejsce (wolne/max): " + std::to_string(FreeBlockCount) + "/" + std::to_string(dysk.BlockCount) + '\n';
-	cout<<Wyswietl;
+	std::cout<<Wyswietl;
 
 }
 
-string FileM::SendFile(const std::string& name)
+std::string FileM::SendFile(const std::string& name)
 {
 	std::string data = "";
 
 	int x = FindFile(name);
 	if (x == -1)
 	{
-		std::cout << "Blad: Nie istnieje plik o nazwie " << name << endl;
+		std::cout << "Blad: Nie istnieje plik o nazwie " << name << "\n";
 		return false;
 	}
 
