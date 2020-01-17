@@ -13,6 +13,9 @@
 class FileM : public Singleton<FileM>
 {
 	
+
+
+
 public:
 	friend class Singleton<FileM>;
 	FileM();
