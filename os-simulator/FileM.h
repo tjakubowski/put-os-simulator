@@ -12,15 +12,12 @@
 
 class FileM : public Singleton<FileM>
 {
-	
-
-
 
 public:
 	friend class Singleton<FileM>;
 	FileM();
 	//Instrukcja Otworzenia Pliku
-	bool OpenFile(const std::string& name);
+	string OpenFile(const std::string& name, std::string ProcessName);
 	//instrukcja Zamknięcia Pliku
 	bool CloseFile(const std::string& name);
 	//stworz plik

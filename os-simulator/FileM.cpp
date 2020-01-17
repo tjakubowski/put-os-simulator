@@ -16,24 +16,24 @@ bool FileM::Clearall()
 	}
 }
 
-bool FileM::OpenFile(const std::string& name, int process_id)
+string FileM::OpenFile(const std::string& name, std::string ProcessName)
 {
 	if (InvestigateFile(name) == false)
 	{
 			std::cout << "Blad: Nie istnieje plik o nazwie " << name << endl;
-		return false;
+			return false;
 	}
 	
-	 Wait(std::string& name);
+	 Wait(ProcessName);
 	
 	//przeslij PLIK stringiem.
-	SendFile(name);
+	return SendFile(name);
 
 }
 
-bool FileM::CloseFile(const std::string& name)
+bool FileM::CloseFile(std::string ProcessName)
 {
-	Semaphore::Signal;
+	Signal(ProcessName);
 }
 
 //Szuka pierwszego wolnego bloku w FAT
@@ -58,9 +58,6 @@ bool FileM::CreateFile(const std::string& name)
 	int hjelp;
 	hjelp = FindFreeBlock();
 
-
-
-
 	if (hjelp == -1)
 	{
 		std::cout << "Blad: Brak wolnego miejsca na dysku" << endl;
@@ -73,6 +70,8 @@ bool FileM::CreateFile(const std::string& name)
 			std::cout<<("Blad: FFD zwrocilo -1 kiedy niepowinno\n");
 			return false;
 	}
+
+	DIR.File(name, hjelp);
 
 	DIR.Name[hjelp2-1] = name;
 	DIR.First[hjelp2-1] = hjelp;
