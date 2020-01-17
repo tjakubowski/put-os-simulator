@@ -5,6 +5,9 @@
 #include <iostream>
 #include "TablePrinter.h"
 #include "Process.h"
+#include "RAM.h"
+#include "VirtualMemory.h"
+#include "CPU.h"
 #include "Singleton.h"
 
 class ProcessManager : public Singleton<ProcessManager>

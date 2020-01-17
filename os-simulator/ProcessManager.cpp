@@ -1,6 +1,5 @@
 ﻿#include "pch.h"
 #include "ProcessManager.h"
-#include "RAM.h"
 
 int ProcessManager::last_process_id_ = 0;
 
@@ -28,6 +27,8 @@ void ProcessManager::SetProcessNew(Process* process)
 {
 	process->set_process_state(Process::New);
 	new_processes_.push_back(process);
+
+	std::sort(new_processes_.begin(), new_processes_.end(), [](Process* process1, Process* process2) { return process1->priority() > process2->priority(); });
 }
 
 Process* ProcessManager::CreateProcess(std::string process_name, std::string process_file, const int priority)
@@ -36,11 +37,12 @@ Process* ProcessManager::CreateProcess(std::string process_name, std::string pro
 	processes_.push_back(process);
 
 	SetProcessNew(process);
-	// TODO: Call adding process to virtual memory
+	// TODO: Get process code from FAT
+	// VirtualMemory::GetInstance().create_program(process, );
 	
 	try
 	{
-		// TODO: Call adding process to RAM
+		RAM::GetInstance().add_to_RAM(process);
 		SetProcessReady(process);
 	}
 	catch (std::exception & e)
@@ -48,7 +50,7 @@ Process* ProcessManager::CreateProcess(std::string process_name, std::string pro
 		std::cout << e.what();
 	}
 
-	// TODO: Call scheduler
+	CPU_M::GetInstance().scheduling();
 
 	return process;
 }
@@ -73,9 +75,22 @@ void ProcessManager::KillProcess(Process* process)
 
 	RemoveFromVector(process, processes_);
 
-	// TODO: Call deleting process memory
-	// TODO: Iterate over new processes and try to allocate them in RAM
-	// TODO: Call scheduler
+	for(auto& process : new_processes_)
+	{
+		try
+		{
+			RAM::GetInstance().add_to_RAM(process);
+			SetProcessReady(process);
+		}
+		catch (std::exception & e)
+		{
+		}
+	}
+
+	RAM::GetInstance().delete_from_RAM(process);
+	VirtualMemory::GetInstance().delete_program(process);
+
+	CPU_M::GetInstance().scheduling();
 
 	delete process;
 }
