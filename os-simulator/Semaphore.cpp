@@ -1,37 +1,31 @@
-
 #include "pch.h"
-#include <iostream>
 #include "Semaphore.h"
-#include "ProcessManager.h"
-Semaphore::Semaphore(int k, ProcessManager *process)
+#include <string>
+
+
+Semaphore::Semaphore(int k)
 {
 	value = k;
-	ProcessM = process;
 }
-bool Semaphore::Wait()
+void Semaphore::Wait(std::string name)
 {
 	if (value > 0)
 	{
-		value = value - 1;
-		return true;								//wykonujê siê 
+		value--;
 	}
-
 	else
 	{
-		string active_processes = Semaphore::ProcessM->GetProcess->name();
-		queue.push(active_processes);
-		Semaphore::ProcessM->PrintWaitingProcesses();
-		
-		
-		return false;								//nie 
+		value--;
+		queue.push(name);
+		ProcessManager::GetInstance().SetProcessWaiting(name);
 	}
 }
 void Semaphore::Signal()
-{ 
+{
 	if (queue.empty() == false)
 	{
-		string procesName = queue.front();
-		Semaphore::ProcessM->PrintReadyProcesses();
+		string name = queue.front();
+		ProcessManager::GetInstance().SetProcessReady(name);
 		queue.pop();
 		value++;
 	}
@@ -44,3 +38,25 @@ void Semaphore::Signal()
 
 
 //interfejs pracy krokowej 
+
+void Semaphore::show_Semaphore() 
+{
+
+
+	TablePrinter table_printer;
+	table_printer.AddColumn("Aktualny stan Semaphora", 3);
+	
+	table_printer.PrintHeader();
+	table_printer << value;
+	table_printer.PrintFooter();
+
+	TablePrinter table_printer;
+	table_printer.AddColumn("Aktualny rozmiar kolejki", 2);
+	table_printer.AddColumn("poczatek kolejki", 2);
+	table_printer.AddColumn("koniec kolejki", 2);
+	table_printer.PrintHeader();
+	
+		std::cout << queue.size()<<queue.front()<<queue.back() << std::endl;
+	
+	table_printer.PrintFooter();
+}

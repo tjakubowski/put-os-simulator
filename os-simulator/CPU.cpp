@@ -1,14 +1,14 @@
 #include "pch.h"
 #include "CPU.h"
 #include "Process.h"
+#include "ProcessManager.h"
 #include <iostream>
 #include <vector>
 
 
-void CPU_M::insert_to_heap(std::vector<Process*> &heap, Process *P)
+void CPU_M::insert_to_heap(std::vector<Process*> &heap, Process *p)
 {
-	heap.push_back(P);
-	
+	heap.push_back(p);
 	order_heap(heap);
 }
 
@@ -55,23 +55,44 @@ void CPU_M::order_heap(std::vector<Process*> &heap){
 	}
 }
 
-
-
 void CPU_M::scheduling(std::vector<Process*> &heap)
 {
-	//
+	if (heap.size() > 1) {
+		int pos;
+		int tmp_id = heap[0]->id();
+		for (int i = 1; i < heap.size(); i++) {
+			
+			int tmp_p = heap[0]->priority();
+			if (heap[i]->priority() && heap[i]->id() < heap[i]->id()) {
+				tmp_id = heap[i]->id();
+			}
+
+		}
+		for (int i = 1; i < heap.size(); i++) {
+			if (heap[i]->id() == tmp_id) {
+				pos = i;
+				break;
+			}
+		}
+		ProcessManager::GetInstance().SetProcessRunning(heap[pos]);
+
+	}
+	else {
+		ProcessManager::GetInstance().SetProcessRunning(heap[0]);
+		heap.erase(heap.begin());
+	}
 }
 
 //just compare processes' priorities
-bool CPU_M::compare(Process *P1, Process *P2){
-	if (P1->priority() > P1->priority()) {
+bool CPU_M::compare(Process *p1, Process *p2){
+	if (p1->priority() > p2->priority()) {
 		return true;
 	}
 	else return false;
 }
 
 
-void CPU_M::printheap(std::vector<Process*> &heap){
+void CPU_M::print_heap(std::vector<Process*> &heap){
 	int n = heap.size();
 	for(int i = 0; i < n; i++){
 		std::cout<< "P.id: " << heap[i]->id() << " P.priority: " << heap[i]->priority();
