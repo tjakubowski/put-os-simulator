@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 
 #include <bitset>
 #include <string>
@@ -7,16 +7,19 @@
 #include "Disc.h"
 #include "FAT.h"
 #include "DirectoryFile.h"
+#include "Semaphore.h"
 
 
-class FileM
+class FileM : public Singleton<FileM>
 {
+	
 public:
+	friend class Singleton<FileM>;
 	FileM();
-
+	//Instrukcja Otworzenia Pliku
 	bool OpenFile(const std::string& name);
+	//instrukcja Zamknięcia Pliku
 	bool CloseFile(const std::string& name);
-
 	//stworz plik
 	bool CreateFile(const std::string& name);
 	//usun plik
@@ -27,9 +30,11 @@ public:
 	bool ReplaceNewName(const std::string& name, const std::string& name2);
 	//zapisz tresc do pliku o podanej nazwie
 	bool WriteFile(const std::string& name, const std::string& tresc);
-	//Wczytuje plik do string::output
+	//Przesyla plik jako string
+	string SendFile(const std::string& name);
+	//Wyswietla plik za pomoca couta
 	bool PrintFile(const std::string& name);
-	//Szuka pliku 1 - istnieje 0 - nie istnieje
+	//Szuka pliku true - istnieje false - nie istnieje
 	bool InvestigateFile(const std::string& name);
 	//Wyswietla pliki w katalogu
 	bool ListDirectory() const;
@@ -41,11 +46,12 @@ public:
 	Drive dysk;
 	FAT FileTable;
 	DirectoryFile DIR;
+	
 
 
 private:
 	int FreeBlockCount;
-	int FindFree();
+	
 	int FindFreeBlock();
 
 	int FindFile(const std::string& name);

@@ -6,42 +6,48 @@
 //Zeruje Tablice FAT i DIR
 bool FileM::Clearall()
 {
-	for (int i = 0; i < Drive::BlockCount; i++)
+	for (int i = 0; i < dysk.BlockCount; i++)
 	{
 		FileTable.Next[i] = 0;
 		FileTable.Busy[i] = false;
-		FreeBlockCount = Drive::BlockCount;
+		FreeBlockCount = dysk.BlockCount;
 		DIR.Name[i] ="";
 	}
 }
 
-bool FileM::OpenFile(const std::string& , int process_id)
+bool FileM::OpenFile(const std::string& name, int process_id)
 {
-
-	Semaphore::Wait();
-
+		if (InvestigateFile(name) == false)
+	{
+			std::cout << "Blad: Nie istnieje plik o nazwie " << name << endl;
+		return false;
+	}
+	
+	 Wait(std::string& name);
+	
+	//przeslij PLIK stringiem.
 	PrintFile(name);
+	
+	
 
 }
 
 bool FileM::CloseFile(const std::string& name)
 {
-	Semaphore::Signal();
-
-
+	Semaphore::Signal;
 }
 
 //Szuka pierwszego wolnego bloku w FAT
 int FileM::FindFreeBlock()
 {
-	for (int i = 0; i < Drive::BlockCount; i++)
+	for (int i = 0; i < dysk.BlockCount; i++)
 		if (!FileTable.Busy[i] == false) return i+1;
 	return -1;
 }
 //Szuka pierwszego wolnego miejsca w katalogu
 int  FileM::FindFreeDirectory()
 {
-	for (int i = 0; i < Drive::BlockCount; i++)
+	for (int i = 0; i < dysk.BlockCount; i++)
 		if (DIR.Name[i] == "") return i+1;
 
 	return -1;
@@ -54,16 +60,18 @@ bool FileM::CreateFile(const std::string& name)
 	hjelp = FindFreeBlock();
 
 
+
+
 	if (hjelp == -1)
 	{
-		printf_s("Blad: Brak wolnego miejsca na dysku\n");
+		std::cout << "Blad: Brak wolnego miejsca na dysku" << endl;
 		return false;
 	}
 
 	int hjelp2 = FindFreeDirectory();
 	if (hjelp2 == -1)
 	{
-			printf_s("Blad: FFD zwrocilo -1 kiedy niepowinno\n");
+			std::cout<<("Blad: FFD zwrocilo -1 kiedy niepowinno\n");
 			return false;
 	}
 
@@ -80,9 +88,8 @@ bool FileM::CreateFile(const std::string& name)
 int FileM::FindFile(const std::string& name)
 {
 	int hjelp;
-	for (int i = 0; i < Drive::BlockCount; i++)
+	for (int i = 0; i < dysk.BlockCount; i++)
 	{
-
 		if (DIR.Name[i] == name)
 		{
 			hjelp = DIR.First[i];
@@ -90,9 +97,7 @@ int FileM::FindFile(const std::string& name)
 		}
 
 	}
-
 	return -1;
-
 }
 
 bool FileM::DeleteFile(const std::string& name)
@@ -100,12 +105,12 @@ bool FileM::DeleteFile(const std::string& name)
 	int x = FindFile(name);
 	if (x == -1)
 	{
-		printf_s("Blad: Nie istnieje plik o nazwie %s\n", name);
+		std::cout << "Blad: Nie istnieje plik o nazwie " << name << endl;
 		return false;
 	}
 	
 	//Usuwanie innych nazw
-	for (int i = 0; i < Drive::BlockCount; i++)
+	for (int i = 0; i < dysk.BlockCount; i++)
 	{
 		if (DIR.First[i] == x)
 		{
@@ -139,15 +144,15 @@ bool FileM::AddNewName(const std::string& name, const std::string& name2)
 	int x = FindFile(name);
 	if (x == -1)
 	{
-		printf_s("Blad: Nie istnieje plik o nazwie %s\n", name.data());
+		std::cout << "Blad: Nie istnieje plik o nazwie " << name << endl;
 		return false;
 	}
 
 	int hjelp = FindFreeDirectory();
 	if (hjelp == -1)
 	{
-			printf_s("Blad: FFD zwrocilo -1 kiedy niepowinno\n");
-			return false;
+		std::cout << "Blad: Nie istnieje plik o nazwie " << name << endl;
+		return false;
 	}
 	DIR.Name[hjelp] += name2;
 	DIR.First[hjelp] = x;
@@ -156,13 +161,13 @@ bool FileM::AddNewName(const std::string& name, const std::string& name2)
 
 bool FileM::ReplaceNewName(const std::string& name, const std::string& name2)
 {
-	for (int i = 0; i < Drive::BlockCount; i++)
+	for (int i = 0; i < dysk.BlockCount; i++)
 	{
 		if (DIR.Name[i] == name)
 			DIR.Name[i] = name2;
-		if (i == Drive::BlockCount - 1 && DIR.Name[i] != name2)
+		if (i == dysk.BlockCount - 1 && DIR.Name[i] != name2)
 		{
-			printf_s("Blad: Nie istnieje plik o nazwie %s\n", name.data());
+			std::cout << "Blad: Nie istnieje plik o nazwie " << name << endl;
 			return false;
 		}
 	}
@@ -171,30 +176,33 @@ bool FileM::ReplaceNewName(const std::string& name, const std::string& name2)
 
 bool FileM::WriteFile(const std::string& name, const std::string& tresc)
 {
-	int z[32], y = 0, DoDysku, LicznikBitow = 0, PoprzedniBlok;
-	int hjelp = tresc.length();
+	int z[32], DoDysku, LicznikBitow = 0, PoprzedniBlok, hjelp;
+	int DlugoscTresci = tresc.length();
 	int x = FindFile(name);
 	const char  cstr[tresc.size()+1];
-	std::copy(tresc.begin(), tresc.end(), cstr);
-	cstr[tresc.size()]='\n';
+	//std::copy(tresc.begin(), tresc.end(), cstr);
+	//cstr[tresc.size()]='\n';
 
+	//Sprawdzamy czy istnieje taki plik
 	if (x == -1)
 	{
-		printf_s("Blad: Nie istnieje plik o nazwie %s\n", name.data());
+		std::cout << "Blad: Nie istnieje plik o nazwie " << name << "\n";
 		return false;
 	}
-	
+
 	for (int i = 0; i < 32; i++)
 	{
 		z[i] = -1;
 	}
+	int y = 0;
+
 	//Szukamy dodatkowych blokow
-	while(hjelp > 32)
+	while (DlugoscTresci > 32)
 	{
 		z[y] = FindFreeBlock();
 		if (hjelp == -1)
 		{
-			printf_s("Blad: Brak wolnego miejsca na dysku\n");
+			std::cout <<"Blad: Brak wolnego miejsca na dysku\n";
 			return false;
 		}
 		FileTable.Busy[z[y]] = true;
@@ -204,15 +212,15 @@ bool FileM::WriteFile(const std::string& name, const std::string& tresc)
 		PoprzedniBlok = z[y];
 
 		y++;
-		hjelp = hjelp - 32;
+		DlugoscTresci = DlugoscTresci - 32;
 	}
-	DoDysku = (x - 1)*Drive::BlockSize;
+	DoDysku = (x - 1)*dysk.BlockSize;
 	//Przepisywanie tresci dla pierwszego bloku pamieci
-	for (int i = 0; i < Drive::BlockSize; i++)
+	for (int i = 0; i < dysk.BlockSize; i++)
 	{
 		dysk.A[DoDysku + i] = cstr[LicznikBitow];
 		LicznikBitow++;
-		if (LicznikBitow == tresc.size() + 1)
+		if (LicznikBitow == tresc.length())
 			break;
 	}
 	//Dla kolejnych
@@ -221,8 +229,8 @@ bool FileM::WriteFile(const std::string& name, const std::string& tresc)
 		if (z[i] == -1)
 			break;
 		
-		DoDysku = z[i] * Drive::BlockSize;
-		for (int j = 0; j < Drive::BlockSize; j++)
+		DoDysku = z[i] * dysk.BlockSize;
+		for (int j = 0; j < dysk.BlockSize; j++)
 		{
 			dysk.A[DoDysku + j] = cstr[LicznikBitow];
 			LicznikBitow++;
@@ -238,11 +246,10 @@ bool FileM::PrintFile(const std::string& name)
 	int x = FindFile(name);
 	if (x == -1)
 	{
-		printf_s("Blad: Nie istnieje plik o nazwie %s\n", name.data());
+		std::cout << "Blad: Nie istnieje plik o nazwie " << name << endl;
 		return false;
 	}
-
-	for (int i = 0; i < Drive::BlockSize; i++)
+	for (int i = 0; i < dysk.BlockSize; i++)
 	{
 		printf("%c", dysk.A[x * 32+i]);
 
@@ -250,30 +257,30 @@ bool FileM::PrintFile(const std::string& name)
 	int hjelp;
 	while (hjelp != -1)
 	{
-		for (int i = 0; i < Drive::BlockSize; i++)
+		for (int i = 0; i < dysk.BlockSize; i++)
 		{
 			printf("%s", dysk.A[x * 32 + i]);
 
 
 		}
-		hjelp = FileTable.Next[hjelp];
+		hjelp = FileTable.Next[hjelp];s
 	}
-	printf("\n");
+	cout<<("\n");
 	return true;
 }
 
 bool FileM::ListDirectory() const
 {
-	for (int i = 0; i < Drive::BlockCount; i++)
+	for (int i = 0; i < dysk.BlockCount; i++)
 	{
 		if (DIR.Name[i] != "")
-			printf("Nazwa: %s Pierwszy Blok Pamieci: %d\n", DIR.Name[i], DIR.First[i]);
+		std::cout<<"Nazwa: " << DIR.Name[i]<<"  Pierwszy Blok Pamieci:"<< DIR.First[i] << "\n";
 	}
 }
 
 bool FileM::ListFAT() const
 {
-	for (int i = 0; i < Drive::BlockCount; i++)
+	for (int i = 0; i < dysk.BlockCount; i++)
 	{
 		if (FileTable.Busy[i] == true)
 			printf("%d. Busy: True, Nastepny Blok Pamieci: %d\n", i+1, FileTable.Next[i]);
@@ -289,7 +296,7 @@ bool FileM::InvestigateFile(const std::string& name)
 	int x = FindFile(name);
 	if (x == -1)
 	{
-		printf_s("Blad: Plik %s nieistnieje\n", name.data());
+		std::cout<<"Blad: Plik "<< name <<"nieistnieje\n";
 		return false;
 	}
 	return true;
@@ -298,7 +305,40 @@ bool FileM::InvestigateFile(const std::string& name)
 bool FileM::Stats() const
 {
 	std::string Wyswietl;
-	Wyswietl += "Miejsce (wolne/max): " + std::to_string(FreeBlockCount) + "/" + std::to_string(Drive::BlockCount) + '\n';
-	printf_s("%s\n", Wyswietl.data());
+	Wyswietl += "Miejsce (wolne/max): " + std::to_string(FreeBlockCount) + "/" + std::to_string(dysk.BlockCount) + '\n';
+	cout<<Wyswietl;
+
+}
+
+string FileM::SendFile(const std::string& name)
+{
+	std::string Wysylacz = "";
+
+	int x = FindFile(name);
+	if (x == -1)
+	{
+		std::cout << "Blad: Nie istnieje plik o nazwie " << name << endl;
+		return false;
+	}
+
+	for (int i = 0; i < dysk.BlockSize; i++)
+	{
+		Wysylacz += dysk.A[x * 32 + i];
+
+	}
+	int hjelp;
+	while (hjelp != -1)
+	{
+		for (int i = 0; i < dysk.BlockSize; i++)
+		{
+			Wysylacz += dysk.A[x * 32 + i]);
+
+
+		}
+		hjelp = FileTable.Next[hjelp];
+	}
+	Wysylacz += "\n";
+	return Wysylacz;
+
 
 }
