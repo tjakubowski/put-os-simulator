@@ -196,6 +196,13 @@ void RAM::show_RAM() {
 	}
 	cout << "Razem:  " << ilosc_w << endl;
 	cout << "" << endl;
+
+	std::cout << endl;
+	std::cout << endl;
+	std::cout << endl;
+	for (int i = 0; i < 127; i++) {
+		std::cout << i << ": " << memory[i] << endl;
+	}
 }
 
 void RAM::delete_from_RAM(Process* process) {
