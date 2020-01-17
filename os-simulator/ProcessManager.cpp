@@ -183,6 +183,9 @@ void ProcessManager::SetProcessRunning(Process* process)
 	default: break;
 	}
 
+	if(running_process_ != nullptr)
+		SetProcessReady(running_process_);
+
 	process->set_process_state(Process::Running);
 	running_process_ = process;
 }
