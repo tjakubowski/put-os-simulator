@@ -195,7 +195,7 @@ void ProcessManager::SetProcessRunning(std::string process_name)
 	SetProcessRunning(GetProcess(process_name));
 }
 
-void ProcessManager::PrintProcesses() const
+void ProcessManager::PrintProcesses(std::vector<Process*> processes) const
 {
 	TablePrinter table_printer;
 	table_printer.AddColumn("ID", 2);
@@ -205,9 +205,14 @@ void ProcessManager::PrintProcesses() const
 	table_printer.AddColumn("State", 7);
 
 	table_printer.PrintHeader();
-	for (auto process : processes_)
+	for (auto process : processes)
 		table_printer << process->id() << process->name() << process->file_name() << process->priority() << process->process_state();
 	table_printer.PrintFooter();
+}
+
+void ProcessManager::PrintProcesses() const
+{
+	PrintProcesses(processes_);
 }
 
 void ProcessManager::PrintProcess(Process* process) 

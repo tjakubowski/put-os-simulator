@@ -45,6 +45,7 @@ public:
 	void SetProcessWaiting(int process_id);
 	void SetProcessWaiting(std::string process_name);
 	
+	void PrintProcesses(std::vector<Process*> processes) const;
 	void PrintProcesses() const;
 	void PrintProcess(Process* process);
 	void PrintProcess(int process_id);
