@@ -247,9 +247,9 @@ void RAM::delete_from_RAM(Process* process) {
 	}
 }
 
-char RAM::char_RAM(int position) {
+string RAM::char_RAM(int position) {
 
-	return memory[pos];
+	return memory[position];
 
 }
 
