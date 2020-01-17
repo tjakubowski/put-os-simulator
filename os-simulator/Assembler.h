@@ -47,7 +47,10 @@ public:
 
 	void runProgram();
 
-	//void saveFile(Assembler& reg,Process *pcb);
+	void saveFile(Assembler& reg,Process *pcb);
+
+	int countLine(std::string line);
+
 };
 
 
