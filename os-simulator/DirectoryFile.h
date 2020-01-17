@@ -1,5 +1,5 @@
 #pragma once
-#include "pch.h"
+
 #include "Semaphore.h"
 #include "Disc.h"
 

@@ -1,5 +1,6 @@
-﻿#include "FileM.h"
-#include "pch.h"
+﻿#include "pch.h"
+
+#include "FileM.h"
 #include <iostream>
 
 
@@ -17,7 +18,7 @@ bool FileM::Clearall()
 
 bool FileM::OpenFile(const std::string& name, int process_id)
 {
-		if (InvestigateFile(name) == false)
+	if (InvestigateFile(name) == false)
 	{
 			std::cout << "Blad: Nie istnieje plik o nazwie " << name << endl;
 		return false;
@@ -26,9 +27,7 @@ bool FileM::OpenFile(const std::string& name, int process_id)
 	 Wait(std::string& name);
 	
 	//przeslij PLIK stringiem.
-	PrintFile(name);
-	
-	
+	SendFile(name);
 
 }
 
