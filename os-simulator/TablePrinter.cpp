@@ -52,3 +52,9 @@ void TablePrinter::PrintFooter()
 {
 	PrintLine();
 }
+
+void TablePrinter::ClearColumns()
+{
+	columns_.clear();
+}
+}

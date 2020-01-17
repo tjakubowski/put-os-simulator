@@ -27,6 +27,7 @@ public:
 	void AddColumn(std::string column_name, unsigned int column_width, bool column_align_left = true);
 	void PrintHeader();
 	void PrintFooter();
+	void ClearColumns();
 
 	template<typename T> TablePrinter& operator<<(T input)
 	{
