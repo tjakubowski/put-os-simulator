@@ -77,8 +77,8 @@ bool VirtualMemory::create_program(Process* pcb, std::string file) {
 	Segment* data_pcbseg = new Segment();
 	//int segment_tab_size = 0;
 	size_t sLength;
-	size_t text_begin = file.find(".text");
-	size_t data_begin = file.find(".data");
+	size_t text_begin = file.find(".text ");
+	size_t data_begin = file.find(".data ");
 	//sprawdzenie czy segmenty istnieja
 	bool bool_text = false;
 	bool bool_data = false;
@@ -165,6 +165,7 @@ bool VirtualMemory::create_program(Process* pcb, std::string file) {
 		segment_tab.push_back(data_pcbseg);
 	}
 	else if (!bool_data && !bool_text) {
+		throw std::exception("THERE IS NOT .TEXT AND .DATA SEGMENT");
 		return false;
 	}
 
