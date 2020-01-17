@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 
 #include "FileM.h"
+
 #include <iostream>
 
 
@@ -159,6 +160,8 @@ bool FileM::AddNewName(const std::string& name, const std::string& name2)
 	return true;
 }
 
+
+
 bool FileM::ReplaceNewName(const std::string& name, const std::string& name2)
 {
 	for (int i = 0; i < dysk.BlockCount; i++)
@@ -175,22 +178,26 @@ bool FileM::ReplaceNewName(const std::string& name, const std::string& name2)
 }
 
 
-/*
-bool FileM::WriteFile(const std::string& name, const std::string& tresc)
+//WORK IN PROGRESS
+bool FileM::WriteFile(std::string& name, std::string tresc)
 {
-	int z[32], DoDysku, LicznikBitow = 0, PoprzedniBlok, temp;
-	int DlugoscTresci = tresc.length();
-	int x = FindFile(name);
-	char  cstr[tresc.size()+1];
-	//std::copy(tresc.begin(), tresc.end(), cstr);
-	//cstr[tresc.size()]='\n';
+	int z[32];
+	int DoDysku, LicznikBitow = 0, PoprzedniBlok, temp;
+
 
 	//Sprawdzamy czy istnieje taki plik
+	int x = FindFile(name);
 	if (x == -1)
 	{
 		std::cout << "Blad: Nie istnieje plik o nazwie " << name << "\n";
 		return false;
 	}
+	
+	string hjelp = tresc;
+
+
+//	temp = tresc.size();
+	
 
 	for (int i = 0; i < 32; i++)
 	{
@@ -199,7 +206,7 @@ bool FileM::WriteFile(const std::string& name, const std::string& tresc)
 	int y = 0;
 
 	//Szukamy dodatkowych blokow
-	while (DlugoscTresci > 32)
+	/*while (DlugoscTresci > 32)
 	{
 		z[y] = FindFreeBlock();
 		if (temp == -1)
@@ -216,8 +223,12 @@ bool FileM::WriteFile(const std::string& name, const std::string& tresc)
 		y++;
 		DlugoscTresci = DlugoscTresci - 32;
 	}
-	DoDysku = (x - 1)*dysk.BlockSize;
+	*/
+	
+	/*DoDysku = (x - 1)*dysk.BlockSize;
 	//Przepisywanie tresci dla pierwszego bloku pamieci
+	
+	
 	for (int i = 0; i < dysk.BlockSize; i++)
 	{
 		dysk.A[DoDysku + i] = cstr[LicznikBitow];
@@ -240,9 +251,10 @@ bool FileM::WriteFile(const std::string& name, const std::string& tresc)
 				break;
 		}
 	}
+	*/
 	return true;
 }
-*/
+
 bool FileM::PrintFile(const std::string& name)
 {
 	int x = FindFile(name);

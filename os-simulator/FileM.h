@@ -1,6 +1,7 @@
 #include "pch.h"
 
 #include <bitset>
+#include <cstring>
 #include <string>
 #include <iostream>
 #include <algorithm>
@@ -29,7 +30,7 @@ public:
 	//zmien nazwe pliku
 	bool ReplaceNewName(const std::string& name, const std::string& name2);
 	//zapisz tresc do pliku o podanej nazwie
-	bool WriteFile(const std::string& name, const std::string& tresc);
+	bool WriteFile(std::string& name, std::string tresc);
 	//Przesyla plik jako string
 	std::string SendFile(const std::string& name);
 	//Wyswietla plik za pomoca couta
