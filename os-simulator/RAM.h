@@ -36,7 +36,7 @@ class RAM : public Singleton<RAM> { //single tone do sprawdzenia
 	list<Free_blocks> Free_blocks_list;
 	list<RAM_process> RAM_processes_list;
 	int command_length;
-	//string memory[128];
+	string memory[128];
 public:
 	RAM() {
 		Free_blocks F_b;
@@ -49,13 +49,13 @@ private:
 	int last = 0;
 	void merge_RAM();
 public:
-	int add_to_RAM(Process* process, const int&segment);
+	int add_to_RAM(Process* process);
 	//dodaæ wskaŸnik na proces jako argument albo ciagnac po id pobraæ kod programu z modu³u FAT //zamienic na proces
 	void delete_from_RAM(Process* process);  //dodaæ wskaŸnik na proces jako argument
 	void show_RAM(); //wyswietlenie zawartosci ram
-	char char_RAM(Process* process, int place);
+	string char_RAM(int place);
 	string read_RAM(Process* process, int counter); 
-	bool modify_RAM(Process* process, int position, int byte);
+	bool modify_RAM(int position, int byte);
 
 
 };

@@ -10,31 +10,32 @@ bool compare(const Free_blocks& a, const Free_blocks& b) {
 	return a.begining < b.begining;
 }
 
-int RAM::add_to_RAM(Process* process,const int& segment) { //zamienic na process
+
+int RAM::add_to_RAM(Process* process) { //zamienic na process
 	fstream file;
 	string commands, help, line[128];
 	int max_size = 0;
 	int list_index = 0;
 	int id = process->id();
-	
-	
+
+
 	int length = 0, counter = 0;
 	auto segment_tab = process->segment_tab();
-	if (segment_tab[segment]->data != "") {
+	if (segment_tab[1]->data != "") {
 		help = segment_tab[1]->data;
 		length = help.size();
-		
+
 		commands += help;
 		commands += '\n';
 
 	}
-	
-	
-	
+
+
+
 	/*	getline(file, help);
 			line[counter] = help;
 			counter++;		 //string stream
-			for (int i = 0; i <= help.length(); i++) //todo do uzgodnienia z FAT jak ma wygl¹daæ czytanie. 
+			for (int i = 0; i <= help.length(); i++) //todo do uzgodnienia z FAT jak ma wygl¹daæ czytanie.
 			{
 				if (help[i] != '\n')
 					length++;
@@ -43,7 +44,7 @@ int RAM::add_to_RAM(Process* process,const int& segment) { //zamienic na process
 			}
 			commands += help;
 			commands += '\n'; */
-	
+
 	else {
 		cout << "This string cannot be found." << endl;
 		return 2;
@@ -61,112 +62,106 @@ int RAM::add_to_RAM(Process* process,const int& segment) { //zamienic na process
 	}
 
 	if (empty)
-	{
-		cout << "\nthis file is empty\n" << endl;
-		return 3;
+		throw std::exception("this file is empty");
 
-	}
 	bool find_space = false;
-	
 
+	if (free_space < length || free_space < 2)
+		throw std::exception("there is no enough space");
 
-		if (free_space < length || free_space < 2)
+	if (Free_blocks_list.empty() == false) {
+		for (auto e : Free_blocks_list)
 		{
-			cout << "\nthere is no enough space\n" << endl;
-			return 1;
+			if (e.size >= length)
+				find_space = true;
+		}
+	}
+	else {
+		find_space = true;
+	}
+	if (find_space) {
+		Free_blocks F_b; //to trzeba bêdzie chyba gdzieœ wczeœniej zainicjowaæ tbh.
+
+		if (last == 0) {
+			Free_blocks_list.pop_back();
+			F_b.begining = length + 1;
+			last = length + 1;
+			F_b.end = 127;
+			F_b.size = F_b.end - F_b.begining;
+			Free_blocks_list.push_back(F_b);
 		}
 		else {
-			{
-				if (Free_blocks_list.empty() == false) {
-					for (auto e : Free_blocks_list)
-					{
-						if (e.size >= length)
-							find_space = true;
-					}
+			list<Free_blocks>::iterator fbi;
+
+			for (fbi = Free_blocks_list.begin(); fbi != Free_blocks_list.end(); fbi++) {
+
+
+				if (max_size < fbi->size) {
+					max_size = fbi->size;
+					list_index = distance(Free_blocks_list.begin(), fbi);
 				}
-				else {
-					find_space = true;
-				}
-				if (find_space) {
-					Free_blocks F_b; //to trzeba bêdzie chyba gdzieœ wczeœniej zainicjowaæ tbh.
 
-					if (last == 0) {
-						Free_blocks_list.pop_back();
-						F_b.begining = length + 1;
-						last = length + 1;
-						F_b.end = 128;
-						F_b.size = F_b.end - F_b.begining;
-						Free_blocks_list.push_back(F_b);
-					}
-					else {
-						list<Free_blocks>::iterator fbi;
+			}
 
-						for (fbi = Free_blocks_list.begin(); fbi != Free_blocks_list.end(); fbi++) {
+			fbi = Free_blocks_list.begin();
+			advance(fbi, list_index);
+			fbi->biggest = true;
+
+			for (fbi = Free_blocks_list.begin(); fbi != Free_blocks_list.end(); fbi++) {
 
 
-							if (max_size < fbi->size) {
-								max_size = fbi->size;
-								list_index = distance(Free_blocks_list.begin(), fbi);
-							}
-
-						}
-
-						fbi = Free_blocks_list.begin();
-						advance(fbi, list_index);
-						fbi->biggest = true;
-
-						for (fbi = Free_blocks_list.begin(); fbi != Free_blocks_list.end(); fbi++) {
-
-
-							if (fbi->biggest == true && fbi->size >= length)
-							{
-								F_b.begining = fbi->begining + length;
-								fbi->biggest = false;
-								break;
-							}
-						}
-						bool finder = false;
-						for (auto a : RAM_processes_list) {
-							if (a.start >= F_b.begining) {
-								F_b.end = a.start - 1;
-								finder = true;
-								break;
-							}
-						}
-						if (!finder) {
-							F_b.end = 128;
-						}
-						F_b.size = F_b.end - F_b.begining;
-
-						if (F_b.size > 0)
-							Free_blocks_list.emplace_front(F_b);
-
-						Free_blocks_list.erase(fbi);
-					}
-
-					RAM_process RAM_process;
-
-					RAM_process.id = id;
-					RAM_process.size = length;
-					RAM_process.commands = commands;
-					RAM_process.start = F_b.begining - length;
-					RAM_processes_list.push_back(RAM_process);
-
-					segment_tab[segment]->is_in_RAM = true;
-					segment_tab[segment]->baseRAM = RAM_process.start;
-					process->set_segment_tab(segment_tab);
-
-
-
-					free_space -= length;
+				if (fbi->biggest == true && fbi->size >= length)
+				{
+					F_b.begining = fbi->begining + length;
+					fbi->biggest = false;
+					break;
 				}
 			}
+			bool finder = false;
+			for (auto a : RAM_processes_list) {
+				if (a.start >= F_b.begining) {
+					F_b.end = a.start - 1;
+					finder = true;
+					break;
+				}
+			}
+			if (!finder) {
+				F_b.end = 128;
+			}
+			F_b.size = F_b.end - F_b.begining;
+
+			if (F_b.size > 0)
+				Free_blocks_list.emplace_front(F_b);
+
+			Free_blocks_list.erase(fbi);
 		}
 
-	
+		RAM_process RAM_process;
+
+		RAM_process.id = id;
+		RAM_process.size = length;
+		RAM_process.commands = commands;
+		RAM_process.start = (F_b.begining - length)-1;
+		RAM_processes_list.push_back(RAM_process);
+
+		segment_tab[1]->is_in_RAM = true;
+		segment_tab[1]->baseRAM = RAM_process.start;
+		process->set_segment_tab(segment_tab);
+		int j = 0;
+		for (auto i = RAM_process.start; i < (RAM_process.size + RAM_process.start); i++) {
+			memory[i] = commands[j];
+			j++;
+		}
+
+
+
+		free_space -= length;
+	}
+
+
 	//Process process(); //tutaj trzeba przekazac id, wielkosc, komendy i takie tam do listy procesów
 
-	
+
 }
 
 void RAM::show_RAM() {
@@ -190,6 +185,13 @@ void RAM::show_RAM() {
 	}
 	cout << "Razem:  " << ilosc_w << endl;
 	cout << "" << endl;
+
+	std::cout << endl;
+	std::cout << endl;
+	std::cout << endl;
+	for (int i = 0; i < 127; i++) {
+		std::cout << i << ": " << memory[i] << "\t";
+	}
 }
 
 void RAM::delete_from_RAM(Process* process) {
@@ -206,11 +208,9 @@ void RAM::delete_from_RAM(Process* process) {
 				break;
 			}
 		}
-		if (id_not_exist) {
-			std::cout << "tego procesu nie ma w pamieci";
-			throw 0;
+		if (id_not_exist)
+			throw std::exception("tego procesu nie ma w pamieci");
 
-		}
 		free_space += it->size;
 		size = it->size;
 		int starting_point = it->start;
@@ -242,25 +242,9 @@ void RAM::delete_from_RAM(Process* process) {
 	}
 }
 
-char RAM::char_RAM(Process* process, int position) {
-	list<RAM_process>::iterator it;
-	string commands;
-	char character;
-	int id = process->id();
-	for (it = RAM_processes_list.begin(); it != RAM_processes_list.end(); it++) {
-		if (it->id == id) {
-			commands = it->commands;
-		}
-	}
-	int pos = 0;
-	for (int i = 0; i < commands.length(); i++) {
-		if (i == position) {
-			pos = i;
-			break;
-		}
+string RAM::char_RAM(int position) {
 
-	}
-	return commands[pos];
+	return memory[position];
 
 }
 
@@ -334,34 +318,20 @@ void RAM::merge_RAM() {
 				}
 			}
 			if (help == true) {
-				break;
 				loop++;
 				it2 = it;
+				break;
 			}
 		} 
 	} while (help == true);
 }
 
-bool RAM::modify_RAM(Process* process, int RAMposition, int byte) {
-	list<RAM_process>::iterator it;
-	string commands;
-	char character;
-	int id = process->id();
-	for (it = RAM_processes_list.begin(); it != RAM_processes_list.end(); it++) {
-		if (it->id == id) {
-			commands = it->commands;
-		}
-	}
-	int pos = 0;
-	for (int i = 0; i < commands.length(); i++) {
-		if (i == (RAMposition-it->start)) {
-			i = byte;
-			return true;
-			break;
-		}
-
-	}
-	return false; //TODO ram jako string[128] dopisaæ ³adnie komendy
-	
-
+bool RAM::modify_RAM(int RAMposition, int byte) {
+	memory[RAMposition] = byte;
+	int position = stoi(memory[RAMposition]);
+	if (position == byte)
+		return true;
+	else
+		return false;
+	//todo jezeli ram poza zakresem
 }
