@@ -86,7 +86,7 @@ int RAM::add_to_RAM(Process* process) { //zamienic na process
 			Free_blocks_list.pop_back();
 			F_b.begining = length + 1;
 			last = length + 1;
-			F_b.end = 128;
+			F_b.end = 127;
 			F_b.size = F_b.end - F_b.begining;
 			Free_blocks_list.push_back(F_b);
 		}
@@ -141,7 +141,7 @@ int RAM::add_to_RAM(Process* process) { //zamienic na process
 		RAM_process.id = id;
 		RAM_process.size = length;
 		RAM_process.commands = commands;
-		RAM_process.start = F_b.begining - length;
+		RAM_process.start = (F_b.begining - length)-1;
 		RAM_processes_list.push_back(RAM_process);
 
 		segment_tab[1]->is_in_RAM = true;
