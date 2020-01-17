@@ -106,12 +106,12 @@ void Process::set_instruction_counter(int instruction_counter)
 	instruction_counter_ = instruction_counter;
 }
 
-std::vector<Segment*> Process::segment_tab() const
+std::vector<Segment> Process::segment_tab() const
 {
 	return segment_tab_;
 }
 
-void Process::set_segment_tab(const std::vector<Segment*>& segment_tab)
+void Process::set_segment_tab(const std::vector<Segment>& segment_tab)
 {
 	segment_tab_ = segment_tab;
 }

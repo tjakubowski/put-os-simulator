@@ -42,7 +42,6 @@ public:
 	bool ListFAT() const;
 	//Wyswietla zajete miejsce na dysku
 	bool Stats() const;
-	//Szuka nastepnego wolnego miejsca w DIRze
 	int FindFreeDirectory();
 	Drive dysk;
 	FAT FileTable;
@@ -51,14 +50,15 @@ public:
 
 
 private:
-	//Zlicza wolne blocki
 	int FreeBlockCount;
-	//Szuka wolnego bloku
+	
 	int FindFreeBlock();
-	//Szuka pliku i zwraca pierwszy element 
+
 	int FindFile(const std::string& name);
 
-	bool Clearall()
+	bool Clearall();
+
+	bool OpenFile(const std::string&, int process_id);
 
 
 
