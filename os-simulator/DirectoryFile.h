@@ -6,8 +6,10 @@
 class DirectoryFile
 {
 public:
+	//Nazwa Pliku 
 	std::string Name[32];
-	int First[Drive::BlockCount];
+	//Pierwszy element tablicy FAT 
+	int First[32];
 
 	struct File
 	{

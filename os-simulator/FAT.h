@@ -5,8 +5,8 @@
 class FAT
 {
 public:
-	int Next[Drive::BlockCount];
-	bool Busy[Drive::BlockCount];
+	int Next[32];
+	bool Busy[32];
 
 
 };
