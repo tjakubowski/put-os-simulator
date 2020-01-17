@@ -1,8 +1,10 @@
 ﻿#include "pch.h"
 #include "Shell.h"
+#include "RAM.h"
 #include <iostream>
 
 extern int change_state;
+extern RAM ram;
 
 void Shell::create_command() {
 
@@ -275,7 +277,7 @@ void Shell::perform_command() {
 			switch (command.size()) {
 			case 1:
 				std::cout  << system_name  << "Wyswietlenie aktualnego stanu pamieci RAM.\n";
-				//ram.show_RAM();			
+				ram.show_RAM();			
 				break;
 			case 2:
 				if (command[1] == "-h") {

@@ -1,6 +1,6 @@
 #include "pch.h"
 #include <iostream>
-//#include "Shell.h"
+#include "Shell.h"
 //#include "FileM.h"
 #include "RAM.h"
 //#include "Assembler.h"
@@ -17,11 +17,11 @@ std::string code;
 
 int main()
 {
-	//Shell shell;
+	Shell shell;
 
 	std::cout << "OS Simulator" << std::endl;
 
-	//shell.run();
+	shell.run();
 	
 	return 0;
 }
