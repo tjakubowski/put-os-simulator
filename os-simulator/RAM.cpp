@@ -347,26 +347,11 @@ void RAM::merge_RAM() {
 	} while (help == true);
 }
 
-bool RAM::modify_RAM(Process* process, int RAMposition, int byte) {
-	list<RAM_process>::iterator it;
-	string commands;
-	char character;
-	int id = process->id();
-	for (it = RAM_processes_list.begin(); it != RAM_processes_list.end(); it++) {
-		if (it->id == id) {
-			commands = it->commands;
-		}
-	}
-	int pos = 0;
-	for (int i = 0; i < commands.length(); i++) {
-		if (i == (RAMposition-it->start)) {
-			i = byte;
-			return true;
-			break;
-		}
-
-	}
-	return false; //TODO ram jako string[128] dopisaæ ³adnie komendy
-	
-
+bool RAM::modify_RAM(int RAMposition, int byte) {
+	memory[RAMposition] = byte;
+	int position = stoi(memory[RAMposition]);
+	if (position == byte)
+		return true;
+	else
+		return false;
 }
