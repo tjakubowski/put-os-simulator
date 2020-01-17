@@ -318,9 +318,9 @@ void RAM::merge_RAM() {
 				}
 			}
 			if (help == true) {
-				break;
 				loop++;
 				it2 = it;
+				break;
 			}
 		} 
 	} while (help == true);
@@ -333,4 +333,5 @@ bool RAM::modify_RAM(int RAMposition, int byte) {
 		return true;
 	else
 		return false;
+	//todo jezeli ram poza zakresem
 }
