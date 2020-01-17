@@ -57,4 +57,13 @@ void TablePrinter::ClearColumns()
 {
 	columns_.clear();
 }
+
+void TablePrinter::set_column_separator(const std::string& column_separator)
+{
+	column_separator_ = column_separator;
+}
+
+void TablePrinter::set_column_padding(unsigned column_padding)
+{
+	column_padding_ = column_padding;
 }

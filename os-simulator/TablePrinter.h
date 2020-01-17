@@ -29,6 +29,9 @@ public:
 	void PrintFooter();
 	void ClearColumns();
 
+	void set_column_separator(const std::string& column_separator);
+	void set_column_padding(unsigned column_padding);
+
 	template<typename T> TablePrinter& operator<<(T input)
 	{
 		auto column = columns_[input_counter_];
