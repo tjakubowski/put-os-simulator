@@ -16,6 +16,7 @@ bool FileM::Clearall()
 	}
 }
 
+//Otwieranie Pliku kompatybilne z Virtualną
 string FileM::OpenFile(const std::string& name, std::string ProcessName)
 {
 	if (InvestigateFile(name) == false)
@@ -31,19 +32,20 @@ string FileM::OpenFile(const std::string& name, std::string ProcessName)
 
 }
 
+//Zamykanie Pliku przez Semafory
 bool FileM::CloseFile(std::string ProcessName)
 {
 	Signal(ProcessName);
 }
 
-//Szuka pierwszego wolnego bloku w FAT
+//Szuka pierwszego wolnego bloku w FAT i zwraca jego ID
 int FileM::FindFreeBlock()
 {
 	for (int i = 0; i < dysk.BlockCount; i++)
 		if (!FileTable.Busy[i] == false) return i+1;
 	return -1;
 }
-//Szuka pierwszego wolnego miejsca w katalogu
+//Szuka pierwszego wolnego miejsca w katalogu i zwraca jego ID
 int  FileM::FindFreeDirectory()
 {
 	for (int i = 0; i < dysk.BlockCount; i++)
@@ -52,7 +54,7 @@ int  FileM::FindFreeDirectory()
 	return -1;
 }
 
-//Tworzy pusty plik
+//Tworzy pusty plik 
 bool FileM::CreateFile(const std::string& name)
 {
 	int hjelp;
@@ -82,7 +84,7 @@ bool FileM::CreateFile(const std::string& name)
 	return true;
 }
 	
-//Szuka konkretnego pliku w katalogu
+//Szuka konkretnego pliku w katalogu i zwraca adress 
 int FileM::FindFile(const std::string& name)
 {
 	int hjelp;
@@ -97,6 +99,7 @@ int FileM::FindFile(const std::string& name)
 	}
 	return -1;
 }
+
 
 bool FileM::DeleteFile(const std::string& name)
 {
@@ -157,6 +160,7 @@ bool FileM::AddNewName(const std::string& name, const std::string& name2)
 	return true;
 }
 
+//
 bool FileM::ReplaceNewName(const std::string& name, const std::string& name2)
 {
 	for (int i = 0; i < dysk.BlockCount; i++)
