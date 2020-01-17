@@ -53,7 +53,7 @@ public:
 	//dodaæ wskaŸnik na proces jako argument albo ciagnac po id pobraæ kod programu z modu³u FAT //zamienic na proces
 	void delete_from_RAM(Process* process);  //dodaæ wskaŸnik na proces jako argument
 	void show_RAM(); //wyswietlenie zawartosci ram
-	char char_RAM(Process* process, int place);
+	char char_RAM(int place);
 	string read_RAM(Process* process, int counter); 
 	bool modify_RAM(int position, int byte);
 

@@ -247,25 +247,9 @@ void RAM::delete_from_RAM(Process* process) {
 	}
 }
 
-char RAM::char_RAM(Process* process, int position) {
-	list<RAM_process>::iterator it;
-	string commands;
-	char character;
-	int id = process->id();
-	for (it = RAM_processes_list.begin(); it != RAM_processes_list.end(); it++) {
-		if (it->id == id) {
-			commands = it->commands;
-		}
-	}
-	int pos = 0;
-	for (int i = 0; i < commands.length(); i++) {
-		if (i == position) {
-			pos = i;
-			break;
-		}
+char RAM::char_RAM(int position) {
 
-	}
-	return commands[pos];
+	return memory[pos];
 
 }
 
