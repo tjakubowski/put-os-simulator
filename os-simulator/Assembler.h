@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-#include <fstream>
 #include "Singleton.h"
 #include "ProcessManager.h"
 using namespace std;
@@ -29,7 +28,9 @@ public:
 	void set_A(short int);
 	void set_B(short int);
 	void set_C(short int);
+	int licznikLine = 0;
 
+	string commands[30];
 	int get_licznik();
 	void set_licznik(int);
 	int ile_arg(string command);
@@ -38,9 +39,9 @@ public:
 
 	void runCommand(string c_line, Assembler& reg);
 
-	void runProgram(string program, Assembler& reg);
+	void runProgram(Assembler& reg);
 
-	void savefile();
+	void savefile(string withfile, Assembler& reg);
 };
 
 
