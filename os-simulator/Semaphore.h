@@ -12,7 +12,6 @@ class Semaphore
 protected:
 	int value;
 	queue<string> queue;
-
 public:
 
 	void Wait(std::string name);
@@ -22,10 +21,6 @@ public:
 
 
 	//krokowy
-	/*
-	void/bool print_value();
-	void/bool print_queue();
-
-	*/
+	void show_Semaphore();
 
 };
