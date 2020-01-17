@@ -40,8 +40,8 @@ class RAM : public Singleton<RAM> { //single tone do sprawdzenia
 public:
 	RAM() {
 		Free_blocks F_b;
-		F_b.begining = 0;
-		F_b.end = 127;
+		F_b.begining = 1;
+		F_b.end = 128;
 		F_b.size = F_b.end - F_b.begining;
 		Free_blocks_list.push_back(F_b);
 	}

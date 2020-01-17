@@ -141,7 +141,7 @@ int RAM::add_to_RAM(Process* process) { //zamienic na process
 		RAM_process.id = id;
 		RAM_process.size = length;
 		RAM_process.commands = commands;
-		RAM_process.start = (F_b.begining - length)-1;
+		RAM_process.start = (F_b.begining - length);
 		RAM_processes_list.push_back(RAM_process);
 
 		segment_tab[1]->is_in_RAM = true;
@@ -191,6 +191,7 @@ void RAM::show_RAM() {
 	std::cout << endl;
 	for (int i = 0; i < 128; i++) {
 		std::cout << i << ": " << memory[i] << "\t";
+
 	}
 }
 
