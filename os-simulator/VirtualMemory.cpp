@@ -72,7 +72,7 @@ bool VMSegment::operator<(const VMSegment& s) const
 
 bool VirtualMemory::create_program(Process* pcb, std::string file) {
 
-	std::vector<Segment*>* segment_tab = pcb->get_segment_tab();
+	std::vector<Segment*> segment_tab = pcb->segment_tab();
 	Segment* text_pcbseg = new Segment();
 	Segment* data_pcbseg = new Segment();
 	//int segment_tab_size = 0;
@@ -97,7 +97,7 @@ bool VirtualMemory::create_program(Process* pcb, std::string file) {
 		text_pcbseg->baseVM = text_base;
 		text_pcbseg->limit = text_limit;
 		text_pcbseg->is_in_RAM = false;
-		segment_tab->push_back(text_pcbseg);
+		segment_tab.push_back(text_pcbseg);
 
 		int data_limit = file.size() - data_begin - 5;
 		int data_base = get_base(data_limit);
@@ -106,7 +106,7 @@ bool VirtualMemory::create_program(Process* pcb, std::string file) {
 		data_pcbseg->baseVM = data_base;
 		data_pcbseg->limit = data_limit;
 		data_pcbseg->is_in_RAM = false;
-		segment_tab->push_back(data_pcbseg);
+		segment_tab.push_back(data_pcbseg);
 
 		//dodaj do ramu wtedy mozesz tez isinram zmienic
 		for (int i = 0; i < text_limit; i++) {
@@ -125,7 +125,7 @@ bool VirtualMemory::create_program(Process* pcb, std::string file) {
 		text_pcbseg->baseVM = text_base;
 		text_pcbseg->limit = text_limit;
 		text_pcbseg->is_in_RAM = false;
-		segment_tab->push_back(text_pcbseg);
+		segment_tab.push_back(text_pcbseg);
 
 		//dodaj do ramu
 		for (int i = 0; i < text_limit; i++) {
@@ -141,7 +141,7 @@ bool VirtualMemory::create_program(Process* pcb, std::string file) {
 		data_pcbseg->baseVM = data_base;
 		data_pcbseg->limit = data_limit;
 		data_pcbseg->is_in_RAM = false;
-		segment_tab->push_back(data_pcbseg);
+		segment_tab.push_back(data_pcbseg);
 		//dodaj do ramu
 		for (int i = 0; i < data_limit; i++) {
 			pagefile[data_base + i] = file[data_begin + 5 + i];
@@ -151,18 +151,17 @@ bool VirtualMemory::create_program(Process* pcb, std::string file) {
 		return false;
 	}
 
-
+	pcb->set_segment_tab(segment_tab);
 	return true;
 }
 
 bool VirtualMemory::load_program_to_ram(Process* pcb) {
 
-	std::vector<Segment*>* segment_tab = new std::vector<Segment*>;
-	segment_tab = pcb->get_segment_tab();
-	for (int i = 0; i < segment_tab->size(); i++) {
-		if (segment_tab->at(i)->is_in_RAM == 0) {
+	auto segment_tab = pcb->segment_tab();
+	for (int i = 0; i < segment_tab.size(); i++) {
+		if (segment_tab[i]->is_in_RAM == 0) {
 			std::string result;
-			for (int j = segment_tab->at(i)->baseVM; j < segment_tab->at(i)->baseVM + segment_tab->at(i)->limit; j++) {
+			for (int j = segment_tab[i]->baseVM; j < segment_tab[i]->baseVM + segment_tab[i]->limit; j++) {
 				result += pagefile.at(j);
 			}
 			//if (za³aduj do ramu false retun false); pramaters (Process *pcb, string data, int segment)
@@ -177,28 +176,29 @@ bool VirtualMemory::load_program_to_ram(Process* pcb) {
 //usuwa program z VM i RAMu
 bool VirtualMemory::delete_program(Process* pcb) {
 	//uruchamia funkcje z ramu do usuwania programu daje jej Process*pcb jako argument
-	std::vector<Segment*>* segment_tab = pcb->get_segment_tab();
-	int size = segment_tab->size();
+	auto segment_tab = pcb->segment_tab();
+	int size = segment_tab.size();
 	for (int i = 0; i < size; i++) { //for every segment (.text, .data)
 		VMSegment segment = pagefile_segment_tab[i];
 		for (int j = 0; j < pagefile_segment_tab.size(); j++) {
-			if (segment.base == segment_tab->at(i)->baseVM && segment.limit == segment_tab->at(i)->limit) {
+			if (segment.base == segment_tab[i]->baseVM && segment.limit == segment_tab[i]->limit) {
 				pagefile_segment_tab.erase(pagefile_segment_tab.begin() + j);
-				segment_tab->erase(segment_tab->begin() + i);
+				segment_tab.erase(segment_tab.begin() + i);
 				i--;
 				size--;
 				break;
 			}
 		}
 	}
+	pcb->set_segment_tab(segment_tab);
 	std::sort(pagefile_segment_tab.begin(), pagefile_segment_tab.end());
 	return true;
 }
 
 std::string VirtualMemory::get_segment(Process* pcb, const int segment) {
-	std::vector<Segment*>* segment_tab = pcb->get_segment_tab();
+	std::vector<Segment*> segment_tab = pcb->segment_tab();
 	std::string result;
-	for (int i = segment_tab->at(segment)->baseVM; i < segment_tab->at(segment)->baseVM + segment_tab->at(segment)->limit; i++) {
+	for (int i = segment_tab[segment]->baseVM; i < segment_tab[segment]->baseVM + segment_tab[segment]->limit; i++) {
 		result += pagefile.at(i);
 	}
 	return result;
@@ -206,9 +206,9 @@ std::string VirtualMemory::get_segment(Process* pcb, const int segment) {
 
 bool VirtualMemory::load_to_virtualmemory(Process* pcb, const std::string data)
 {
-	std::vector<Segment*>* segment_tab = pcb->get_segment_tab();
-	for (int i = 0; i < segment_tab->at(1)->limit; i++) {
-		pagefile.at(segment_tab->at(1)->baseVM + i) = data.at(i);
+	std::vector<Segment*> segment_tab = pcb->segment_tab();
+	for (int i = 0; i < segment_tab[1]->limit; i++) {
+		pagefile.at(segment_tab[1]->baseVM + i) = data.at(i);
 	}
 	return true;
 }
@@ -234,13 +234,13 @@ void VirtualMemory::display_pagefile_segment_tab()
 void VirtualMemory::display_segment_tab(Process* pcb)
 {
 	std::cout << std::endl;
-	std::vector<Segment*>* segment_tab = pcb->get_segment_tab();
-	for (int i = 0; i < segment_tab->size(); i++)
+	std::vector<Segment*> segment_tab = pcb->segment_tab();
+	for (int i = 0; i < segment_tab.size(); i++)
 	{
-		std::cout << "<base in VM: " << segment_tab->at(i)->baseVM << " limit: " << segment_tab->at(i)->limit << " is in RAM: ";
-		if (segment_tab->at(i)->is_in_RAM)
+		std::cout << "<base in VM: " << segment_tab[i]->baseVM << " limit: " << segment_tab[i]->limit << " is in RAM: ";
+		if (segment_tab[i]->is_in_RAM)
 		{
-			std::cout << "true" << " <base in RAM: " << segment_tab->at(i)->baseRAM;
+			std::cout << "true" << " <base in RAM: " << segment_tab[i]->baseRAM;
 		}
 		else
 		{
@@ -253,7 +253,7 @@ void VirtualMemory::display_segment_tab(Process* pcb)
 /*
 bool VirtualMemory::create_program(Process* pcb, std::string data)
 {
-	std::vector<Segment*>* segment_tab = pcb->get_segment_tab();
+	std::vector<Segment*> segment_tab = pcb->segment_tab();
 	std::string toRam;
 	int segment_tab_size = 0;
 	size_t sLength;
