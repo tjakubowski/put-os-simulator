@@ -18,6 +18,11 @@ short int Assembler::get_C()
 	return registerC;
 }
 
+short int Assembler::get_D()
+{
+	return registerD;
+}
+
 void Assembler::set_A(short int v)
 {
 	registerA = v;
@@ -33,6 +38,11 @@ void Assembler::set_C(short int v)
 	registerC = v;
 }
 
+void Assembler::set_D(short int v)
+{
+	registerD = v;
+}
+
 int Assembler::get_licznik()
 {
 	return licznik;
@@ -42,61 +52,17 @@ void Assembler::set_licznik(int v)
 {
 	licznik = v;
 }
-void Assembler::savefile(string withfile, Assembler& reg)
+/*
+void saveFile(Assembler& reg,Process*pcb)
 {
-	int j = 0;
-	string pom = "";
-	string pomCommand[500];
-
-	for (int i = 0; i < withfile.size(); i++)
+	//std::string program=pcb->text_seg
+	
+	for (int i = reg.get_licznik, int j = 0; j < reg.ile_arg("TUTAJ STRING Z KOMENDAMI WSTAW"); i++)
 	{
-		if (withfile[i] == ' ')
-		{
-			pomCommand[j] = pom;
-			j++;
-			pom = "";
-		}
-		else
-		{
-			pom += withfile[i];
-		}
-	}
-	pomCommand[j] = pom;
-	int ile = 0;
-	int x = 0;
-	for (int i = 0; i < j; i++)
-	{
-
-		ile = reg.ile_arg(pomCommand[i]);
-		if (ile == 0)
-		{
-			reg.commands[x] = "";
-			reg.commands[x] = pomCommand[i];
-		}
-		else if (ile == 1)
-		{
-
-			reg.commands[x] = pomCommand[i] + " " + pomCommand[++i];
-			i += 1;
-		}
-		else if (ile == 2)
-		{
-			reg.commands[x] = pomCommand[i] + " " + pomCommand[i + 1] + " " + pomCommand[i + 2];
-			i += 2;
-		}
-		else if (ile == 3)
-		{
-			reg.commands[x] = pomCommand[i] + " " + pomCommand[++i] + " " + pomCommand[++i] + " " + pomCommand[++i];
-			i += 3;
-		}
-		else if (ile == 4)
-		{
-			reg.commands[x] = pomCommand[i] + pomCommand[++i] + pomCommand[++i] + pomCommand[++i] + pomCommand[++i];
-			i = +4;
-		}
-		x++;
+		if()
 	}
 }
+*/
 int Assembler::ile_arg(const string command)
 {
 	if (command == "AD")
@@ -685,8 +651,16 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 }
 
 //do tej funkcji dostaje stringa od Kacpra po tym jak ustalimy juz ile argumentow rozkaz i dostaje go calego xd
-void Assembler::runProgram(Assembler& reg)
+void Assembler::runProgram()
 {
+	Assembler reg;
+	auto process_run = ProcessManager::GetInstance().running_process();
+	reg.set_A = process_run->set_ax;
+	reg.set_B = process_run->set_bx;
+	reg.set_C = process_run->set_cx;
+	reg.set_D = process_run->set_dx;
+	reg.get_licznik = process_run->set_instruction_counter;
+
 	string com = reg.commands[reg.licznikLine];
 	runCommand(com, reg);
 	reg.licznikLine++;

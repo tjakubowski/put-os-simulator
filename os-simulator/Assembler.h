@@ -11,6 +11,8 @@ class Assembler : public Singleton<Assembler>
 	short int registerA;
 	short int registerB;
 	short int registerC;
+	short int registerD;
+
 
 public:
 	Assembler()
@@ -18,16 +20,20 @@ public:
 		registerA = 0;
 		registerB = 1; //rejestr B
 		registerC = 0; //rejestr C
+		registerD = 0;
 		licznik = 0;   //adres rozkau który ma byæ wykonany
 	}
 
 	short int get_A();
 	short int get_B();
 	short int get_C();
+	short int get_D();
 
 	void set_A(short int);
 	void set_B(short int);
 	void set_C(short int);
+	void set_D(short int);
+
 	int licznikLine = 0;
 
 	string commands[30];
@@ -39,9 +45,9 @@ public:
 
 	void runCommand(string c_line, Assembler& reg);
 
-	void runProgram(Assembler& reg);
+	void runProgram();
 
-	void savefile(string withfile, Assembler& reg);
+	//void saveFile(Assembler& reg,Process *pcb);
 };
 
 

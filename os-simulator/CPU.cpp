@@ -57,29 +57,32 @@ void CPU_M::order_heap(std::vector<Process*> &heap){
 
 void CPU_M::scheduling(std::vector<Process*> &heap)
 {
-	if (heap.size() > 1) {
-		int pos;
-		int tmp_id = heap[0]->id();
-		for (int i = 1; i < heap.size(); i++) {
-			
-			int tmp_p = heap[0]->priority();
-			if (heap[i]->priority() && heap[i]->id() < heap[i]->id()) {
-				tmp_id = heap[i]->id();
+	auto rp = ProcessManager::GetInstance().running_process();
+	if (rp->priority() < heap[0]->priority()) {
+		if (heap.size() > 1) {
+			int pos;
+			int tmp_id = heap[0]->id();
+			for (int i = 1; i < heap.size(); i++) {
+
+				int tmp_p = heap[0]->priority();
+				if (heap[i]->priority() && heap[i]->id() < heap[i]->id()) {
+					tmp_id = heap[i]->id();
+				}
+
 			}
+			for (int i = 1; i < heap.size(); i++) {
+				if (heap[i]->id() == tmp_id) {
+					pos = i;
+					break;
+				}
+			}
+			ProcessManager::GetInstance().SetProcessRunning(heap[pos]);
 
 		}
-		for (int i = 1; i < heap.size(); i++) {
-			if (heap[i]->id() == tmp_id) {
-				pos = i;
-				break;
-			}
+		else {
+			ProcessManager::GetInstance().SetProcessRunning(heap[0]);
+			heap.erase(heap.begin());
 		}
-		ProcessManager::GetInstance().SetProcessRunning(heap[pos]);
-
-	}
-	else {
-		ProcessManager::GetInstance().SetProcessRunning(heap[0]);
-		heap.erase(heap.begin());
 	}
 }
 
