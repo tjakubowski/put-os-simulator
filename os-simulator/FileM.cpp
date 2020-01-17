@@ -16,15 +16,17 @@ bool FileM::Clearall()
 	}
 }
 
-string FileM::OpenFile(const std::string& name, std::string ProcessName)
+string FileM::OpenFile(Process*pcb)
 {
+	std::string name = pcb->file_name();//nazwa pliku powinno byc filename 
+	std::string ProcessName = pcb->name();
 	if (InvestigateFile(name) == false)
 	{
 			std::cout << "Blad: Nie istnieje plik o nazwie " << name << endl;
-			return false;
+		//	return false;//jak moze byc w funkcji ktora zwraca stringa return false???
 	}
 	
-	 Wait(ProcessName);
+	 //Wait(ProcessName);//wyjebuje tu blad napraw to 
 	
 	//przeslij PLIK stringiem.
 	return SendFile(name);
@@ -55,28 +57,28 @@ int  FileM::FindFreeDirectory()
 //Tworzy pusty plik
 bool FileM::CreateFile(const std::string& name)
 {
-	int hjelp;
-	hjelp = FindFreeBlock();
+	int temp;
+	temp = FindFreeBlock();
 
-	if (hjelp == -1)
+	if (temp == -1)
 	{
 		std::cout << "Blad: Brak wolnego miejsca na dysku" << endl;
 		return false;
 	}
 
-	int hjelp2 = FindFreeDirectory();
-	if (hjelp2 == -1)
+	int temp2 = FindFreeDirectory();
+	if (temp2 == -1)
 	{
 			std::cout<<("Blad: FFD zwrocilo -1 kiedy niepowinno\n");
 			return false;
 	}
 
-	DIR.File(name, hjelp);
+	DIR.File(name, temp);
 
-	DIR.Name[hjelp2-1] = name;
-	DIR.First[hjelp2-1] = hjelp;
-	FileTable.Busy[hjelp-1] = true;
-	FileTable.Next[hjelp-1] = -1;
+	DIR.Name[temp2-1] = name;
+	DIR.First[temp2-1] = temp;
+	FileTable.Busy[temp-1] = true;
+	FileTable.Next[temp-1] = -1;
 	FreeBlockCount--;
 
 	return true;
@@ -85,13 +87,13 @@ bool FileM::CreateFile(const std::string& name)
 //Szuka konkretnego pliku w katalogu
 int FileM::FindFile(const std::string& name)
 {
-	int hjelp;
+	int temp;
 	for (int i = 0; i < dysk.BlockCount; i++)
 	{
 		if (DIR.Name[i] == name)
 		{
-			hjelp = DIR.First[i];
-			return hjelp;
+			temp = DIR.First[i];
+			return temp;
 		}
 
 	}
@@ -117,20 +119,20 @@ bool FileM::DeleteFile(const std::string& name)
 		}
 	}
 	//Szuka wszystkich częścipliku i usuwa je od pierwszego do ostatniego
-	int hjelp2 = 1;
-	while (hjelp2 != 0)
+	int temp2 = 1;
+	while (temp2 != 0)
 	{
-		if (FileTable.Next[hjelp2] == -1)
+		if (FileTable.Next[temp2] == -1)
 		{
-			FileTable.Busy[hjelp2] = false;
-			FileTable.Next[hjelp2] = 0;
-			hjelp2 = 0;
+			FileTable.Busy[temp2] = false;
+			FileTable.Next[temp2] = 0;
+			temp2 = 0;
 		}
 		else
 		{
-			hjelp2 = FileTable.Next[hjelp2];
-			FileTable.Next[hjelp2] = 0;
-			FileTable.Busy[hjelp2] = false;
+			temp2 = FileTable.Next[temp2];
+			FileTable.Next[temp2] = 0;
+			FileTable.Busy[temp2] = false;
 		}
 	}
 	return true;
@@ -146,14 +148,14 @@ bool FileM::AddNewName(const std::string& name, const std::string& name2)
 		return false;
 	}
 
-	int hjelp = FindFreeDirectory();
-	if (hjelp == -1)
+	int temp = FindFreeDirectory();
+	if (temp == -1)
 	{
 		std::cout << "Blad: Nie istnieje plik o nazwie " << name << endl;
 		return false;
 	}
-	DIR.Name[hjelp] += name2;
-	DIR.First[hjelp] = x;
+	DIR.Name[temp] += name2;
+	DIR.First[temp] = x;
 	return true;
 }
 
@@ -174,7 +176,7 @@ bool FileM::ReplaceNewName(const std::string& name, const std::string& name2)
 
 bool FileM::WriteFile(const std::string& name, const std::string& tresc)
 {
-	int z[32], DoDysku, LicznikBitow = 0, PoprzedniBlok, hjelp;
+	int z[32], DoDysku, LicznikBitow = 0, PoprzedniBlok, temp;
 	int DlugoscTresci = tresc.length();
 	int x = FindFile(name);
 	const char  cstr[tresc.size()+1];
@@ -198,7 +200,7 @@ bool FileM::WriteFile(const std::string& name, const std::string& tresc)
 	while (DlugoscTresci > 32)
 	{
 		z[y] = FindFreeBlock();
-		if (hjelp == -1)
+		if (temp == -1)
 		{
 			std::cout <<"Blad: Brak wolnego miejsca na dysku\n";
 			return false;
@@ -252,8 +254,8 @@ bool FileM::PrintFile(const std::string& name)
 		printf("%c", dysk.A[x * 32+i]);
 
 	}
-	int hjelp;
-	while (hjelp != -1)
+	int temp;
+	while (temp != -1)
 	{
 		for (int i = 0; i < dysk.BlockSize; i++)
 		{
@@ -261,7 +263,7 @@ bool FileM::PrintFile(const std::string& name)
 
 
 		}
-		hjelp = FileTable.Next[hjelp];s
+		temp = FileTable.Next[temp];s
 	}
 	cout<<("\n");
 	return true;
@@ -310,7 +312,7 @@ bool FileM::Stats() const
 
 string FileM::SendFile(const std::string& name)
 {
-	std::string Wysylacz = "";
+	std::string data = "";
 
 	int x = FindFile(name);
 	if (x == -1)
@@ -321,22 +323,22 @@ string FileM::SendFile(const std::string& name)
 
 	for (int i = 0; i < dysk.BlockSize; i++)
 	{
-		Wysylacz += dysk.A[x * 32 + i];
+		data += dysk.A[x * 32 + i];
 
 	}
-	int hjelp;
-	while (hjelp != -1)
+	int temp;
+	while (temp != -1)
 	{
 		for (int i = 0; i < dysk.BlockSize; i++)
 		{
-			Wysylacz += dysk.A[x * 32 + i]);
+			data += dysk.A[x * 32 + i];
 
 
 		}
-		hjelp = FileTable.Next[hjelp];
+		temp = FileTable.Next[temp];
 	}
-	Wysylacz += "\n";
-	return Wysylacz;
+	//data += "\n";//zwiekszasz rozmiar programu bez sensu linijka 
+	return data;
 
 
 }

@@ -39,8 +39,13 @@ public:
 	int cx() const;
 	int dx() const;
 	int instruction_counter() const;
-	std::vector<Segment*> segment_tab;//0 text segment, 1 data segment, 2 message
-	std::vector<Segment*>* get_segment_tab();
+	std::vector<Segment*> segment_tab_;//0 text segment, 1 data segment, 2 message
+	std::vector<Segment*> segment_tab() const;
+	void set_segment_tab(const std::vector<Segment*>& segment_tab);
+	std::string text_segment();
+	std::string data_segment();
+	std::string message_segment();
+	
 
 	void set_name(const std::string& name);
 	void set_file_name(const std::string& file_name);

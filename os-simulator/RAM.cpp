@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "RAM.h"
 
+
 #include<fstream>
 
 using namespace std;
@@ -9,21 +10,28 @@ bool compare(const Free_blocks& a, const Free_blocks& b) {
 	return a.begining < b.begining;
 }
 
-int RAM::add_to_RAM(Process* process) { //zamienic na process
+int RAM::add_to_RAM(Process* process,const int& segment) { //zamienic na process
 	fstream file;
 	string commands, help, line[128];
 	int max_size = 0;
 	int list_index = 0;
 	int id = process->id();
 	
-	file.open(process->file_name());
+	
 	int length = 0, counter = 0;
+	auto segment_tab = process->segment_tab();
+	if (segment_tab[segment]->data != "") {
+		help = segment_tab[1]->data;
+		length = help.size();
+		
+		commands += help;
+		commands += '\n';
 
-	if (file.is_open())
-	{
-		while (file.good())
-		{
-			getline(file, help);
+	}
+	
+	
+	
+	/*	getline(file, help);
 			line[counter] = help;
 			counter++;		 //string stream
 			for (int i = 0; i <= help.length(); i++) //todo do uzgodnienia z FAT jak ma wygl¹daæ czytanie. 
@@ -34,13 +42,10 @@ int RAM::add_to_RAM(Process* process) { //zamienic na process
 
 			}
 			commands += help;
-			commands += '\n';
-		}
-
-
-	}
+			commands += '\n'; */
+	
 	else {
-		cout << "this file cannot be found. Try to change Filename parameter" << endl;
+		cout << "This string cannot be found." << endl;
 		return 2;
 	}
 	//cout << "all commands together:" << commands << "\n";
@@ -139,13 +144,19 @@ int RAM::add_to_RAM(Process* process) { //zamienic na process
 						Free_blocks_list.erase(fbi);
 					}
 
-					RAM_process process;
+					RAM_process RAM_process;
 
-					process.id = id;
-					process.size = length;
-					process.commands = commands;
-					process.start = F_b.begining - length;
-					RAM_processes_list.push_back(process);
+					RAM_process.id = id;
+					RAM_process.size = length;
+					RAM_process.commands = commands;
+					RAM_process.start = F_b.begining - length;
+					RAM_processes_list.push_back(RAM_process);
+
+					segment_tab[segment]->is_in_RAM = true;
+					segment_tab[segment]->baseRAM = RAM_process.start;
+					process->set_segment_tab(segment_tab);
+
+
 
 					free_space -= length;
 				}
@@ -185,6 +196,7 @@ void RAM::delete_from_RAM(Process* process) {
 	int size = 0;
 	Free_blocks F_b;
 	int id = process->id();
+	auto segment_tab = process->segment_tab();
 	
 		list<RAM_process>::iterator it;
 		bool id_not_exist = true;
@@ -208,6 +220,12 @@ void RAM::delete_from_RAM(Process* process) {
 		F_b.size = it->size;
 		F_b.end = starting_point + F_b.size;
 		Free_blocks_list.push_back(F_b);
+
+		for (int i = 0; i < segment_tab.size(); i++) {
+			segment_tab[i]->baseRAM = -1;
+			segment_tab[i]->is_in_RAM = false;
+		}
+		process->set_segment_tab(segment_tab);
 
 		RAM_processes_list.erase(it);
 		merge_RAM();
@@ -322,4 +340,28 @@ void RAM::merge_RAM() {
 			}
 		} 
 	} while (help == true);
+}
+
+bool RAM::modify_RAM(Process* process, int RAMposition, int byte) {
+	list<RAM_process>::iterator it;
+	string commands;
+	char character;
+	int id = process->id();
+	for (it = RAM_processes_list.begin(); it != RAM_processes_list.end(); it++) {
+		if (it->id == id) {
+			commands = it->commands;
+		}
+	}
+	int pos = 0;
+	for (int i = 0; i < commands.length(); i++) {
+		if (i == (RAMposition-it->start)) {
+			i = byte;
+			return true;
+			break;
+		}
+
+	}
+	return false; //TODO ram jako string[128] dopisaæ ³adnie komendy
+	
+
 }
