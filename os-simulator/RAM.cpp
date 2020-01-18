@@ -126,7 +126,7 @@ int RAM::add_to_RAM(Process* process) { //zamienic na process
 				}
 			}
 			if (!finder) {
-				F_b.end = 128;
+				F_b.end = 127;
 			}
 			F_b.size = F_b.end - F_b.begining;
 
@@ -141,7 +141,7 @@ int RAM::add_to_RAM(Process* process) { //zamienic na process
 		RAM_process.id = id;
 		RAM_process.size = length;
 		RAM_process.commands = commands;
-		RAM_process.start = (F_b.begining - length)-1;
+		RAM_process.start = (F_b.begining - length);
 		RAM_processes_list.push_back(RAM_process);
 
 		segment_tab[1]->is_in_RAM = true;
@@ -189,8 +189,9 @@ void RAM::show_RAM() {
 	std::cout << endl;
 	std::cout << endl;
 	std::cout << endl;
-	for (int i = 0; i < 127; i++) {
+	for (int i = 0; i < 128; i++) {
 		std::cout << i << ": " << memory[i] << "\t";
+
 	}
 }
 
@@ -233,8 +234,8 @@ void RAM::delete_from_RAM(Process* process) {
 	if (RAM_processes_list.empty()) {
 		//std::cout << "JESTEM PUSTA CALKIEM!!!";
 		list<Free_blocks>::iterator fbi;
-		F_b.begining = 1;
-		F_b.end = 128;
+		F_b.begining = 0;
+		F_b.end = 127;
 		F_b.size = F_b.end - F_b.begining;
 		Free_blocks_list.clear();
 		Free_blocks_list.push_back(F_b);
@@ -318,9 +319,9 @@ void RAM::merge_RAM() {
 				}
 			}
 			if (help == true) {
+				break;
 				loop++;
 				it2 = it;
-				break;
 			}
 		} 
 	} while (help == true);
@@ -333,5 +334,4 @@ bool RAM::modify_RAM(int RAMposition, int byte) {
 		return true;
 	else
 		return false;
-	//todo jezeli ram poza zakresem
 }

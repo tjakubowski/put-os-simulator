@@ -260,7 +260,7 @@ void VirtualMemory::display_segment_tab(Process* pcb)
 		std::cout << "<base in VM: " << segment_tab[i]->baseVM << " limit: " << segment_tab[i]->limit << " is in RAM: ";
 		if (segment_tab[i]->is_in_RAM)
 		{
-			std::cout << "true" << " <base in RAM: " << segment_tab[i]->baseRAM;
+			std::cout << "true" << " base in RAM: " << segment_tab[i]->baseRAM;
 		}
 		else
 		{
