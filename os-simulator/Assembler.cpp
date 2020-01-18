@@ -53,12 +53,14 @@ void Assembler::set_licznik(int v)
 	licznik = v;
 }
 
-void saveFile(Assembler& reg,Process*pcb)
+void Assembler::saveFile(Assembler& reg, Process* pcb)
 {
-	string program = pcb->text_segment();
+ string program = pcb->text_segment();
 	string pom_com = "";
 	string com = "";
-	com = program[reg.get_licznik()] + program[(reg.get_licznik() + 1)];
+	int pom1 = reg.get_licznik();
+	int pom2 = reg.get_licznik() + 1;
+	com = program[pom1] + program[(pom2)];
 	int i, j;
 	for (i = reg.get_licznik(), j = 0; j < reg.ile_arg(com)+1; i++)
 	{
@@ -177,55 +179,7 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 	reg.set_licznik(reg.get_licznik() + size_ss);
 
 
-	if (line[0] == "MI")
-	{
-		if (line[1] == "A")
-		{
-			if (line[2] == "B")
-			{
-				reg.set_A(reg.get_B());
-			}
-			else if (line[2] == "C")
-			{
-				reg.set_A(reg.get_C());
-			}
-			else
-			{
-				reg.set_A(stoi(line[2]));
-			}
-		}
-		else if (line[1] == "B")
-		{
-			if (line[2] == "A")
-			{
-				reg.set_B(reg.get_A());
-			}
-			else if (line[2] == "C")
-			{
-				reg.set_B(reg.get_C());
-			}
-			else
-			{
-				reg.set_B(stoi(line[2]));
-			}
-		}
-		else if (line[1] == "C")
-		{
-			if (line[2] == "A")
-			{
-				reg.set_C(reg.get_A());
-			}
-			else if (line[2] == "B")
-			{
-				reg.set_C(reg.get_B());
-			}
-			else
-			{
-				reg.set_C(stoi(line[2]));
-			}
-		}
-	}
-
+	/*
 	else if (line[0] == "RD")
 	{
 		if (line[1] == "A")
@@ -250,8 +204,8 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 			reg.set_C(val);
 		}
 	}
-
-	else if (line[0] == "MV")
+	*/
+	if (line[0] == "MV")
 	{
 		if (line[1] == "A")
 		{
@@ -265,8 +219,22 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 			}
 			else
 			{
-				reg.set_A(stoi(line[2]));
+				string x = line[2];
+				string xy = "";
+				if (x[0] == '[' && x[x.size() - 1] == ']')
+				{
+					for (int o = 1; o < x.size() - 1; o++)
+					{
+						xy += x[o];
+					}
+					reg.set_A(stoi(RAM::GetInstance().char_RAM(stoi(xy))));
+				}
+				else if (x[0] > '0' && x[0] <= '9')
+				{
+					reg.set_A(stoi(x));
+				}
 			}
+
 		}
 		else if (line[1] == "B")
 		{
@@ -280,8 +248,22 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 			}
 			else
 			{
-				reg.set_B(stoi(line[2]));
+				string x = line[2];
+				string xy = "";
+				if (x[0] == '[' && x[x.size() - 1] == ']')
+				{
+					for (int o = 1; o < x.size() - 1; o++)
+					{
+						xy += x[o];
+					}
+					reg.set_B(stoi(RAM::GetInstance().char_RAM(stoi(xy))));
+				}
+				else if (x[0] > '0' && x[0] <= '9')
+				{
+					reg.set_B(stoi(x));
+				}
 			}
+
 		}
 		else if (line[1] == "C")
 		{
@@ -295,11 +277,23 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 			}
 			else
 			{
-				reg.set_C(stoi(line[2]));
+				string x = line[2];
+				string xy = "";
+				if (x[0] == '[' && x[x.size() - 1] == ']')
+				{
+					for (int o = 1; o < x.size() - 1; o++)
+					{
+						xy += x[o];
+					}
+					reg.set_C(stoi(RAM::GetInstance().char_RAM(stoi(xy))));
+				}
+				else if (x[0] > '0' && x[0] <= '9')
+				{
+					reg.set_C(stoi(x));
+				}
 			}
 		}
 	}
-
 	else if (line[0] == "AD")
 	{
 		if (line[1] == "A")
@@ -318,9 +312,26 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 			}
 			else
 			{
-				reg.set_A(reg.get_A() + stoi(line[2]));
+				string x = line[2];
+				string xy = "";
+				if (x[0] == '[' && x[x.size() - 1] == ']')
+				{
+					for (int o = 1; o < x.size() - 1; o++)
+					{
+						xy += x[o];
+					}
+					reg.set_A(reg.get_A() + stoi(RAM::GetInstance().char_RAM(stoi(xy))));
+				}
+				else if (x[0] > '0' && x[0] <= '9')
+				{
+					reg.set_A(reg.get_A() + stoi(x));
+				}
 			}
+			
+			
+			
 		}
+
 		else if (line[1] == "B")
 		{
 			if (line[2] == "A")
@@ -337,7 +348,20 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 			}
 			else
 			{
-				reg.set_B(reg.get_B() + stoi(line[2]));
+				string x = line[2];
+				string xy = "";
+				if (x[0] == '[' && x[x.size() - 1] == ']')
+				{
+					for (int o = 1; o < x.size() - 1; o++)
+					{
+						xy += x[o];
+					}
+					reg.set_B(reg.get_B() + stoi(RAM::GetInstance().char_RAM(stoi(xy))));
+				}
+				else if (x[0] > '0' && x[0] <= '9')
+				{
+					reg.set_B(reg.get_B() + stoi(x));
+				}
 			}
 		}
 		else if (line[1] == "C")
@@ -357,7 +381,20 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 			}
 			else
 			{
-				reg.set_C(reg.get_C() + stoi(line[2]));
+				string x = line[2];
+				string xy = "";
+				if (x[0] == '[' && x[x.size() - 1] == ']')
+				{
+					for (int o = 1; o < x.size() - 1; o++)
+					{
+						xy += x[o];
+					}
+					reg.set_C(reg.get_C() + stoi(RAM::GetInstance().char_RAM(stoi(xy))));
+				}
+				else if (x[0] > '0' && x[0] <= '9')
+				{
+					reg.set_C(reg.get_C() + stoi(x));
+				}
 			}
 		}
 	}
@@ -380,7 +417,20 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 			}
 			else
 			{
-				reg.set_A(reg.get_A() - stoi(line[2]));
+				string x = line[2];
+				string xy = "";
+				if (x[0] == '[' && x[x.size() - 1] == ']')
+				{
+					for (int o = 1; o < x.size() - 1; o++)
+					{
+						xy += x[o];
+					}
+					reg.set_A(reg.get_A() - stoi(RAM::GetInstance().char_RAM(stoi(xy))));
+				}
+				else if (x[0] > '0' && x[0] <= '9')
+				{
+					reg.set_A(reg.get_A() - stoi(x));
+				}
 			}
 		}
 		else if (line[1] == "B")
@@ -399,7 +449,20 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 			}
 			else
 			{
-				reg.set_B(reg.get_B() - stoi(line[2]));
+				string x = line[2];
+				string xy = "";
+				if (x[0] == '[' && x[x.size() - 1] == ']')
+				{
+					for (int o = 1; o < x.size() - 1; o++)
+					{
+						xy += x[o];
+					}
+					reg.set_B(reg.get_B() - stoi(RAM::GetInstance().char_RAM(stoi(xy))));
+				}
+				else if (x[0] > '0' && x[0] <= '9')
+				{
+					reg.set_B(reg.get_B() - stoi(x));
+				}
 			}
 		}
 		else if (line[1] == "C")
@@ -418,10 +481,25 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 			}
 			else
 			{
-				reg.set_C(reg.get_C() - stoi(line[2]));
+				string x = line[2];
+				string xy = "";
+				if (x[0] == '[' && x[x.size() - 1] == ']')
+				{
+					for (int o = 1; o < x.size() - 1; o++)
+					{
+						xy += x[o];
+					}
+					reg.set_C(reg.get_C() - stoi(RAM::GetInstance().char_RAM(stoi(xy))));
+				}
+				else if (x[0] > '0' && x[0] <= '9')
+				{
+					reg.set_C(reg.get_C() - stoi(x));
+				}
 			}
 		}
 	}
+
+
 
 	else if (line[0] == "MU")
 	{
@@ -441,7 +519,20 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 			}
 			else
 			{
-				reg.set_A(reg.get_A() * stoi(line[2]));
+				string x = line[2];
+				string xy = "";
+				if (x[0] == '[' && x[x.size() - 1] == ']')
+				{
+					for (int o = 1; o < x.size() - 1; o++)
+					{
+						xy += x[o];
+					}
+					reg.set_A(reg.get_A() * stoi(RAM::GetInstance().char_RAM(stoi(xy))));
+				}
+				else if (x[0] > '0' && x[0] <= '9')
+				{
+					reg.set_A(reg.get_A() * stoi(x));
+				}
 			}
 		}
 		else if (line[1] == "B")
@@ -460,7 +551,20 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 			}
 			else
 			{
-				reg.set_B(reg.get_B() * stoi(line[2]));
+				string x = line[2];
+				string xy = "";
+				if (x[0] == '[' && x[x.size() - 1] == ']')
+				{
+					for (int o = 1; o < x.size() - 1; o++)
+					{
+						xy += x[o];
+					}
+					reg.set_B(reg.get_B()* stoi(RAM::GetInstance().char_RAM(stoi(xy))));
+				}
+				else if (x[0] > '0' && x[0] <= '9')
+				{
+					reg.set_B(reg.get_B()* stoi(x));
+				}
 			}
 		}
 		else if (line[1] == "A")
@@ -477,12 +581,27 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 			{
 				reg.set_C(reg.get_C() * reg.get_C());
 			}
+
 			else
 			{
-				reg.set_C(reg.get_C() * stoi(line[2]));
+				string x = line[2];
+				string xy = "";
+				if (x[0] == '[' && x[x.size() - 1] == ']')
+				{
+					for (int o = 1; o < x.size() - 1; o++)
+					{
+						xy += x[o];
+					}
+					reg.set_C(reg.get_C() * stoi(RAM::GetInstance().char_RAM(stoi(xy))));
+				}
+				else if (x[0] > '0' && x[0] <= '9')
+				{
+					reg.set_C(reg.get_C() * stoi(x));
+				}
 			}
 		}
 	}
+
 
 	else if (line[0] == "JC")
 	{
@@ -490,11 +609,13 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 			reg.set_licznik(stoi(line[1]));
 	}
 
+
 	else if (line[0] == "JZ")
 	{
 		if (reg.get_C() == 0)
 			reg.set_licznik(stoi(line[1]));
 	}
+
 
 	else if (line[0] == "JL")
 	{
@@ -502,16 +623,19 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 			reg.set_licznik(stoi(line[1]));
 	}
 
+
 	else if (line[0] == "JP")
 	{
 		reg.set_licznik(stoi(line[1]));
 	}
+
 
 	else if (line[0] == "JM")
 	{
 		if (reg.get_C() > 0)
 			reg.set_licznik(stoi(line[1]));
 	}
+
 
 	else if (line[0] == "PR")
 	{
@@ -528,6 +652,7 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 			cout << reg.get_C();
 		}
 	}
+
 
 	else if (line[0] == "CF")
 	{
@@ -608,12 +733,12 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 
 	else if (line[0] == "PS")		// Tworzy proces
 	{
-		//ProcessManager::GetInstance().CreateProcess(line[1],line[2], stoi(line[3]));
+		ProcessManager::GetInstance().CreateProcess(line[1],line[2], stoi(line[3]));
 	}
 
 	else if (line[0] == "PO")		// Otwiera proces
 	{
-
+		
 	}
 
 	else if (line[0] == "PC")		//Zamyka proces
@@ -623,7 +748,7 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 
 	else if (line[0] == "PD")		//Kasuje proces
 	{
-		//ProcessManager::GetInstance().KillProcess(line[1]);
+		ProcessManager::GetInstance().KillProcess(line[1]);
 	}
 
 	else if (line[0] == "FO")
@@ -672,6 +797,16 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 	}
 }
 
+void lastLineControl(Assembler& reg, Process* pcb)
+{
+	string program = "";
+	program = pcb->text_segment();
+	int sizeProgram = program.size();
+	if (sizeProgram < reg.get_licznik())
+	{
+		ProcessManager::GetInstance().KillProcess(pcb);
+	}
+}
 //do tej funkcji dostaje stringa od Kacpra po tym jak ustalimy juz ile argumentow rozkaz i dostaje go calego xd
 void Assembler::runProgram()
 {
@@ -688,7 +823,10 @@ void Assembler::runProgram()
 	process_run->set_bx(reg.get_B());
 	process_run->set_cx(reg.get_C());
 	process_run->set_dx(reg.get_D());
-	//get_licznik jest wczesniej zrobione
+	//get_licznik jest wczesniej zrobione w funkcji countLine
+	
+	//sprawdzenie czy ostatnia linia
+	lastLineControl(reg,process_run);
 }
 /*
 int main()

@@ -45,12 +45,13 @@ public:
 
 	void runCommand(string c_line, Assembler& reg);
 
+	void lastLineControl(Assembler& reg, Process* pcb);
+
 	void runProgram();
 
-	void saveFile(Assembler& reg,Process *pcb);
+	void saveFile(Assembler& reg, Process *pcb);
 
 	int countLine(std::string line);
-
 };
 
 
