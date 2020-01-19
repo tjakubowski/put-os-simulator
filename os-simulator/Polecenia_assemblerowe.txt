@@ -19,7 +19,7 @@
 >IC rejestrX		- zwiększa rejestrX o 1			- rejestrX++
 >DC rejestrX		- zmniejsza rejestrX o 1		- rejestrX--
 
->PR rejestrX		- wypisz rejestrX na ekranie		- cout << rejestrX
+//>RR rejestr		- wypisz rejestrX na ekranie		- cout << rejestrX
 
 >JP int			- skocz do linii int
 >JC int 		- skocz do linii int jeśli rejestr C != 0
@@ -36,14 +36,15 @@ Nie zrobione jeszcze
 --FC nazwa		- zamknij plik o nazwie nazwa
 --DF nazwa		- usuń plik o nazwie nazwa
 --CF nazwa 		- stwórz plik o nazwie nazwa
---SF nazwa nazwa2		- zmienia plik o nazwie nazwa na nazwa2
---AF nazwa tresc		- dopisuje do pliku o nazwie nazwa teskt tresc
+--SF nazwa nazwa2	- zmienia plik o nazwie nazwa na nazwa2
+--AF nazwa tresc	- dopisuje do pliku o nazwie nazwa teskt tresc
 --AR nazwa rejestr 	- dopisuje do pliku o nazwie nazwa wartosc rejestru rejestr
---PF nazwa		- wyświtla plik o nazwie nazwa
+--FP nazwa		- wyświtla plik o nazwie nazwa
 
--PS nazwa		- stworz proces o nazwie nazwa	
--PO nazwa		- otworz proces o nazwie nazwa
--PC nazwa plik priority - zamknij proces o nazwie nazwa plik priority
+-PC nazwa plik priority	- zamknij proces o nazwie nazwa plik priority
+-PW nazwa		- ustawia proces na waiting
+-PR nazwa 		- ustawia proces na ready
+-RP nazwa		- ustawia proces na Running			
 -PD nazwa 		- usun proces o nazwie nazwa
 
 "
