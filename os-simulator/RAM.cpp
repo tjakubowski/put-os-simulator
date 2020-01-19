@@ -246,11 +246,7 @@ void RAM::delete_from_RAM(Process* process) {
 	}
 }
 
-string RAM::char_RAM(int position) {
 
-	return memory[position];
-
-}
 
 string RAM::read_RAM(Process* process, int counter) {
 	list<RAM_process>::iterator it;
@@ -337,11 +333,19 @@ void RAM::merge_RAM() {
 	} while (help == true);
 }
 
+//TODO do dogadania z Assemblerem
+
 bool RAM::modify_RAM(int RAMposition, int byte) {
+
 	memory[RAMposition] = byte;
 	int position = stoi(memory[RAMposition]);
 	if (position == byte)
 		return true;
 	else
 		return false;
+}
+string RAM::char_RAM(int position) {
+
+	return memory[position];
+
 }

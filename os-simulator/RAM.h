@@ -12,6 +12,8 @@
 
 using namespace std;
 //TODO sprawdziæ co siê dzieje jak jest bardzo du¿o ma³ych wolnych dziur i chce siê dodaæ proces
+//TODO dodaæ wyj¹tek albo coœ jak Assembler albo kotkolwiek prosi o coœ co jest mniejsze ni¿ 1 i wieksze niz 128
+//TODO do dogadania z Assemblerem
 struct Free_blocks {
 	int size;
 	int begining;
