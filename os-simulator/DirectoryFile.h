@@ -11,7 +11,7 @@ public:
 	//Pierwszy element tablicy FAT 
 	int First[32];
 
-	struct File
+	/*struct File
 	{
 		Semaphore sem;
 		std::string name;
@@ -27,6 +27,7 @@ public:
 
 		}
 	};
+	*/
 
 
 	//char metadata[32];

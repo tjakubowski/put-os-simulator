@@ -1,3 +1,5 @@
+#pragma once
+
 #include "pch.h"
 
 #include <bitset>
@@ -10,11 +12,9 @@
 #include "FAT.h"
 #include "DirectoryFile.h"
 
-class FileM : public Singleton<FileM>
+class FileM  :public Singleton<FileM>
 {
-
 public:
-
 
 	friend class Singleton<FileM>;
 	//Konstruktor nowego bloku zarzadzania plikami
@@ -53,7 +53,6 @@ public:
 	FAT FileTable;
 	DirectoryFile DIR;
 
-	Drive dysk2;
 
 
 
