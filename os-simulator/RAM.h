@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <fstream>
 #include "ProcessManager.h"
+#include "Segment.h"
 
 using namespace std;
 
@@ -50,6 +51,7 @@ private:
 	void merge_RAM();
 public:
 	int add_to_RAM(Process* process);
+<<<<<<< Updated upstream
 	//dodaæ wskaŸnik na proces jako argument albo ciagnac po id pobraæ kod programu z modu³u FAT //zamienic na proces
 	void delete_from_RAM(Process* process);  //dodaæ wskaŸnik na proces jako argument
 	void show_RAM(); //wyswietlenie zawartosci ram
@@ -58,4 +60,12 @@ public:
 	bool modify_RAM(int position, int byte);
 
 
+=======
+	void delete_from_RAM(Process* process);
+	void show_RAM();
+	char char_RAM(Process* process, int place);
+	string read_RAM(Process* process, int counter);
+	
+	
+>>>>>>> Stashed changes
 };
