@@ -34,7 +34,7 @@ public:
 	//zapisz tresc do pliku o podanej nazwie
 	bool WriteFile(const std::string& name, string tresc);
 	//Przesyla plik jako string
-	std::string SendFile(const std::string& name);
+	static std::string SendFile(const std::string& name);
 	//Wyswietla plik za pomoca couta
 	bool PrintFile(const std::string& name);
 	//Szuka pliku true - istnieje false - nie istnieje
