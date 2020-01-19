@@ -1,17 +1,18 @@
 >AD rejestrX rejestrY	- dodaj rejestrY do rejestruX  		- rejestrX += rejestrY
 >AD rejestrX int	- dodaj int do rejestruX  		- rejestrX += int
+>AD rejestrX [RAM] 	- dodaje do rejestruX wartość odczytana z RAM
 
 >SB rejestrX rejestrY	- odejmij rejestrY do rejestruX  	- rejestrX -= rejestrY
 >SB rejestrX int	- odejmij int do rejestruX  		- rejestrX -= int
+>SB rejestrX [RAM]	- odczytuje pozycje z miejsca RAM i zapisuje do rejestrX
 	
 >MV rejestrX rejestrY 	- przypisz rejestrX wartość rejestrY 	- rejestrX = rejestrY
 >MV rejestrX int	- przypisz rejestrX wartość int		- rejestrX = int
+>MV rejestrX [RAM]	- przypisuje rejestrowi X wartość odczytaniej pozycji z RAM
 
 >MU rejestrX rejestrY	- pomnóz rejestrX przez rejestrY	- rejestrX *= rejestrY
 >MU rejestrX int	- pomnóz rejestrX przez int		- rejestrX *= int
-
->MI rejestrX rejestrY	- nadaje rejestrX rejestrY		- rejestrX = rejestrY
->MI rejestrX int	- nadaje rejestrX int			- rejestrX = int
+>MU rejestrX [RAM]	- pomnóż rejestrX przez wartosc z RAM
 
 >RD rejestrX		- wpisuje wartość podaną przez użytkownika do rejestrX
 
