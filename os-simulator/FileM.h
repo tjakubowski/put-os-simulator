@@ -1,20 +1,22 @@
 #include "pch.h"
 
 #include <bitset>
-#include <cstring>
 #include <string>
+#include <vector>
 #include <iostream>
 #include <algorithm>
 #include "Disc.h"
 #include "FAT.h"
 #include "DirectoryFile.h"
-#include "Semaphore.h"
+
 
 
 class FileM : public Singleton<FileM>
 {
 
 public:
+
+
 	friend class Singleton<FileM>;
 	FileM();
 	//Instrukcja Otworzenia Pliku
@@ -30,7 +32,7 @@ public:
 	//zmien nazwe pliku
 	bool ReplaceNewName(const std::string& name, const std::string& name2);
 	//zapisz tresc do pliku o podanej nazwie
-	bool WriteFile(std::string& name, std::string tresc);
+	bool WriteFile(const std::string& name, std::vector<char> tresc);
 	//Przesyla plik jako string
 	std::string SendFile(const std::string& name);
 	//Wyswietla plik za pomoca couta
@@ -49,7 +51,6 @@ public:
 	DirectoryFile DIR;
 	
 
-
 private:
 	int FreeBlockCount;
 	
@@ -59,7 +60,7 @@ private:
 
 	bool Clearall();
 
-	bool OpenFile(const std::string&, int process_id);
+
 
 
 

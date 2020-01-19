@@ -15,6 +15,7 @@ bool FileM::Clearall()
 		FreeBlockCount = dysk.BlockCount;
 		DIR.Name[i] ="";
 	}
+	return true;
 }
 
 std::string FileM::OpenFile(Process*pcb)
@@ -37,6 +38,7 @@ std::string FileM::OpenFile(Process*pcb)
 bool FileM::CloseFile(std::string ProcessName)
 {
 	//Signal(ProcessName);
+	return true;
 }
 
 //Szuka pierwszego wolnego bloku w FAT
@@ -179,80 +181,55 @@ bool FileM::ReplaceNewName(const std::string& name, const std::string& name2)
 
 
 //WORK IN PROGRESS
-bool FileM::WriteFile(std::string& name, std::string tresc)
+bool FileM::WriteFile(const std::string& name, std::vector<char> tresc)
 {
-	int z[32];
-	int DoDysku, LicznikBitow = 0, PoprzedniBlok, temp;
-
-
-	//Sprawdzamy czy istnieje taki plik
-	int x = FindFile(name);
-	if (x == -1)
+	int HowLong = tresc.size();
+	int help1 = HowLong;
+	int HowMany = 0;
+	while (help1 > 32)
 	{
-		std::cout << "Blad: Nie istnieje plik o nazwie " << name << "\n";
-		return false;
+		HowMany++;
+		help1 = help1 - 32;
 	}
-	
-	string hjelp = tresc;
 
-
-//	temp = tresc.size();
-	
-
-	for (int i = 0; i < 32; i++)
+	int Previous = FindFile(name);
+	int help2 = HowLong;
+	if (HowMany > 0)
 	{
-		z[i] = -1;
-	}
-	int y = 0;
-
-	//Szukamy dodatkowych blokow
-	/*while (DlugoscTresci > 32)
-	{
-		z[y] = FindFreeBlock();
-		if (temp == -1)
+	//Kiedy uzwyamy wiecej niz jednego bloku pamieci
+		for (int i = 0; i < HowMany; i++)
 		{
-			std::cout <<"Blad: Brak wolnego miejsca na dysku\n";
-			return false;
-		}
-		FileTable.Busy[z[y]] = true;
-		FreeBlockCount--;
-		FileTable.Next[z[y]] = -1;
-		FileTable.Next[PoprzedniBlok] = z[y];
-		PoprzedniBlok = z[y];
+			int  Free = FindFreeBlock();
+			if (Free == -1)
+			{
+				std::cout << "Blad: Brak miejsca na dysku\n";
+				return false;
+			}
 
-		y++;
-		DlugoscTresci = DlugoscTresci - 32;
+			FileTable.Next[Previous] = Free;
+			FileTable.Busy[Free] = true;
+			FileTable.Next[Free] = -1;
+			Previous = Free;
+
+			for (int j = 0; j < dysk.BlockSize; j++)
+			{
+				dysk.A[dysk.BlockSize * Free + j] = tresc[j];
+			}
+
+
+		}
 	}
-	*/
-	
-	/*DoDysku = (x - 1)*dysk.BlockSize;
-	//Przepisywanie tresci dla pierwszego bloku pamieci
-	
-	
-	for (int i = 0; i < dysk.BlockSize; i++)
+	//Jezeli uzywamy tylko jednego bloku pamieci
+	else
 	{
-		dysk.A[DoDysku + i] = cstr[LicznikBitow];
-		LicznikBitow++;
-		if (LicznikBitow == tresc.length())
-			break;
-	}
-	//Dla kolejnych
-	for (int i = 0; i < 32; i++)
-	{
-		if (z[i] == -1)
-			break;
-		
-		DoDysku = z[i] * dysk.BlockSize;
 		for (int j = 0; j < dysk.BlockSize; j++)
 		{
-			dysk.A[DoDysku + j] = cstr[LicznikBitow];
-			LicznikBitow++;
-			if (LicznikBitow == tresc.size() + 1)
-				break;
+			dysk.A[dysk.BlockSize * Previous + j] = tresc[j];
 		}
+
 	}
-	*/
 	return true;
+
 }
 
 bool FileM::PrintFile(const std::string& name)
@@ -268,7 +245,7 @@ bool FileM::PrintFile(const std::string& name)
 		std::cout<< dysk.A[x * 32+i];
 
 	}
-	int temp;
+	int temp = 0;
 	while (temp != -1)
 	{
 		for (int i = 0; i < dysk.BlockSize; i++)
@@ -290,6 +267,7 @@ bool FileM::ListDirectory() const
 		if (DIR.Name[i] != "")
 		std::cout<<"Nazwa: " << DIR.Name[i]<<"  Pierwszy Blok Pamieci:"<< DIR.First[i] << "\n";
 	}
+	return true;
 }
 
 bool FileM::ListFAT() const
@@ -301,6 +279,7 @@ bool FileM::ListFAT() const
 		else
 			std::cout<<("%d. Busy: False, Nastepny Blok Pamieci: -\n", i+1);
 	}
+	return true;
 }
 
 
@@ -320,31 +299,31 @@ bool FileM::Stats() const
 	std::string Wyswietl = "";
 	Wyswietl  = Wyswietl + "Miejsce (wolne/max): " + std::to_string(FreeBlockCount) + "/" + std::to_string(dysk.BlockCount) + '\n';
 	std::cout<<Wyswietl;
-
+	return true;
 }
 
 std::string FileM::SendFile(const std::string& name)
 {
 	std::string data = "";
 
-	int x = FindFile(name);
-	if (x == -1)
+	int Next = FindFile(name);
+	if (Next == -1)
 	{
 		std::cout << "Blad: Nie istnieje plik o nazwie " << name << "\n";
-		return false;
+		return 0;
 	}
 
 	for (int i = 0; i < dysk.BlockSize; i++)
 	{
-		data = data + dysk.A[x * 32 + i];
+		data = data + dysk.A[dysk.BlockSize * Next + i];
 
 	}
-	int temp;
+	int temp = 0;
 	while (temp != -1)
 	{
 		for (int i = 0; i < dysk.BlockSize; i++)
 		{
-			data = data + dysk.A[x * 32 + i];
+			data = data + dysk.A[dysk.BlockSize* Next + i];
 
 
 		}
