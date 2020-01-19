@@ -11,7 +11,7 @@
 #include "Segment.h"
 
 using namespace std;
-
+//TODO sprawdziæ co siê dzieje jak jest bardzo du¿o ma³ych wolnych dziur i chce siê dodaæ proces
 struct Free_blocks {
 	int size;
 	int begining;
