@@ -28,9 +28,8 @@ std::string FileM::OpenFile(Process*pcb)
 		//	return false;//jak moze byc w funkcji ktora zwraca stringa return false???
 	}
 	
-	 //Wait(ProcessName);//wyjebuje tu blad napraw to 
 	
-	//przeslij PLIK stringiem.
+	//przesyla PLIK stringiem.
 	return SendFile(name);
 
 }
@@ -60,28 +59,32 @@ int  FileM::FindFreeDirectory()
 //Tworzy pusty plik
 bool FileM::CreateFile(const std::string& name)
 {
-	int temp;
-	temp = FindFreeBlock();
 
-	if (temp == -1)
+	int Check = InvestigateFile(name);
+	if (Check == true)
+	{
+		std::cout << "Blad: Plik o nazwie " << name << " juz istnieje\n";
+		return false;
+	}
+
+	int Adress = FindFreeBlock();
+	if (Adress == -1)
 	{
 		std::cout << "Blad: Brak wolnego miejsca na dysku\n";
 		return false;
 	}
 
-	int temp2 = FindFreeDirectory();
-	if (temp2 == -1)
+	int Directory = FindFreeDirectory();
+	if (Directory == -1)
 	{
 			std::cout<<("Blad: FFD zwrocilo -1 kiedy niepowinno\n");
 			return false;
 	}
 
-	//DIR.File(name, temp);
-
-	DIR.Name[temp2-1] = name;
-	DIR.First[temp2-1] = temp;
-	FileTable.Busy[temp-1] = true;
-	FileTable.Next[temp-1] = -1;
+	DIR.Name[Directory-1] = name;
+	DIR.First[Directory-1] = Adress;
+	FileTable.Busy[Adress-1] = true;
+	FileTable.Next[Adress-1] = -1;
 	FreeBlockCount--;
 
 	return true;
@@ -90,23 +93,22 @@ bool FileM::CreateFile(const std::string& name)
 //Szuka konkretnego pliku w katalogu
 int FileM::FindFile(const std::string& name)
 {
-	int temp;
+	int Found;
 	for (int i = 0; i < dysk.BlockCount; i++)
 	{
 		if (DIR.Name[i] == name)
 		{
-			temp = DIR.First[i];
-			return temp;
+			Found = DIR.First[i];
+			return Found+1;
 		}
-
 	}
 	return -1;
 }
 
 bool FileM::DeleteFile(const std::string& name)
 {
-	int x = FindFile(name);
-	if (x == -1)
+	int FoundFile = FindFile(name)-1;
+	if (FoundFile == -1)
 	{
 		std::cout << "Blad: Nie istnieje plik o nazwie " << name << "\n";
 		return false;
@@ -115,27 +117,29 @@ bool FileM::DeleteFile(const std::string& name)
 	//Usuwanie innych nazw
 	for (int i = 0; i < dysk.BlockCount; i++)
 	{
-		if (DIR.First[i] == x)
+		if (DIR.First[i] == FoundFile)
 		{
 			DIR.First[i] = 0;
 			DIR.Name[i] = "";
 		}
 	}
 	//Szuka wszystkich częścipliku i usuwa je od pierwszego do ostatniego
-	int temp2 = 1;
-	while (temp2 != 0)
+	int help = FoundFile;
+	while (help != 0)
 	{
-		if (FileTable.Next[temp2] == -1)
+		if (FileTable.Next[help] == -1)
 		{
-			FileTable.Busy[temp2] = false;
-			FileTable.Next[temp2] = 0;
-			temp2 = 0;
+			FileTable.Busy[help] = false;
+			FileTable.Next[help] = 0;
+			help = 0;
+			FreeBlockCount++;
 		}
 		else
 		{
-			temp2 = FileTable.Next[temp2];
-			FileTable.Next[temp2] = 0;
-			FileTable.Busy[temp2] = false;
+			help = FileTable.Next[help];
+			FileTable.Next[help] = 0;
+			FileTable.Busy[help] = false;
+			FreeBlockCount++;
 		}
 	}
 	return true;
@@ -144,14 +148,14 @@ bool FileM::DeleteFile(const std::string& name)
 //Dodaje dodatkowa nazwe dla istniejacego pliku 
 bool FileM::AddNewName(const std::string& name, const std::string& name2)
 {
-	int x = FindFile(name);
+	int x = FindFile(name)-1;
 	if (x == -1)
 	{
 		std::cout << "Blad: Nie istnieje plik o nazwie " << name << "\n";
 		return false;
 	}
 
-	int SecondAdress = FindFreeDirectory();
+	int SecondAdress = FindFreeDirectory()-1;
 	if (SecondAdress == -1)
 	{
 		std::cout << "Blad: Nie istnieje plik o nazwie " << name << "\n";
@@ -161,8 +165,6 @@ bool FileM::AddNewName(const std::string& name, const std::string& name2)
 	DIR.First[SecondAdress] = x;
 	return true;
 }
-
-
 
 bool FileM::ReplaceNewName(const std::string& name, const std::string& name2)
 {
@@ -190,14 +192,14 @@ bool FileM::WriteFile(const std::string& name, std::string tresc)
 		help1 = help1 - 32;
 	}
 
-	int Previous = FindFile(name);
+	int Previous = FindFile(name)-1;
 	int help2 = HowLong;
 	if (HowMany > 0)
 	{
 	//Kiedy uzwyamy wiecej niz jednego bloku pamieci
 		for (int i = 0; i < HowMany; i++)
 		{
-			int  Free = FindFreeBlock();
+			int  Free = FindFreeBlock()-1;
 			if (Free == -1)
 			{
 				std::cout << "Blad: Brak miejsca na dysku\n";
@@ -208,6 +210,7 @@ bool FileM::WriteFile(const std::string& name, std::string tresc)
 			FileTable.Busy[Free] = true;
 			FileTable.Next[Free] = -1;
 			Previous = Free;
+			FreeBlockCount--;
 
 			for (int j = 0; j < dysk.BlockSize; j++)
 			{
@@ -223,6 +226,7 @@ bool FileM::WriteFile(const std::string& name, std::string tresc)
 		for (int j = 0; j < dysk.BlockSize; j++)
 		{
 			dysk.A[dysk.BlockSize * Previous + j] = tresc[j];
+			FreeBlockCount--;
 		}
 
 	}
@@ -232,7 +236,7 @@ bool FileM::WriteFile(const std::string& name, std::string tresc)
 
 bool FileM::PrintFile(const std::string& name)
 {
-	int x = FindFile(name);
+	int x = FindFile(name)-1;
 	if (x == -1)
 	{
 		std::cout << "Blad: Nie istnieje plik o nazwie " << name << "\n";
@@ -240,7 +244,7 @@ bool FileM::PrintFile(const std::string& name)
 	}
 	for (int i = 0; i < dysk.BlockSize; i++)
 	{
-		std::cout<< dysk.A[x * 32+i];
+		std::cout<< dysk.A[x * dysk.BlockSize +i];
 
 	}
 	int temp = 0;
@@ -279,7 +283,6 @@ bool FileM::ListFAT() const
 	}
 	return true;
 }
-
 
 bool FileM::InvestigateFile(const std::string& name)
 {
@@ -332,33 +335,7 @@ std::string FileM::SendFile(const std::string& name)
 //Na potrzeby tego zakladam ze plik zostal otwarty przed wywolaniem funkcji!
 bool FileM::ExtractFile(const std::string& name, std::fstream tekst)
 {
-	int Check = FindFile(name);
-	if (Check != -1)
-	{
-		std::cout << "Blad: Plik o nazwie " << name << " juz istnieje\n";
-		return false;
-	}
-
-	int Adres = FindFreeDirectory();
-	if (Adres == -1)
-	{
-		std::cout << "Blad: Brak wolnego miejsca na dysku\n";
-		return false;
-	}
-
-	int FaT = FindFreeBlock();
-	if (FaT == -1)
-	{
-		std::cout << ("Blad: FFB zwrocilo -1 kiedy niepowinno\n");
-		return false;
-	}
-
 	CreateFile(name);
-/*	DIR.Name[Adres] = name;
-	DIR.First[Adres] = FaT;
-	FileTable.Next[FaT] = -1;
-	FileTable.Busy[FaT] = true;
-	*/
 	string Content;
 	string ToSend = "";
 	int Count = 0;
@@ -367,9 +344,7 @@ bool FileM::ExtractFile(const std::string& name, std::fstream tekst)
 		ToSend = ToSend + Content;
 
 	}
-
 	WriteFile(name, ToSend);
-
 
 	return true;
 

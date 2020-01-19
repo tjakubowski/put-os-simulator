@@ -50,6 +50,8 @@ public:
 	Drive dysk;
 	FAT FileTable;
 	DirectoryFile DIR;
+
+	Drive dysk2;
 	
 	//Pobiera informacje z Pliku
 	bool ExtractFile(const std::string& name, std::fstream tekst);
