@@ -310,7 +310,7 @@ void RAM::merge_RAM() {
 					F_b.begining = it2->begining;
 					F_b.end = it->end;
 					F_b.size = it->size + it2->size;
-					std::cout << "jestem tutaj";
+
 
 					Free_blocks_list.push_front(F_b);
 				}
@@ -319,7 +319,7 @@ void RAM::merge_RAM() {
 					Free_blocks_list.sort(compare);
 					it++;
 					Free_blocks_list.erase(it2, it);
-					cout << "jestem tam";
+
 				}
 			}
 			if (help == true) {
