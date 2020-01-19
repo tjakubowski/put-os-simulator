@@ -797,7 +797,7 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 	}
 }
 
-void lastLineControl(Assembler& reg, Process* pcb)
+void Assembler::lastLineControl(Assembler& reg, Process* pcb)
 {
 	string program = "";
 	program = pcb->text_segment();
