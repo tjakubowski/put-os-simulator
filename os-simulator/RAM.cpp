@@ -86,7 +86,7 @@ int RAM::add_to_RAM(Process* process) { //zamienic na process
 			Free_blocks_list.pop_back();
 			F_b.begining = length + 1;
 			last = length + 1;
-			F_b.end = 127;
+			F_b.end = 128;
 			F_b.size = F_b.end - F_b.begining;
 			Free_blocks_list.push_back(F_b);
 		}
@@ -126,7 +126,7 @@ int RAM::add_to_RAM(Process* process) { //zamienic na process
 				}
 			}
 			if (!finder) {
-				F_b.end = 127;
+				F_b.end = 128;
 			}
 			F_b.size = F_b.end - F_b.begining;
 
@@ -189,7 +189,7 @@ void RAM::show_RAM() {
 	std::cout << endl;
 	std::cout << endl;
 	std::cout << endl;
-	for (int i = 0; i < 128; i++) {
+	for (int i = 1; i < 129; i++) {
 		std::cout << i << ": " << memory[i] << "\t";
 
 	}
@@ -210,7 +210,7 @@ void RAM::delete_from_RAM(Process* process) {
 			}
 		}
 		if (id_not_exist)
-			throw std::exception("tego procesu nie ma w pamieci");
+			throw std::exception("tego procesu nie ma w pamieci"); //todo tu cos sie jebie, bo tego wyjatku nie lapie
 
 		free_space += it->size;
 		size = it->size;
@@ -292,7 +292,7 @@ string RAM::read_RAM(Process* process, int counter) {
 }
 
 void RAM::merge_RAM() {
-	list<Free_blocks>::iterator it, it2, it3;
+	list<Free_blocks>::iterator it, it2;
 	int loop = 0;
 	bool help = false;
 	Free_blocks_list.sort(compare);
@@ -303,26 +303,33 @@ void RAM::merge_RAM() {
 		for (it = Free_blocks_list.begin(); it != Free_blocks_list.end(); ++it) 
 		{
 			if (loop >= 1) {
-				if (it->begining == it2->end) {
+
+				if (it->begining == it2->end) 
+				{
 					Free_blocks F_b;
 					help = true;
-					F_b.begining = it->begining;
+					F_b.begining = it2->begining;
 					F_b.end = it->end;
 					F_b.size = it->size + it2->size;
+					std::cout << "jestem tutaj";
 
 					Free_blocks_list.push_front(F_b);
 				}
-				if (help == true) {
+				if (help == true) 
+				{
 					Free_blocks_list.sort(compare);
 					it++;
 					Free_blocks_list.erase(it2, it);
+					cout << "jestem tam";
 				}
 			}
 			if (help == true) {
+				
+				
 				break;
-				loop++;
-				it2 = it;
 			}
+			loop++;
+			it2 = it;
 		} 
 	} while (help == true);
 }
