@@ -20,7 +20,7 @@ public:
 	//Konstruktor nowego bloku zarzadzania plikami
 	FileM();
 	//Instrukcja Otworzenia Pliku
-	std::string OpenFile(Process*pcb);
+	std::string OpenFile(Process* pcb);
 	//instrukcja Zamknięcia Pliku
 	bool CloseFile(std::string ProcessName);
 	//stworz plik
@@ -34,7 +34,7 @@ public:
 	//zapisz tresc do pliku o podanej nazwie
 	bool WriteFile(const std::string& name, string tresc);
 	//Przesyla plik jako string
-	static std::string SendFile(const std::string& name);
+	std::string SendFile(const std::string& name);
 	//Wyswietla plik za pomoca couta
 	bool PrintFile(const std::string& name);
 	//Szuka pliku true - istnieje false - nie istnieje
@@ -54,12 +54,12 @@ public:
 	DirectoryFile DIR;
 
 	Drive dysk2;
-	
-	
+
+
 
 private:
 	int FreeBlockCount;
-	
+
 	int FindFreeBlock();
 
 	int FindFile(const std::string& name);
