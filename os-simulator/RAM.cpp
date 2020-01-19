@@ -116,6 +116,9 @@ int RAM::add_to_RAM(Process* process) { //zamienic na process
 					fbi->biggest = false;
 					break;
 				}
+				else if (fbi->biggest == true && fbi->size < length) {
+					throw exception("nie ma odpowiednio duzej dziury dla tego procesu");
+				}
 			}
 			bool finder = false;
 			for (auto a : RAM_processes_list) {
