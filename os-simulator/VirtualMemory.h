@@ -10,6 +10,7 @@
 #include"Process.h"
 
 extern class Process;
+//extern class FileM;
 
 class VMSegment {
 public:
@@ -35,7 +36,7 @@ public:
 	int get_base(const int& limit); //znajduje adres poczatkowy adresowania (wolne miejsce) 
 	VirtualMemory();
 	~VirtualMemory();
-	bool create_program(Process* pcb, FileM* file_menager);//, std::string data);
+	bool create_program(Process* pcb); 				//, std::string data);
 	bool load_to_virtualmemory(Process* pcb, const std::string data);
 	bool load_program_to_ram(Process* pcb);
 	bool delete_program(Process* pcb);//usuwa program z ram i vm
