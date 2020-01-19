@@ -87,7 +87,13 @@ void ProcessManager::KillProcess(Process* process)
 		}
 	}
 
-	RAM::GetInstance().delete_from_RAM(process);
+	try
+	{
+		RAM::GetInstance().delete_from_RAM(process);
+	}
+	catch (std::exception & e)
+	{
+	}
 	VirtualMemory::GetInstance().delete_program(process);
 
 	CPU_M::GetInstance().scheduling();
