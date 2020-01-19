@@ -10,8 +10,6 @@
 #include "FAT.h"
 #include "DirectoryFile.h"
 
-
-
 class FileM : public Singleton<FileM>
 {
 
@@ -41,7 +39,7 @@ public:
 	bool PrintFile(const std::string& name);
 	//Szuka pliku true - istnieje false - nie istnieje
 	bool InvestigateFile(const std::string& name);
-	//Pobiera informacje z Pliku
+	//Pobiera plik z zewnetrznego pliku
 	bool ExtractFile(const std::string& name, std::fstream tekst);
 	//Wyswietla pliki w katalogu
 	bool ListDirectory() const;

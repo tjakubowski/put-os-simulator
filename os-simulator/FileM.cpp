@@ -19,12 +19,12 @@ FileM::FileM()
 
 std::string FileM::OpenFile(Process*pcb)
 {
-	std::string name = pcb->file_name();//nazwa pliku powinno byc filename 
+	std::string name = pcb->file_name();
 	std::string ProcessName = pcb->name();
 	if (InvestigateFile(name) == false)
 	{
 		std::cout << "Blad: Nie istnieje plik o nazwie " << name << "\n";
-		//	return false;//jak moze byc w funkcji ktora zwraca stringa return false???
+		
 	}
 	
 	
@@ -113,7 +113,7 @@ bool FileM::DeleteFile(const std::string& name)
 		return false;
 	}
 	
-	//Usuwanie innych nazw
+	//Usuwanie alternatywnych nazw pliku
 	for (int i = 0; i < dysk.BlockCount; i++)
 	{
 		if (DIR.First[i] == FoundFile)
@@ -122,7 +122,7 @@ bool FileM::DeleteFile(const std::string& name)
 			DIR.Name[i] = "";
 		}
 	}
-	//Szuka wszystkich częścipliku i usuwa je od pierwszego do ostatniego
+	//Szuka wszystkich części pliku i usuwa je od pierwszego do ostatniego
 	int help = FoundFile;
 	while (help != 0)
 	{
@@ -192,7 +192,6 @@ bool FileM::WriteFile(const std::string& name, std::string tresc)
 	}
 
 	int Previous = FindFile(name)-1;
-	int help2 = HowLong;
 	if (HowMany > 0)
 	{
 	//Kiedy uzwyamy wiecej niz jednego bloku pamieci
@@ -214,6 +213,9 @@ bool FileM::WriteFile(const std::string& name, std::string tresc)
 			for (int j = 0; j < dysk.BlockSize; j++)
 			{
 				dysk.A[dysk.BlockSize * Free + j] = tresc[j];
+				HowLong--;
+				if (HowLong == 0)
+					break;
 			}
 
 
