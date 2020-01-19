@@ -2,11 +2,11 @@
 #include <iostream>
 #include "Shell.h"
 //#include "FileM.h"
-#include "RAM.h"
+//#include "RAM.h"
 //#include "Assembler.h"
 
 //FileM disc;
-RAM ram;
+//RAM ram;
 //Assembler ass;
 
 
