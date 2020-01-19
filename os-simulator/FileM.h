@@ -5,6 +5,7 @@
 #include <vector>
 #include <iostream>
 #include <algorithm>
+#include <fstream>
 #include "Disc.h"
 #include "FAT.h"
 #include "DirectoryFile.h"
@@ -32,7 +33,7 @@ public:
 	//zmien nazwe pliku
 	bool ReplaceNewName(const std::string& name, const std::string& name2);
 	//zapisz tresc do pliku o podanej nazwie
-	bool WriteFile(const std::string& name, std::vector<char> tresc);
+	bool WriteFile(const std::string& name, string tresc);
 	//Przesyla plik jako string
 	std::string SendFile(const std::string& name);
 	//Wyswietla plik za pomoca couta
@@ -50,6 +51,8 @@ public:
 	FAT FileTable;
 	DirectoryFile DIR;
 	
+	//Pobiera informacje z Pliku
+	bool ExtractFile(const std::string& name, std::fstream tekst);
 
 private:
 	int FreeBlockCount;

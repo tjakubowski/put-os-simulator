@@ -179,9 +179,7 @@ bool FileM::ReplaceNewName(const std::string& name, const std::string& name2)
 	return true;
 }
 
-
-//WORK IN PROGRESS
-bool FileM::WriteFile(const std::string& name, std::vector<char> tresc)
+bool FileM::WriteFile(const std::string& name, std::string tresc)
 {
 	int HowLong = tresc.size();
 	int help1 = HowLong;
@@ -310,7 +308,7 @@ std::string FileM::SendFile(const std::string& name)
 	if (Next == -1)
 	{
 		std::cout << "Blad: Nie istnieje plik o nazwie " << name << "\n";
-		return 0;
+		return "0";
 	}
 
 	for (int i = 0; i < dysk.BlockSize; i++)
@@ -328,9 +326,56 @@ std::string FileM::SendFile(const std::string& name)
 
 		}
 		temp = FileTable.Next[temp];
-	}
-	//data += "\n";//zwiekszasz rozmiar programu bez sensu linijka 
+	} 
 	return data;
+}
+//Na potrzeby tego zakladam ze plik zostal otwarty przed wywolaniem funkcji!
+bool FileM::ExtractFile(const std::string& name, std::fstream tekst)
+{
+	int Check = FindFile(name);
+	if (Check != -1)
+	{
+		std::cout << "Blad: Plik o nazwie " << name << " juz istnieje\n";
+		return false;
+	}
 
+	int Adres = FindFreeDirectory();
+	if (Adres == -1)
+	{
+		std::cout << "Blad: Brak wolnego miejsca na dysku\n";
+		return false;
+	}
+
+	int FaT = FindFreeBlock();
+	if (FaT == -1)
+	{
+		std::cout << ("Blad: FFB zwrocilo -1 kiedy niepowinno\n");
+		return false;
+	}
+
+	CreateFile(name);
+/*	DIR.Name[Adres] = name;
+	DIR.First[Adres] = FaT;
+	FileTable.Next[FaT] = -1;
+	FileTable.Busy[FaT] = true;
+	*/
+	string Content;
+	string ToSend = "";
+	int Count = 0;
+	while (!getline(tekst, Content))
+	{
+		ToSend = ToSend + Content;
+
+	}
+
+	WriteFile(name, ToSend);
+
+
+	return true;
 
 }
+
+
+
+
+
