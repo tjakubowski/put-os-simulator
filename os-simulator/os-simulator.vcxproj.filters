@@ -12,8 +12,6 @@
     <ClCompile Include="VirtualMemory.cpp" />
     <ClCompile Include="Assembler.cpp" />
     <ClCompile Include="Semaphore.cpp" />
-    <ClCompile Include="Disc.cpp" />
-    <ClCompile Include="FileM.cpp" />
     <ClCompile Include="TablePrinter.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -27,10 +25,6 @@
     <ClInclude Include="VirtualMemory.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Assembler.h" />
-    <ClInclude Include="FileM.h" />
-    <ClInclude Include="DirectoryFile.h" />
-    <ClInclude Include="Disc.h" />
-    <ClInclude Include="FAT.h" />
     <ClInclude Include="TablePrinter.h" />
     <ClInclude Include="Semaphore.h" />
   </ItemGroup>
