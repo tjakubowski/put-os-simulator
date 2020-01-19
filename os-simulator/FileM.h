@@ -19,6 +19,7 @@ public:
 
 
 	friend class Singleton<FileM>;
+	//Konstruktor nowego bloku zarzadzania plikami
 	FileM();
 	//Instrukcja Otworzenia Pliku
 	std::string OpenFile(Process*pcb);
@@ -40,12 +41,15 @@ public:
 	bool PrintFile(const std::string& name);
 	//Szuka pliku true - istnieje false - nie istnieje
 	bool InvestigateFile(const std::string& name);
+	//Pobiera informacje z Pliku
+	bool ExtractFile(const std::string& name, std::fstream tekst);
 	//Wyswietla pliki w katalogu
 	bool ListDirectory() const;
 	//Wyswietla tablice FAT
 	bool ListFAT() const;
 	//Wyswietla zajete miejsce na dysku
 	bool Stats() const;
+	//Znajduje miejsce na adres nowego Pliku w DIRze
 	int FindFreeDirectory();
 	Drive dysk;
 	FAT FileTable;
@@ -53,8 +57,7 @@ public:
 
 	Drive dysk2;
 	
-	//Pobiera informacje z Pliku
-	bool ExtractFile(const std::string& name, std::fstream tekst);
+	
 
 private:
 	int FreeBlockCount;
@@ -62,16 +65,6 @@ private:
 	int FindFreeBlock();
 
 	int FindFile(const std::string& name);
-
-	bool Clearall();
-
-
-
-
-
-
-
-
 
 };
 

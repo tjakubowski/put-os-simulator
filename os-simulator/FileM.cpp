@@ -6,7 +6,7 @@
 
 
 //Zeruje Tablice FAT i DIR
-bool FileM::Clearall()
+FileM::FileM()
 {
 	for (int i = 0; i < dysk.BlockCount; i++)
 	{
@@ -15,7 +15,6 @@ bool FileM::Clearall()
 		FreeBlockCount = dysk.BlockCount;
 		DIR.Name[i] ="";
 	}
-	return true;
 }
 
 std::string FileM::OpenFile(Process*pcb)
