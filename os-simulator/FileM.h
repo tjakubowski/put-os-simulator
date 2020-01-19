@@ -40,13 +40,13 @@ public:
 	//Szuka pliku true - istnieje false - nie istnieje
 	bool InvestigateFile(const std::string& name);
 	//Pobiera plik z zewnetrznego pliku
-	void ExtractFile(const std::string& name, std::fstream tekst);
+	void ExtractFile(const std::string& name);
 	//Wyswietla pliki w katalogu
 	void ListDirectory() const;
 	//Wyswietla tablice FAT
 	void ListFAT() const;
 	//Wyswietla zajete miejsce na dysku
-	void Stats() const;
+	void Stats();
 	//Znajduje miejsce na adres nowego Pliku w DIRze
 	int FindFreeDirectory();
 	Drive dysk;
