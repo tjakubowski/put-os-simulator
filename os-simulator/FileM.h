@@ -22,31 +22,31 @@ public:
 	//Instrukcja Otworzenia Pliku
 	std::string OpenFile(Process*pcb);
 	//instrukcja Zamknięcia Pliku
-	bool CloseFile(std::string ProcessName);
+	void CloseFile(std::string ProcessName);
 	//stworz plik
-	bool CreateFile(const std::string& name);
+	void CreateFile(const std::string& name);
 	//usun plik
-	bool DeleteFile(const std::string& name);
+	void DeleteFile(const std::string& name);
 	//dodaj dodatkowa nazwe do pliku
-	bool AddNewName(const std::string& name, const std::string& name2);
+	void AddNewName(const std::string& name, const std::string& name2);
 	//zmien nazwe pliku
-	bool ReplaceNewName(const std::string& name, const std::string& name2);
+	void ReplaceNewName(const std::string& name, const std::string& name2);
 	//zapisz tresc do pliku o podanej nazwie
-	bool WriteFile(const std::string& name, string tresc);
+	void WriteFile(const std::string& name, string tresc);
 	//Przesyla plik jako string
 	std::string SendFile(const std::string& name);
 	//Wyswietla plik za pomoca couta
-	bool PrintFile(const std::string& name);
+	void PrintFile(const std::string& name);
 	//Szuka pliku true - istnieje false - nie istnieje
 	bool InvestigateFile(const std::string& name);
 	//Pobiera plik z zewnetrznego pliku
-	bool ExtractFile(const std::string& name, std::fstream tekst);
+	void ExtractFile(const std::string& name, std::fstream tekst);
 	//Wyswietla pliki w katalogu
-	bool ListDirectory() const;
+	void ListDirectory() const;
 	//Wyswietla tablice FAT
-	bool ListFAT() const;
+	void ListFAT() const;
 	//Wyswietla zajete miejsce na dysku
-	bool Stats() const;
+	void Stats() const;
 	//Znajduje miejsce na adres nowego Pliku w DIRze
 	int FindFreeDirectory();
 	Drive dysk;

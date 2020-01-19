@@ -33,10 +33,10 @@ std::string FileM::OpenFile(Process*pcb)
 
 }
 
-bool FileM::CloseFile(std::string ProcessName)
+void FileM::CloseFile(std::string ProcessName)
 {
 	//Signal(ProcessName);
-	return true;
+	
 }
 
 //Szuka pierwszego wolnego bloku w FAT
@@ -56,28 +56,28 @@ int  FileM::FindFreeDirectory()
 }
 
 //Tworzy pusty plik
-bool FileM::CreateFile(const std::string& name)
+void FileM::CreateFile(const std::string& name)
 {
 
-	int Check = InvestigateFile(name);
+	bool Check = InvestigateFile(name);
 	if (Check == true)
 	{
 		throw std::exception("tresc");
-		return false;
+
 	}
 
 	int Adress = FindFreeBlock();
 	if (Adress == -1)
 	{
-		std::cout << "Blad: Brak wolnego miejsca na dysku\n";
-		return false;
+		throw std::exception("drive");
+		
 	}
 
 	int Directory = FindFreeDirectory();
 	if (Directory == -1)
 	{
-			std::cout<<("Blad: FFD zwrocilo -1 kiedy niepowinno\n");
-			return false;
+			
+			throw std::exception("FFD");
 	}
 
 	DIR.Name[Directory-1] = name;
@@ -85,8 +85,6 @@ bool FileM::CreateFile(const std::string& name)
 	FileTable.Busy[Adress-1] = true;
 	FileTable.Next[Adress-1] = -1;
 	FreeBlockCount--;
-
-	return true;
 }
 	
 //Szuka konkretnego pliku w katalogu
@@ -104,13 +102,13 @@ int FileM::FindFile(const std::string& name)
 	return -1;
 }
 
-bool FileM::DeleteFile(const std::string& name)
+void FileM::DeleteFile(const std::string& name)
 {
 	int FoundFile = FindFile(name)-1;
 	if (FoundFile == -1)
 	{
 		throw std::exception("tresc");
-		return false;
+		
 	}
 	
 	//Usuwanie alternatywnych nazw pliku
@@ -141,31 +139,29 @@ bool FileM::DeleteFile(const std::string& name)
 			FreeBlockCount++;
 		}
 	}
-	return true;
+
 }
 
 //Dodaje dodatkowa nazwe dla istniejacego pliku 
-bool FileM::AddNewName(const std::string& name, const std::string& name2)
+void FileM::AddNewName(const std::string& name, const std::string& name2)
 {
 	int x = FindFile(name)-1;
 	if (x == -1)
 	{
 		throw std::exception("tresc");
-		return false;
 	}
 
 	int SecondAdress = FindFreeDirectory()-1;
 	if (SecondAdress == -1)
 	{
 		throw std::exception("tresc");
-		return false;
 	}
 	DIR.Name[SecondAdress] = name2;
 	DIR.First[SecondAdress] = x;
-	return true;
+
 }
 
-bool FileM::ReplaceNewName(const std::string& name, const std::string& name2)
+void FileM::ReplaceNewName(const std::string& name, const std::string& name2)
 {
 	for (int i = 0; i < dysk.BlockCount; i++)
 	{
@@ -174,13 +170,11 @@ bool FileM::ReplaceNewName(const std::string& name, const std::string& name2)
 		if (i == dysk.BlockCount - 1 && DIR.Name[i] != name2)
 		{
 			throw std::exception("tresc");
-			return false;
 		}
 	}
-	return true;
 }
 
-bool FileM::WriteFile(const std::string& name, std::string tresc)
+void FileM::WriteFile(const std::string& name, std::string tresc)
 {
 	int HowLong = tresc.size();
 	int help1 = HowLong;
@@ -200,8 +194,8 @@ bool FileM::WriteFile(const std::string& name, std::string tresc)
 			int  Free = FindFreeBlock()-1;
 			if (Free == -1)
 			{
-				std::cout << "Blad: Brak miejsca na dysku\n";
-				return false;
+				throw std::exception("drive");
+			
 			}
 
 			FileTable.Next[Previous] = Free;
@@ -231,17 +225,15 @@ bool FileM::WriteFile(const std::string& name, std::string tresc)
 		}
 
 	}
-	return true;
 
 }
-
-bool FileM::PrintFile(const std::string& name)
+void FileM::PrintFile(const std::string& name)
 {
 	int x = FindFile(name)-1;
 	if (x == -1)
 	{
 		throw std::exception("tresc");
-		return false;
+
 	}
 	for (int i = 0; i < dysk.BlockSize; i++)
 	{
@@ -260,20 +252,18 @@ bool FileM::PrintFile(const std::string& name)
 		temp = FileTable.Next[temp];
 	}
 	std::cout<<("\n");
-	return true;
 }
 
-bool FileM::ListDirectory() const
+void FileM::ListDirectory() const
 {
 	for (int i = 0; i < dysk.BlockCount; i++)
 	{
 		if (DIR.Name[i] != "")
 		std::cout<<"Nazwa: " << DIR.Name[i]<<"  Pierwszy Blok Pamieci:"<< DIR.First[i] << "\n";
 	}
-	return true;
 }
 
-bool FileM::ListFAT() const
+void FileM::ListFAT() const
 {
 	for (int i = 0; i < dysk.BlockCount; i++)
 	{
@@ -282,7 +272,7 @@ bool FileM::ListFAT() const
 		else
 			std::cout<<("%d. Busy: False, Nastepny Blok Pamieci: -\n", i+1);
 	}
-	return true;
+
 }
 
 bool FileM::InvestigateFile(const std::string& name)
@@ -291,17 +281,16 @@ bool FileM::InvestigateFile(const std::string& name)
 	if (x == -1)
 	{
 		throw std::exception("tresc");
-		return false;
+
 	}
 	return true;
 }
 
-bool FileM::Stats() const
+void FileM::Stats() const
 {
 	std::string Wyswietl = "";
-	Wyswietl  = Wyswietl + "Miejsce (wolne/max): " + std::to_string(FreeBlockCount) + "/" + std::to_string(dysk.BlockCount) + '\n';
-	std::cout<<Wyswietl;
-	return true;
+	Wyswietl = Wyswietl + "Miejsce (wolne/max): " + std::to_string(FreeBlockCount) + "/" + std::to_string(dysk.BlockCount) + '\n';
+	std::cout << Wyswietl;
 }
 
 std::string FileM::SendFile(const std::string& name)
@@ -312,7 +301,6 @@ std::string FileM::SendFile(const std::string& name)
 	if (Next == -1)
 	{
 		throw std::exception("tresc");
-		return "0";
 	}
 
 	for (int i = 0; i < dysk.BlockSize; i++)
@@ -334,7 +322,7 @@ std::string FileM::SendFile(const std::string& name)
 	return data;
 }
 //Na potrzeby tego zakladam ze plik zostal otwarty przed wywolaniem funkcji!
-bool FileM::ExtractFile(const std::string& name, std::fstream tekst)
+void FileM::ExtractFile(const std::string& name, std::fstream tekst)
 {
 	CreateFile(name);
 	string Content;
@@ -346,8 +334,6 @@ bool FileM::ExtractFile(const std::string& name, std::fstream tekst)
 
 	}
 	WriteFile(name, ToSend);
-
-	return true;
 
 }
 
