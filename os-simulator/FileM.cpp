@@ -23,7 +23,7 @@ std::string FileM::OpenFile(Process*pcb)
 	std::string ProcessName = pcb->name();
 	if (InvestigateFile(name) == false)
 	{
-		std::cout << "Blad: Nie istnieje plik o nazwie " << name << "\n";
+		throw std::exception("tresc");
 		
 	}
 	
@@ -62,7 +62,7 @@ bool FileM::CreateFile(const std::string& name)
 	int Check = InvestigateFile(name);
 	if (Check == true)
 	{
-		std::cout << "Blad: Plik o nazwie " << name << " juz istnieje\n";
+		throw std::exception("tresc");
 		return false;
 	}
 
@@ -109,7 +109,7 @@ bool FileM::DeleteFile(const std::string& name)
 	int FoundFile = FindFile(name)-1;
 	if (FoundFile == -1)
 	{
-		std::cout << "Blad: Nie istnieje plik o nazwie " << name << "\n";
+		throw std::exception("tresc");
 		return false;
 	}
 	
@@ -150,14 +150,14 @@ bool FileM::AddNewName(const std::string& name, const std::string& name2)
 	int x = FindFile(name)-1;
 	if (x == -1)
 	{
-		std::cout << "Blad: Nie istnieje plik o nazwie " << name << "\n";
+		throw std::exception("tresc");
 		return false;
 	}
 
 	int SecondAdress = FindFreeDirectory()-1;
 	if (SecondAdress == -1)
 	{
-		std::cout << "Blad: Nie istnieje plik o nazwie " << name << "\n";
+		throw std::exception("tresc");
 		return false;
 	}
 	DIR.Name[SecondAdress] = name2;
@@ -173,7 +173,7 @@ bool FileM::ReplaceNewName(const std::string& name, const std::string& name2)
 			DIR.Name[i] = name2;
 		if (i == dysk.BlockCount - 1 && DIR.Name[i] != name2)
 		{
-			std::cout << "Blad: Nie istnieje plik o nazwie " << name << "\n";
+			throw std::exception("tresc");
 			return false;
 		}
 	}
@@ -240,7 +240,7 @@ bool FileM::PrintFile(const std::string& name)
 	int x = FindFile(name)-1;
 	if (x == -1)
 	{
-		std::cout << "Blad: Nie istnieje plik o nazwie " << name << "\n";
+		throw std::exception("tresc");
 		return false;
 	}
 	for (int i = 0; i < dysk.BlockSize; i++)
@@ -290,7 +290,7 @@ bool FileM::InvestigateFile(const std::string& name)
 	int x = FindFile(name);
 	if (x == -1)
 	{
-		std::cout<<"Blad: Plik "<< name <<"nieistnieje\n";
+		throw std::exception("tresc");
 		return false;
 	}
 	return true;
@@ -311,7 +311,7 @@ std::string FileM::SendFile(const std::string& name)
 	int Next = FindFile(name);
 	if (Next == -1)
 	{
-		std::cout << "Blad: Nie istnieje plik o nazwie " << name << "\n";
+		throw std::exception("tresc");
 		return "0";
 	}
 
