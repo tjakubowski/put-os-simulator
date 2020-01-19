@@ -2,11 +2,11 @@
 #include "Semaphore.h"
 #include <string>
 
-
+/*
 Semaphore::Semaphore(int k)
 {
 	value = k;
-}
+}*/
 void Semaphore::Wait(std::string name)
 {
 	if (value > 0)

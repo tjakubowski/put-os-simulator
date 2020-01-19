@@ -20,7 +20,7 @@ public:
 	//Konstruktor nowego bloku zarzadzania plikami
 	FileM();
 	//Instrukcja Otworzenia Pliku
-	std::string OpenFile(Process*pcb);
+	std::string OpenFile(Process* pcb);
 	//instrukcja Zamknięcia Pliku
 	void CloseFile(std::string ProcessName);
 	//stworz plik
@@ -54,12 +54,12 @@ public:
 	DirectoryFile DIR;
 
 	Drive dysk2;
-	
-	
+
+
 
 private:
 	int FreeBlockCount;
-	
+
 	int FindFreeBlock();
 
 	int FindFile(const std::string& name);
