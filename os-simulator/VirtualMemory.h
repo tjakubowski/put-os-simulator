@@ -6,6 +6,7 @@
 #include<fstream>
 #include"Singleton.h"
 #include <vector>
+#include"FileM.h"
 #include"Process.h"
 
 extern class Process;
@@ -34,7 +35,7 @@ public:
 	int get_base(const int& limit); //znajduje adres poczatkowy adresowania (wolne miejsce) 
 	VirtualMemory();
 	~VirtualMemory();
-	bool create_program(Process* pcb, std::string data);
+	bool create_program(Process* pcb);//, std::string data);
 	bool load_to_virtualmemory(Process* pcb, const std::string data);
 	bool load_program_to_ram(Process* pcb);
 	bool delete_program(Process* pcb);//usuwa program z ram i vm
