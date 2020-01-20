@@ -1047,7 +1047,7 @@ void Assembler::runProgram()
 	process_run->set_cx(reg.get_C());
 	process_run->set_dx(reg.get_D());
 	//get_licznik jest wczesniej zrobione w funkcji countLine
-	reg.pirntAssembler(reg);
+	reg.pirnt(reg);
 	//sprawdzenie czy ostatnia linia
 	lastLineControl(reg,process_run);
 }
