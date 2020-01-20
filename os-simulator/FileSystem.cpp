@@ -97,6 +97,12 @@ void FileSystem::create(std::string file_name)
 	fat_[cluster_index].next_ = -1;
 }
 
+void FileSystem::create(std::string file_name, std::string bytes)
+{
+	create(file_name);
+	write(file_name, bytes);
+}
+
 void FileSystem::remove(std::string file_name)
 {
 	if (!exists(file_name))
