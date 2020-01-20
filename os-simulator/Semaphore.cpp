@@ -2,12 +2,12 @@
 #include "Semaphore.h"
 #include <string>
 
-/*
-Semaphore::Semaphore(int k)
+Semaphore::Semaphore(int k) : value(k)
 {
-	value = k;
-}*/
-void Semaphore::Wait(std::string name)
+}
+
+
+void Semaphore::Wait(Process* process)
 {
 	if (value > 0)
 	{
@@ -16,16 +16,16 @@ void Semaphore::Wait(std::string name)
 	else
 	{
 		value--;
-		queue.push(name);
-		ProcessManager::GetInstance().SetProcessWaiting(name);
+		queue.push(process);
+		ProcessManager::GetInstance().SetProcessWaiting(process);
 	}
 }
 void Semaphore::Signal()
 {
 	if (queue.empty() == false)
 	{
-		string name = queue.front();
-		ProcessManager::GetInstance().SetProcessReady(name);
+		const auto process = queue.front();
+		ProcessManager::GetInstance().SetProcessReady(process);
 		queue.pop();
 		value++;
 	}

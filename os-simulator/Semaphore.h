@@ -3,24 +3,22 @@
 #include <string>
 #include "Singleton.h"
 #include "ProcessManager.h"
+#include "Process.h"
 
-using namespace std;
 class ProcessManager;
 
 class Semaphore
 {
 protected:
 	int value;
-	queue<string> queue;
+	queue<Process*> queue{};
 public:
 
-	void Wait(std::string name);
+	void Wait(Process* process);
 	void Signal();
 
-	Semaphore(int k) : value(k) {}
-
-
-	//krokowy
+	Semaphore(int k = 1);
+	
 	void show_Semaphore();
 
 };
