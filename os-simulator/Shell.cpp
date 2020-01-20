@@ -6,6 +6,7 @@
 #include "ProcessManager.h"
 #include "Semaphore.h"
 #include "VirtualMemory.h"
+#include "FileSystem.h"
 #include <iostream>
 
 extern int change_state;
@@ -16,13 +17,29 @@ void Shell::create_command() {
 
 	command.emplace_back();
 
+	bool texty = 0;
+
 	while (!input.empty()) {
-		if (input.front() == ' ') {
+		if (texty) {
+			command.back().push_back(input[0]);
 			input.erase(input.begin());
-			command.emplace_back();
 		}
-		command.back().push_back(input[0]);
-		input.erase(input.begin());
+		else {
+			if (input.front() == ' ') {
+				input.erase(input.begin());
+				command.emplace_back();
+			}
+			if (input.front() == '\"') {
+				input.erase(input.begin());
+				if (texty)
+					texty = 0;
+				else
+					texty = 1;
+				continue;
+			}
+			command.back().push_back(input[0]);
+			input.erase(input.begin());
+		}
 	}
 }
 
@@ -74,12 +91,28 @@ void Shell::perform_command() {
 					std::cout << helpdesk[command[0]];
 				}
 				else {
-					std::cout << system_name << arguments;
+					// metoda tworząca plik
+					FileSystem::GetInstance().create(command[1]);
+					std::cout << system_name << "Utworzono plik " << command[2] << ".\n";
 				}
 				break;
-			case 3:
-				// metoda tworząca plik
-				std::cout << system_name << "Utworzono plik " << command[2] << ".\n";
+			default:
+				std::cout << system_name << arguments;
+			}
+			break;
+		
+		case commands::df:
+
+			switch (command.size()) {
+			case 2:
+				if (command[1] == "-h") {
+					std::cout << helpdesk[command[0]];
+				}
+				else {
+					// metoda tworząca plik
+					FileSystem::GetInstance().remove(command[1]);
+					std::cout << system_name << "Usunieto plik " << command[2] << ".\n";
+				}
 				break;
 			default:
 				std::cout << system_name << arguments;
@@ -94,16 +127,7 @@ void Shell::perform_command() {
 					std::cout << helpdesk[command[0]];
 				}
 				else {
-					std::cout <<  system_name  << arguments ;
-				}
-				break;
-			case 3:
-				if (command[2] == "rw" || command[2] == "r") {
-					// metoda otwierająca plik
-					std::cout <<  system_name  << "Otwarto plik.\n";
-				}
-				else {
-					std::cout <<  system_name  << "Nieprawidlowy tryb otwarcia.\n" ;
+					FileSystem::GetInstance().read_all(command[1]);
 				}
 				break;
 			default:
@@ -119,14 +143,74 @@ void Shell::perform_command() {
 					std::cout << helpdesk[command[0]];
 				}
 				else {
-					// metoda zamykajaca plik
-					std::cout <<  system_name  << "Zamknieto plik.\n";
+					FileSystem::GetInstance().close(command[1]);
+					std::cout << system_name << "Zamknieto plik " << command[1] << "\n";
 				}
 				break;
 			default:
 				std::cout <<  system_name  << arguments ;
 			}
 			break;
+
+		case commands::sf:
+
+			switch (command.size()) {
+			case 2:
+				if (command[1] == "-h") {
+					std::cout << helpdesk[command[0]];
+				}
+				else {
+					if (1) { // w warunku metoda zwracajaca bool wyszukujaca nazwy pliku w tablicy FAT
+						
+						std::cout << "Plik o nazwie \"" << command[1] << "\" istnieje\n";
+					}
+					else {
+						std::cout << "Plik o nazwie \"" << command[1] << "\" nie istnieje\n";
+					}
+				}
+				break;
+			default:
+				std::cout << system_name << arguments;
+			}
+
+		case commands::pf:
+
+			switch (command.size()) {
+			case 2:
+				if (command[1] == "-h") {
+					std::cout << helpdesk[command[0]];
+				}
+				else {
+					// metoda wyswietlajaca atrybuty pliku
+					
+				}
+				break;
+			default:
+				std::cout << system_name << arguments;
+			}
+
+		case commands::ef:
+
+			switch (command.size()) {
+			case 2:
+				if (command[1] == "-h") {
+					std::cout << helpdesk[command[0]];
+				}
+				else
+					std::cout << system_name << arguments;
+				break;
+			case 4:
+				// metoda edytujaca plik
+				if (command[2] == ">>")
+					FileSystem::GetInstance().write(command[3], command[1], true); // dopisywanie
+				else if (command[2] == ">")
+					FileSystem::GetInstance().write(command[3], command[1], false); // nadpisywanie
+				else
+					std::cout << system_name << arguments;
+				break;
+			default:
+				std::cout << system_name << arguments;
+			}
 
 		// KATALOGI
 
@@ -140,6 +224,7 @@ void Shell::perform_command() {
 				else {
 					std::cout  << system_name  << "Wyswietlenie zawartosci folderu.\n";
 					// metoda wyswietlajaca zawartosc folderu
+					FileSystem::GetInstance().print_files();
 				}
 				break;
 			default:
@@ -160,6 +245,7 @@ void Shell::perform_command() {
 				break;
 			case 3:
 				// metoda tworzaca katalog
+			
 				std::cout  << system_name  << "Utworzono katalog " << command[2] << ".\n";
 				break;
 			default:
@@ -197,32 +283,13 @@ void Shell::perform_command() {
 				break;
 			case 3:
 				// metoda zmieniajaca nazwe lub sciezke pliku
+				FileSystem::GetInstance().set_file_name(command[1],command[2]);
 				std::cout  << system_name  << "Plik " << command[1] << " ma nowa nazwe " << command[2] << ".\n";
 				break;
 			default:
 				std::cout  << system_name  << arguments ;
 			}
-			break;
-
-		case commands::sf:
-
-			switch (command.size()) {
-			case 2:
-				if (command[1] == "-h") {
-					std::cout << helpdesk[command[0]];
-				}
-				else {
-					if (1) { // w warunku metoda zwracajaca bool wyszukujaca nazwy pliku w tablicy FAT
-						std::cout << "Plik o nazwie \"" << command[1] << "\" istnieje\n";
-					}
-					else {
-						std::cout << "Plik o nazwie \"" << command[1] << "\" nie istnieje\n";
-					}
-				}
-				break;
-			default:
-				std::cout  << system_name  << arguments ;
-			}
+			break;	
 
 		// DYSK
 
@@ -233,21 +300,12 @@ void Shell::perform_command() {
 				if (command[1] == "-h") {
 					std::cout << helpdesk[command[0]];
 				}
-				else if (command[1] == "a" || command[1] == "h") {
+				else if (std::stoi(command[1])>=0) {
 					std::cout << system_name << "Wyswietlenie zawartosci bloku.\n";
-					// metoda wyswietlajaca zawartosc calego dysku				
-				}
-				else {
-					std::cout << system_name << arguments;
-				}
-				break;
-			case 3:
-				if (std::stoi(command[1]) >= 0) {
-					std::cout << system_name << "Wyswietlenie bloku dyskowego.\n";
 					// metoda wyswietlajaca zawartosc bloku dyskowego
 				}
 				else {
-					std::cout << system_name << "Numer bloku musi byc liczba nieujemna.\n";
+					std::cout << system_name << arguments;
 				}
 				break;
 			default:
@@ -264,7 +322,8 @@ void Shell::perform_command() {
 				}
 				else if (command[1] == "a" || command[1] == "h") {
 					std::cout << system_name << "Wyswietlenie zawartosci dysku.\n";
-					// metoda wyswietlajaca zawartosc calego dysku				
+					// metoda wyswietlajaca zawartosc calego dysku
+					FileSystem::GetInstance().print_data();
 				}
 				else {
 					std::cout  << system_name  << arguments ;
@@ -302,7 +361,7 @@ void Shell::perform_command() {
 			switch (command.size()) {
 			case 3:
 				std::cout << system_name << "Wyswietlenie komorki " << command[2] << " nalezacej do procesu o id " << command[1] << "\n";
-				//ram.show_RAM();			
+				RAM::GetInstance().read_RAM(ProcessManager::GetInstance().GetProcess(command[1]),std::stoi(command[2]));
 				break;
 			case 2:
 				if (command[1] == "-h") {
@@ -325,6 +384,7 @@ void Shell::perform_command() {
 			case 1:
 				std::cout  << system_name  << "Wyswietlenie pliku wymiany.\n";
 				// metoda wyswietlajaca plik wymiany
+				VirtualMemory::GetInstance().display_pagefile();
 				break;
 			case 2:
 				if (command[1] == "-h") {
@@ -354,6 +414,7 @@ void Shell::perform_command() {
 				break;
 			case 4:
 				//metoda tworzaca proces z programem
+				ProcessManager::GetInstance().CreateProcess(command[1], command[2], std::stoi(command[3]));
 				break;
 			default:
 				std::cout  << system_name  << arguments ;

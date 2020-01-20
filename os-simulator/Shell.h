@@ -7,7 +7,7 @@ class Shell {
 private:
 
 	enum class commands{
-		step, cf, df, op, cl, sf, pf, ovf,
+		step, cf, df, op, cl, sf, pf, ef,
 
 		ls, cd, md, rd, move,
 
@@ -30,13 +30,14 @@ private:
 
 	std::map<std::string, commands> commands = {
 		{"step",commands::step},
+
 		{"cf",commands::cf},
 		{"df",commands::df},
 		{"op",commands::op},
 		{"cl",commands::cl},
 		{"sf",commands::sf},
 		{"pf",commands::pf},
-		{"ovf",commands::ovf},
+		{"ef",commands::ef},
 		
 		{"ls",commands::ls},
 		{"cd",commands::cd},
@@ -66,13 +67,14 @@ private:
 
 	std::map<std::string, std::string> helpdesk = {
 		{"step","step - wykonanie nastepnego rozkazu przez interpreter polecen\n"},
+
 		{"cf","cf [nazwa_pliku] - tworzy plik\n"},
 		{"df","df [nazwa_pliku] - usuwa plik\n"},
-		{"op","op [nazwa_pliku][tryb] - otwiera plik w trybie (-r) odczytu lub (rw) odczytu i zapisu\n"},
+		{"op","op [nazwa_pliku] - otwiera plik\n"},
 		{"cl","cl [nazwa_pliku] - zamyka otwarty plik\n"},
 		{"pf","pf [nazwa_pliku] - wyswietla atrybuty pliku o podanej nazwie\n"},
 		{"sf","sf [nazwa_pliku] - sprawdza, czy plik o podanej nazwie istnieje\n"},
-		{"ovf","ovf [nazwa_pliku] - nadpisuje plik o podanej nazwie\n"},
+		{"ef","ef [text] > | >> [nazwa_pliku] - edycja pliku ([text] koniecznie w cudzyslowie!) (> - nadpisanie, >> - dopisanie)\n"},
 
 		{"ls","ls [nazwa_katalogu] - wyswietla zawartosc katalogu o podanej nazwie lub biezacego katalogu, gdy nazwa nie jest podana\n"},
 		{"cd","cd [nazwa_katalogu] - wyswietla nazwe biezacego katalogu lub zmienia go\n"},
