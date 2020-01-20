@@ -153,6 +153,9 @@
   <ItemGroup>
     <ClCompile Include="Assembler.cpp" />
     <ClCompile Include="CPU.cpp" />
+    <ClCompile Include="File.cpp" />
+    <ClCompile Include="FileSystem.cpp" />
+    <ClCompile Include="FileSystemDirectory.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -172,6 +175,9 @@
   <ItemGroup>
     <ClInclude Include="Assembler.h" />
     <ClInclude Include="CPU.h" />
+    <ClInclude Include="File.h" />
+    <ClInclude Include="FileSystem.h" />
+    <ClInclude Include="FileSystemDirectory.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Process.h" />
     <ClInclude Include="ProcessManager.h" />
