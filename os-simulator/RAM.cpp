@@ -225,6 +225,10 @@ void RAM::delete_from_RAM(Process* process) {
 		F_b.end = starting_point + F_b.size;
 		Free_blocks_list.push_back(F_b);
 
+		for (int i = it->start; i <= F_b.end; i++) {
+			memory[i] = " ";
+		}
+
 		for (int i = 0; i < segment_tab.size(); i++) {
 			segment_tab[i]->baseRAM = -1;
 			segment_tab[i]->is_in_RAM = false;
@@ -237,8 +241,8 @@ void RAM::delete_from_RAM(Process* process) {
 	if (RAM_processes_list.empty()) {
 		//std::cout << "JESTEM PUSTA CALKIEM!!!";
 		list<Free_blocks>::iterator fbi;
-		F_b.begining = 0;
-		F_b.end = 127;
+		F_b.begining = 1;
+		F_b.end = 128;
 		F_b.size = F_b.end - F_b.begining;
 		Free_blocks_list.clear();
 		Free_blocks_list.push_back(F_b);
