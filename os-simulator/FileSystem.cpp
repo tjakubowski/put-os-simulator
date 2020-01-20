@@ -131,6 +131,13 @@ void FileSystem::set_file_name(std::string file_name, std::string new_file_name)
 	file->set_file_name(new_file_name);
 }
 
+void FileSystem::copy_file(std::string file_name, std::string new_file_name)
+{
+	auto file_bytes = read_all(file_name);
+	create(new_file_name);
+	write(new_file_name, file_bytes);
+}
+
 bool FileSystem::will_fit(std::string file_name, std::string bytes, bool append)
 {
 	const auto file_size = root_directory_.get_file(file_name)->file_size();
