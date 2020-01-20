@@ -1,7 +1,8 @@
 #include "pch.h"
 #include <iostream>
+#include "ProcessManager.h"
 #include "FileSystem.h"
-
+#include "Assembler.h"
 
 int main()
 {
@@ -9,20 +10,47 @@ int main()
 
 	try
 	{
-		FileSystem::GetInstance().create("test");
-		FileSystem::GetInstance().write("test", "hello");
-		FileSystem::GetInstance().copy_file("test", "test2");
-		FileSystem::GetInstance().copy_file("test", "test3");
-		FileSystem::GetInstance().copy_file("test", "test4");
-		FileSystem::GetInstance().set_file_name("test3", "test5");
-	} catch( std::exception& e)
-	{
-		std::cout << std::endl << e.what() << std::endl;
+		ProcessManager::GetInstance().PrintProcesses();
+
+		FileSystem::GetInstance().create("file1", ".text IC A .data 333");
+		FileSystem::GetInstance().create("file2", ".text IC A .data 99999999999999999999999999999999");
+		FileSystem::GetInstance().create("file3", ".text IC .data 7777");
+		
+		ProcessManager::GetInstance().CreateProcess("1", "file1", 5);
+		ProcessManager::GetInstance().CreateProcess("2", "file1", 5);
+		ProcessManager::GetInstance().CreateProcess("3", "file1", 5);
+		ProcessManager::GetInstance().CreateProcess("4", "file1", 5);
+		ProcessManager::GetInstance().CreateProcess("5", "file1", 5);
+		ProcessManager::GetInstance().CreateProcess("6", "file1", 5);
+		ProcessManager::GetInstance().CreateProcess("7", "file1", 5);
+		ProcessManager::GetInstance().CreateProcess("8", "file1", 5);
+		ProcessManager::GetInstance().CreateProcess("9", "file1", 5);
+		ProcessManager::GetInstance().CreateProcess("10", "file1", 5);
+		ProcessManager::GetInstance().CreateProcess("rest", "file2", 5);
+		ProcessManager::GetInstance().CreateProcess("rest2", "file2", 5);
+		ProcessManager::GetInstance().CreateProcess("rest3", "file2", 5);
+		VirtualMemory::GetInstance().display_pagefile_segment_tab();
+		VirtualMemory::GetInstance().display_pagefile();
+		ProcessManager::GetInstance().KillProcess("9");
+		ProcessManager::GetInstance().KillProcess("3");
+		ProcessManager::GetInstance().KillProcess("5");
+		ProcessManager::GetInstance().KillProcess("7");
+
+		ProcessManager::GetInstance().CreateProcess("seven", "file3", 5);
+
+		//virtualmemory test 
+		VirtualMemory::GetInstance().display_pagefile_segment_tab();
+		VirtualMemory::GetInstance().display_pagefile();
+		RAM::GetInstance().show_RAM();
+		RAM::GetInstance().show_RAM();
+		ProcessManager::GetInstance().PrintProcesses();
 	}
-	
+	catch(std::exception& e)
+	{
+		std::cout << e.what() << std::endl;
+	}
 	FileSystem::GetInstance().print_data();
 	FileSystem::GetInstance().print_fat();
 	FileSystem::GetInstance().print_files();
-	
 	return 0;
 }
