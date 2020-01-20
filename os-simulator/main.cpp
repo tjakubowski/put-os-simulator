@@ -1,27 +1,28 @@
 #include "pch.h"
 #include <iostream>
-#include "Shell.h"
-//#include "FileM.h"
-//#include "RAM.h"
-//#include "Assembler.h"
-
-//FileM disc;
-//RAM ram;
-//Assembler ass;
-
-
-//PCB *p1 = new PCB(1);
-int change_state = 0;
-std::string code;
+#include "FileSystem.h"
 
 
 int main()
 {
-	Shell shell;
-
 	std::cout << "OS Simulator" << std::endl;
 
-	shell.run();
+	try
+	{
+		FileSystem::GetInstance().create("test");
+		FileSystem::GetInstance().write("test", "hello");
+		FileSystem::GetInstance().copy_file("test", "test2");
+		FileSystem::GetInstance().copy_file("test", "test3");
+		FileSystem::GetInstance().copy_file("test", "test4");
+		FileSystem::GetInstance().set_file_name("test3", "test5");
+	} catch( std::exception& e)
+	{
+		std::cout << std::endl << e.what() << std::endl;
+	}
+	
+	FileSystem::GetInstance().print_data();
+	FileSystem::GetInstance().print_fat();
+	FileSystem::GetInstance().print_files();
 	
 	return 0;
 }
