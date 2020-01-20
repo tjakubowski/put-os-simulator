@@ -154,6 +154,7 @@ void FileSystem::write(std::string file_name, std::string bytes, bool append)
 
 	while (true)
 	{
+		// Iterate over every byte in cluster
 		for (int i = 0; i < cluster_size_; i++)
 		{
 			if (append && file_bytes_count > 0)
@@ -166,14 +167,16 @@ void FileSystem::write(std::string file_name, std::string bytes, bool append)
 			const auto byte = bytes[byte_index++];
 			data_[memory_address] = byte;
 
-			if(byte_index == bytes.size()) // saved
+			// If bytes are already in file
+			if(byte_index == bytes.size())
 			{
 				if (append)
 					file->set_file_size(file->file_size() + bytes.size());
 				else
 					file->set_file_size(bytes.size());
-				
-				while(fat_[cluster_index].next_ > -1) // free next clusters
+
+				// Make next occupied clusters free
+				while(fat_[cluster_index].next_ > -1)
 				{
 					cluster_index = fat_[cluster_index].next_;
 					fat_[cluster_index].busy_ = false;
@@ -182,7 +185,8 @@ void FileSystem::write(std::string file_name, std::string bytes, bool append)
 			}
 		}
 
-		if (fat_[cluster_index].next_ == -1) // create new cluster if too small
+		// Add new cluster to file if needed
+		if (fat_[cluster_index].next_ == -1)
 		{
 			const auto new_cluster_index = get_first_empty_cluster_index();
 			fat_[new_cluster_index].busy_ = true;
