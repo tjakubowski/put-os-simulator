@@ -118,8 +118,8 @@ int RAM::add_to_RAM(Process* process) { //zamienic na process
 					break;
 					
 				}
-				else {
-					std::cout << "3333";
+				 if (fbi->biggest == true && fbi->size < length){
+					std::cout << "33333333333333333333333333333333333333333333333333333333333333333333333333333333333333333";
 					throw exception("nie ma odpowiednio duzej dziury dla tego procesu");
 				}
 			}
@@ -229,7 +229,7 @@ void RAM::delete_from_RAM(Process* process) {
 		Free_blocks_list.push_back(F_b);
 
 		for (int i = it->start; i < F_b.end; i++) {
-			memory[i] = " ";
+			memory[i] = "=";
 		}
 
 		for (int i = 0; i < segment_tab.size(); i++) {
