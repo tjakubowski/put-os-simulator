@@ -25,11 +25,14 @@ class ProcessManager : public Singleton<ProcessManager>
 	void InitializeProcessPrinter();
 	void RemoveFromVector(Process* process, std::vector<Process*>& vector) const;
 	void SetProcessNew(Process* process);
-	
+	void CreateDummyProcess();
+
 public:
 	ProcessManager();
 	~ProcessManager();
 	Process* CreateProcess(std::string process_name, std::string process_file, int priority);
+
+	void TryAllocateNewProcesses();
 
 	void KillProcess(Process* process);
 	void KillProcess(int process_id);

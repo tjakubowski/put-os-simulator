@@ -7,9 +7,7 @@ int ProcessManager::last_process_id_ = 0;
 ProcessManager::ProcessManager()
 {
 	InitializeProcessPrinter();
-	
-	dummy_process_ = CreateProcess("dummy", "dummy", 0);
-	SetProcessRunning(dummy_process_);
+	CreateDummyProcess();
 }
 
 ProcessManager::~ProcessManager()
@@ -30,6 +28,29 @@ void ProcessManager::SetProcessNew(Process* process)
 	new_processes_.push_back(process);
 
 	std::sort(new_processes_.begin(), new_processes_.end(), [](Process* process1, Process* process2) { return process1->priority() > process2->priority(); });
+}
+
+void ProcessManager::CreateDummyProcess()
+{
+	FileSystem::GetInstance().create("dummy", ".text NP .data 0");
+	const auto process_code = FileSystem::GetInstance().read_all("dummy");
+	dummy_process_ = new Process("dummy", "dummy", 0, ++last_process_id_);
+	processes_.push_back(dummy_process_);
+
+	SetProcessNew(dummy_process_);
+	VirtualMemory::GetInstance().create_program(dummy_process_, process_code);
+
+	try
+	{
+		RAM::GetInstance().add_to_RAM(dummy_process_);
+		SetProcessReady(dummy_process_);
+	}
+	catch (std::exception & e)
+	{
+		std::cout << e.what();
+	}
+
+	SetProcessRunning(dummy_process_);
 }
 
 Process* ProcessManager::CreateProcess(std::string process_name, std::string process_file, const int priority)
@@ -56,6 +77,21 @@ Process* ProcessManager::CreateProcess(std::string process_name, std::string pro
 	return process;
 }
 
+void ProcessManager::TryAllocateNewProcesses()
+{
+	for (auto& process : new_processes_)
+	{
+		try
+		{
+			RAM::GetInstance().add_to_RAM(process);
+			SetProcessReady(process);
+		}
+		catch (std::exception & e)
+		{
+		}
+	}
+}
+
 void ProcessManager::KillProcess(Process* process)
 {
 	if (process == dummy_process_)
@@ -79,18 +115,6 @@ void ProcessManager::KillProcess(Process* process)
 	
 	RemoveFromVector(process, processes_);
 
-	for(auto& process : new_processes_)
-	{
-		try
-		{
-			RAM::GetInstance().add_to_RAM(process);
-			SetProcessReady(process);
-		}
-		catch (std::exception & e)
-		{
-		}
-	}
-
 	try
 	{
 		RAM::GetInstance().delete_from_RAM(process);
@@ -99,6 +123,8 @@ void ProcessManager::KillProcess(Process* process)
 	{
 	}
 	VirtualMemory::GetInstance().delete_program(process);
+
+	TryAllocateNewProcesses();
 
 	CPU_M::GetInstance().scheduling();
 
