@@ -409,6 +409,38 @@ void FileM::CreateSemaphors()
 	}
 }
 
+void FileM::DeleteFileContent(const std::string& name)
+{
+	int Previous = FindFile(name) - 1;
+	int Original = Previous;
+	if (Previous == -1)
+	{
+		throw std::exception("tresc");
+	}
+	for (int j = 0; j < dysk.BlockSize; j++)
+	{
+		dysk.A[dysk.BlockSize * Previous + j] = 0;
+	}
+	int Check = FileTable.Next[Previous];
+	int Next;
+	if (Check != -1)
+	{
+		while (Previous != -1)
+		{
+			Next = FileTable.Next[Previous];
+			for (int j = 0; j < dysk.BlockSize; j++)
+			{
+				dysk.A[dysk.BlockSize * Next + j] = 0;
+			}
+			Previous = FileTable.Next[Next];
+			FileTable.Next[Next] = 0;
+			FileTable.Busy[Next] = false;
+		}
+	}
+	FileTable.Next[Original] = -1;
+	FileTable.Busy[Original] = true;
+}
+
 
 
 
