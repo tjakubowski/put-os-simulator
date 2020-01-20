@@ -33,6 +33,7 @@ public:
 	
 	void print_fat() const;
 	void print_data() const;
+	void print_files();
 
 	void create(std::string file_name);
 	void remove(std::string file_name);

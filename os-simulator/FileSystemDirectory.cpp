@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "FileSystemDirectory.h"
 #include <algorithm>
+#include "TablePrinter.h"
 
 FileSystemDirectory::FileSystemDirectory(std::string path): path_(std::move(path)) {
 }
@@ -46,4 +47,17 @@ void FileSystemDirectory::create(std::string file_name, unsigned int cluster_ind
 void FileSystemDirectory::remove(File* file)
 {
 	files_.erase(std::remove(files_.begin(), files_.end(), file), files_.end());
+}
+
+void FileSystemDirectory::print()
+{
+	TablePrinter tp;
+	tp.AddColumn("File name", 16);
+	tp.AddColumn("Start cluster", 5);
+	tp.AddColumn("File size", 5);
+	
+	tp.PrintHeader();
+	for(auto& file : files_)
+		tp << file->file_name() << file->start_cluster() << file->file_size();
+	tp.PrintFooter();
 }

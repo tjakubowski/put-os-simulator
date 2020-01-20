@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "FileSystem.h"
+#include "TablePrinter.h"
 
 FileSystem::FileSystem()
 {
@@ -15,21 +16,43 @@ FileSystem::~FileSystem()
 
 void FileSystem::print_fat() const
 {
-	std::cout << "fat: " << std::endl;
+	TablePrinter tp;
+	tp.AddColumn("Index", 5);
+	tp.AddColumn("Is busy", 5);
+	tp.AddColumn("Next index", 5);
+
+	tp.PrintHeader();
 	for (int i = 0; i < clusters_count_; i++)
-		std::cout << i << ": " << fat_[i].busy_ << ", " << fat_[i].next_ << std::endl;
+		tp << i << fat_[i].busy_ << fat_[i].next_;
+	tp.PrintFooter();
 }
 
 void FileSystem::print_data() const
 {
-	std::cout << "data: " << std::endl;
-	for(int i = 0; i < drive_size_; i++)
+	TablePrinter tp;
+	tp.AddColumn("Clusters", 15);
+	tp.AddColumn("Bytes", cluster_size_ * 2);
+	
+	tp.PrintHeader();
+	for(int i = 0; i < clusters_count_; i++)
 	{
-		std::cout << i << ": " << data_[i] << "  ";
+		tp << std::to_string(i * cluster_size_) + " - " + std::to_string( cluster_size_ * (1 + i) - 1);
+		std::string bytes;
 
-		if ((i + 1) % cluster_size_ == 0)
-			std::cout << std::endl;
+		for(int j = 0; j < cluster_size_; j++)
+		{
+			bytes += data_[i * cluster_size_ + j];
+			bytes += ' ';
+		}
+		
+		tp << bytes;
 	}
+	tp.PrintFooter();
+}
+
+void FileSystem::print_files()
+{
+	root_directory_.print();
 }
 
 bool FileSystem::exists(std::string file_name)
