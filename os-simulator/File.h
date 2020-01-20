@@ -18,4 +18,5 @@ public:
 	
 	void set_file_size(unsigned file_size);
 	void set_last_read_byte(unsigned last_read_byte);
+	void set_file_name(const std::string& file_name);
 };

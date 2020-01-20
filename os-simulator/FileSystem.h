@@ -44,6 +44,7 @@ public:
 	void write(std::string file_name, std::string bytes, bool append = false);
 	void write(std::string file_name, char byte, bool append = false);
 
+	void set_file_name(std::string file_name, std::string new_file_name);
 	char read_next_byte(std::string file_name);
 	std::string read_all(std::string file_name);
 };

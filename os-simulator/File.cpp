@@ -34,3 +34,8 @@ void File::set_last_read_byte(unsigned last_read_byte)
 {
 	last_read_byte_ = last_read_byte;
 }
+
+void File::set_file_name(const std::string& file_name)
+{
+	file_name_ = file_name;
+}

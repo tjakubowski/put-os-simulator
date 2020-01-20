@@ -125,6 +125,12 @@ void FileSystem::write(std::string file_name, char byte, bool append)
 	write(file_name, std::string(1, byte), append);
 }
 
+void FileSystem::set_file_name(std::string file_name, std::string new_file_name)
+{
+	auto file = root_directory_.get_file(file_name);
+	file->set_file_name(new_file_name);
+}
+
 bool FileSystem::will_fit(std::string file_name, std::string bytes, bool append)
 {
 	const auto file_size = root_directory_.get_file(file_name)->file_size();
