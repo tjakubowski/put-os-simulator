@@ -106,6 +106,21 @@ void Process::set_instruction_counter(int instruction_counter)
 	instruction_counter_ = instruction_counter;
 }
 
+void Process::add_opened_file(std::string file_name)
+{
+	opened_files_.push_back(file_name);
+}
+
+void Process::remove_opened_file(std::string file_name)
+{
+	opened_files_.remove(file_name);
+}
+
+std::list<std::string> Process::opened_files() const
+{
+	return opened_files_;
+}
+
 std::vector<Segment*> Process::segment_tab() const
 {
 	return segment_tab_;

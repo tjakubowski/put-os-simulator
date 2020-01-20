@@ -1,5 +1,6 @@
 ﻿#include "pch.h"
 #include "ProcessManager.h"
+#include "FileSystem.h"
 
 int ProcessManager::last_process_id_ = 0;
 
@@ -33,12 +34,12 @@ void ProcessManager::SetProcessNew(Process* process)
 
 Process* ProcessManager::CreateProcess(std::string process_name, std::string process_file, const int priority)
 {
+	const auto process_code = FileSystem::GetInstance().read_all(process_file);
 	const auto process = new Process(process_name, process_file, priority, ++last_process_id_);
 	processes_.push_back(process);
 
 	SetProcessNew(process);
-	// TODO: Get process code from FAT
-	// VirtualMemory::GetInstance().create_program(process, );
+	VirtualMemory::GetInstance().create_program(process, process_code);
 	
 	try
 	{
@@ -73,6 +74,9 @@ void ProcessManager::KillProcess(Process* process)
 	default: break;
 	}
 
+	for(auto& file_name : process->opened_files())
+		FileSystem::GetInstance().close(file_name);
+	
 	RemoveFromVector(process, processes_);
 
 	for(auto& process : new_processes_)

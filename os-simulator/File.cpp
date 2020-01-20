@@ -5,6 +5,16 @@ File::File(const std::string& file_name, unsigned int start_cluster) : file_name
 {
 }
 
+void File::open(Process* process)
+{
+	semaphore_.Wait(process);
+}
+
+void File::close(Process* process)
+{
+	// semaphore_.Signal(process);
+}
+
 std::string File::file_name() const
 {
 	return file_name_;

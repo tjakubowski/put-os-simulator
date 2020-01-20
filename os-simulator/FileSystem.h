@@ -39,7 +39,7 @@ public:
 	void create(std::string file_name, std::string bytes);
 	void remove(std::string file_name);
 	
-	void open(std::string file_name);
+	void open(Process* process, std::string file_name);
 	void close(std::string file_name);
 
 	void write(std::string file_name, std::string bytes, bool append = false);

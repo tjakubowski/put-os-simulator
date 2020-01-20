@@ -3,6 +3,7 @@
 #include <string>
 #include <ostream>
 #include"Segment.h"
+#include <list>
 
 class Process
 {
@@ -27,6 +28,7 @@ private:
 	int cx_ = 0;
 	int dx_ = 0;
 	int instruction_counter_{};
+	std::list<std::string> opened_files_;
 public:
 	Process(const std::string& name, const std::string& file_name, int priority, int id);
 	~Process() = default;
@@ -57,6 +59,10 @@ public:
 	void set_cx(int cx);
 	void set_dx(int dx);
 	void set_instruction_counter(int instruction_counter);
+
+	void add_opened_file(std::string file_name);
+	void remove_opened_file(std::string file_name);
+	std::list<std::string> opened_files() const;
 
 	friend std::ostream& operator<<(std::ostream& os, const Process& obj)
 	{

@@ -115,10 +115,10 @@ void FileSystem::remove(std::string file_name)
 		fat_[next].busy_ = false;
 }
 
-void FileSystem::open(std::string file_name)
+void FileSystem::open(Process* process, std::string file_name)
 {
-	// root_directory_.get_file(file_name)->open();
-	// last_read = 0
+	auto file = root_directory_.get_file(file_name);
+	file->open(process);
 }
 
 void FileSystem::close(std::string file_name)
