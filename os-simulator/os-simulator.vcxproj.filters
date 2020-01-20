@@ -13,6 +13,9 @@
     <ClCompile Include="Assembler.cpp" />
     <ClCompile Include="Semaphore.cpp" />
     <ClCompile Include="TablePrinter.cpp" />
+    <ClCompile Include="FileSystem.cpp" />
+    <ClCompile Include="FileSystemDirectory.cpp" />
+    <ClCompile Include="File.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CPU.h" />
@@ -31,5 +34,8 @@
   <ItemGroup>
     <Text Include="Polecenia_assemblerowe.txt" />
     <Text Include="ciagEulera.txt" />
+    <ClInclude Include="FileSystem.h" />
+    <ClInclude Include="FileSystemDirectory.h" />
+    <ClInclude Include="File.h" />
   </ItemGroup>
 </Project>
