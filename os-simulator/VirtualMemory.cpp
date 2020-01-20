@@ -29,32 +29,47 @@ int VirtualMemory::get_base(const int& limit)
 
 	for (int i = 0; i < pagefile_segment_tab.size(); i++)//false tam gdzie sa dane 
 	{
-		for (int j = 0; j < pagefile_segment_tab[i].limit; j++)
+		for(int j = 0; j < pagefile_segment_tab[i].limit; j++)
 		{
 			holes[pagefile_segment_tab[i].base + j] = false;
 		}
 	}
 
-	int base = -1;
-
-	for (int i = 0; i < kvirtualmemory_size - 1; i++)
+	// int base = -1;
+	int occurences = 0;
+	for (int i = 0; i < holes.size() - 1; i++)
 	{
-		int temp = 1;//0
-		if (holes[i] == true && holes[i + 1] == true) {
-			do
-			{
-				temp++;
-				i++;
-				if (temp == limit)
-				{
-					base = i - temp + 1;//i-temp
-					//std::cout << base << std::endl;
-					return base;
-				}
-			} while (holes[i] == true && holes[i + 1] == true);
+		if (holes[i] && holes[i + 1])
+			occurences++;
+		else
+			occurences = 0;
 
-		}
+		if (occurences == limit)
+			return i - occurences + 1;
 	}
+
+
+	// looking for 4 holes
+	// 10010010001000001101
+
+	// for (int i = 0; i < kvirtualmemory_size - 1; i++)
+	// {
+	// 	int temp = 1;//0
+	// 	if (holes[i] && holes[i + 1]) {
+	// 		do
+	// 		{
+	// 			temp++;
+	// 			i++;
+	// 			if (temp == limit)
+	// 			{
+	// 				base = i - temp + 1;//i-temp
+	// 				//std::cout << base << std::endl;
+	// 				return base;
+	// 			}
+	// 		} while (holes[i] && holes[i + 1]);
+	//
+	// 	}
+	// }
 
 	return -1; //zwraca -1 gdy nie ma wolnego miejsca 
 
@@ -70,11 +85,8 @@ bool VMSegment::operator<(const VMSegment& s) const
 	return (base < s.base);
 }
 
-bool VirtualMemory::create_program(Process* pcb,  FileM*file_menager)//, std::string file) 
+bool VirtualMemory::create_program(Process* pcb, std::string file) 
 {
-	
-	std::string file = file_menager->SendFile(pcb->file_name());
-
 	//dodaj zaladowanie stringa z FileM
 	std::vector<Segment*> segment_tab = pcb->segment_tab();
 	Segment* text_pcbseg = new Segment();
@@ -204,6 +216,9 @@ bool VirtualMemory::delete_program(Process* pcb) {
 		VMSegment segment = pagefile_segment_tab[i];
 		for (int j = 0; j < pagefile_segment_tab.size(); j++) {
 			if (segment.base == segment_tab[i]->baseVM && segment.limit == segment_tab[i]->limit) {
+				for (int k = segment.base; k < segment.base + segment.limit; k++) {
+					pagefile[k] = ' ';
+				}
 				pagefile_segment_tab.erase(pagefile_segment_tab.begin() + j);
 				segment_tab.erase(segment_tab.begin() + i);
 				i--;
