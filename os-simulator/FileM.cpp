@@ -32,7 +32,7 @@ std::string FileM::OpenFile(Process* pcb)
 		throw std::exception("tresc");
 
 	}
-	Semafor[name].Wait(name);
+	//Semafor[name].Wait(name);
 	return SendFile(name);
 
 }
@@ -40,7 +40,7 @@ std::string FileM::OpenFile(Process* pcb)
 void FileM::CloseFile(std::string ProcessName)
 {
 	
-	Semafor.singal();
+	//Semafor.singal();
 	
 }
 
