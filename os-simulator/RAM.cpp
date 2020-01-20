@@ -11,7 +11,7 @@ bool compare(const Free_blocks& a, const Free_blocks& b) {
 }
 
 
-int RAM::add_to_RAM(Process* process) { //zamienic na process
+int RAM::add_to_RAM(Process* process) {
 	fstream file;
 	string commands, help, line[128];
 	int max_size = 0;
@@ -30,20 +30,6 @@ int RAM::add_to_RAM(Process* process) { //zamienic na process
 
 	}
 
-
-
-	/*	getline(file, help);
-			line[counter] = help;
-			counter++;		 //string stream
-			for (int i = 0; i <= help.length(); i++) //todo do uzgodnienia z FAT jak ma wygl¹daæ czytanie.
-			{
-				if (help[i] != '\n')
-					length++;
-
-
-			}
-			commands += help;
-			commands += '\n'; */
 
 	else {
 		cout << "This string cannot be found." << endl;
@@ -74,13 +60,16 @@ int RAM::add_to_RAM(Process* process) { //zamienic na process
 		{
 			if (e.size >= length)
 				find_space = true;
+			else {
+				throw exception("there is no hole that is big enough for this process");
+			}
 		}
 	}
 	else {
 		find_space = true;
 	}
 	if (find_space) {
-		Free_blocks F_b; //to trzeba bêdzie chyba gdzieœ wczeœniej zainicjowaæ tbh.
+		Free_blocks F_b; 
 
 		if (last == 0) {
 			Free_blocks_list.pop_back();
@@ -108,17 +97,14 @@ int RAM::add_to_RAM(Process* process) { //zamienic na process
 			fbi->biggest = true;
 
 			for (fbi = Free_blocks_list.begin(); fbi != Free_blocks_list.end(); fbi++) {
-
-
 				if (fbi->biggest == true && fbi->size >= length)
 				{
 					F_b.begining = fbi->begining + length;
-					fbi->biggest = false;
+
 					break;
+					
 				}
-				else if (fbi->biggest == true && fbi->size < length) {
-					throw exception("nie ma odpowiednio duzej dziury dla tego procesu");
-				}
+				
 			}
 			bool finder = false;
 			for (auto a : RAM_processes_list) {
@@ -162,7 +148,7 @@ int RAM::add_to_RAM(Process* process) { //zamienic na process
 	}
 
 
-	//Process process(); //tutaj trzeba przekazac id, wielkosc, komendy i takie tam do listy procesów
+	
 
 
 }
@@ -173,7 +159,7 @@ void RAM::show_RAM() {
 	cout << "\n\tMEMORY\n  " << endl << "[ID]\t size\t  begining\t end" << endl;
 	for (it = RAM_processes_list.begin(); it != RAM_processes_list.end(); ++it)
 	{
-		cout << it->id << "\t " << it->size << "\t   " << it->start << "\t\t  " << it->start + it->size << it->commands<< endl;
+		cout << it->id << "\t " << it->size << "\t   " << it->start << "\t\t  " << it->start + it->size <<"\t" << it->commands<< endl;
 		i++;
 	}
 
@@ -213,7 +199,7 @@ void RAM::delete_from_RAM(Process* process) {
 			}
 		}
 		if (id_not_exist)
-			throw std::exception("tego procesu nie ma w pamieci"); //todo tu cos sie jebie, bo tego wyjatku nie lapie
+			throw std::exception("tego procesu nie ma w pamieci"); 
 
 		free_space += it->size;
 		size = it->size;
@@ -225,8 +211,8 @@ void RAM::delete_from_RAM(Process* process) {
 		F_b.end = starting_point + F_b.size;
 		Free_blocks_list.push_back(F_b);
 
-		for (int i = it->start; i <= F_b.end; i++) {
-			memory[i] = " ";
+		for (int i = it->start; i < F_b.end; i++) {
+			memory[i] = "=";
 		}
 
 		for (int i = 0; i < segment_tab.size(); i++) {
@@ -239,7 +225,7 @@ void RAM::delete_from_RAM(Process* process) {
 		merge_RAM();
 	
 	if (RAM_processes_list.empty()) {
-		//std::cout << "JESTEM PUSTA CALKIEM!!!";
+	
 		list<Free_blocks>::iterator fbi;
 		F_b.begining = 1;
 		F_b.end = 128;
@@ -337,7 +323,6 @@ void RAM::merge_RAM() {
 	} while (help == true);
 }
 
-//TODO do dogadania z Assemblerem
 
 bool RAM::modify_RAM(int RAMposition, int byte) {
 
