@@ -114,9 +114,12 @@ int RAM::add_to_RAM(Process* process) { //zamienic na process
 				{
 					F_b.begining = fbi->begining + length;
 					fbi->biggest = false;
+					std::cout << "11";
 					break;
+					
 				}
-				else if (fbi->biggest == true && fbi->size < length) {
+				else {
+					std::cout << "3333";
 					throw exception("nie ma odpowiednio duzej dziury dla tego procesu");
 				}
 			}
@@ -173,7 +176,7 @@ void RAM::show_RAM() {
 	cout << "\n\tMEMORY\n  " << endl << "[ID]\t size\t  begining\t end" << endl;
 	for (it = RAM_processes_list.begin(); it != RAM_processes_list.end(); ++it)
 	{
-		cout << it->id << "\t " << it->size << "\t   " << it->start << "\t\t  " << it->start + it->size << it->commands<< endl;
+		cout << it->id << "\t " << it->size << "\t   " << it->start << "\t\t  " << it->start + it->size <<"\t" << it->commands<< endl;
 		i++;
 	}
 
