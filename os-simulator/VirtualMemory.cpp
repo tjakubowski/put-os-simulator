@@ -2,6 +2,7 @@
 #include "VirtualMemory.h"
 #include "Segment.h"
 #include"Process.h"
+#include "FileSystem.h"
 
 extern class  Process;
 
@@ -35,41 +36,17 @@ int VirtualMemory::get_base(const int& limit)
 		}
 	}
 
-	// int base = -1;
-	int occurences = 0;
+	int occurrences = 0;
 	for (int i = 0; i < holes.size() - 1; i++)
 	{
 		if (holes[i] && holes[i + 1])
-			occurences++;
+			occurrences++;
 		else
-			occurences = 0;
+			occurrences = 0;
 
-		if (occurences == limit)
-			return i - occurences + 1;
+		if (occurrences == limit)
+			return i - occurrences + 1;
 	}
-
-
-	// looking for 4 holes
-	// 10010010001000001101
-
-	// for (int i = 0; i < kvirtualmemory_size - 1; i++)
-	// {
-	// 	int temp = 1;//0
-	// 	if (holes[i] && holes[i + 1]) {
-	// 		do
-	// 		{
-	// 			temp++;
-	// 			i++;
-	// 			if (temp == limit)
-	// 			{
-	// 				base = i - temp + 1;//i-temp
-	// 				//std::cout << base << std::endl;
-	// 				return base;
-	// 			}
-	// 		} while (holes[i] && holes[i + 1]);
-	//
-	// 	}
-	// }
 
 	return -1; //zwraca -1 gdy nie ma wolnego miejsca 
 

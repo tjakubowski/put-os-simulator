@@ -116,6 +116,9 @@ int RAM::add_to_RAM(Process* process) { //zamienic na process
 					fbi->biggest = false;
 					break;
 				}
+				else if (fbi->biggest == true && fbi->size < length) {
+					throw exception("nie ma odpowiednio duzej dziury dla tego procesu");
+				}
 			}
 			bool finder = false;
 			for (auto a : RAM_processes_list) {
@@ -222,6 +225,10 @@ void RAM::delete_from_RAM(Process* process) {
 		F_b.end = starting_point + F_b.size;
 		Free_blocks_list.push_back(F_b);
 
+		for (int i = it->start; i <= F_b.end; i++) {
+			memory[i] = " ";
+		}
+
 		for (int i = 0; i < segment_tab.size(); i++) {
 			segment_tab[i]->baseRAM = -1;
 			segment_tab[i]->is_in_RAM = false;
@@ -234,8 +241,8 @@ void RAM::delete_from_RAM(Process* process) {
 	if (RAM_processes_list.empty()) {
 		//std::cout << "JESTEM PUSTA CALKIEM!!!";
 		list<Free_blocks>::iterator fbi;
-		F_b.begining = 0;
-		F_b.end = 127;
+		F_b.begining = 1;
+		F_b.end = 128;
 		F_b.size = F_b.end - F_b.begining;
 		Free_blocks_list.clear();
 		Free_blocks_list.push_back(F_b);
@@ -243,11 +250,7 @@ void RAM::delete_from_RAM(Process* process) {
 	}
 }
 
-string RAM::char_RAM(int position) {
 
-	return memory[position];
-
-}
 
 string RAM::read_RAM(Process* process, int counter) {
 	list<RAM_process>::iterator it;
@@ -311,7 +314,7 @@ void RAM::merge_RAM() {
 					F_b.begining = it2->begining;
 					F_b.end = it->end;
 					F_b.size = it->size + it2->size;
-					std::cout << "jestem tutaj";
+
 
 					Free_blocks_list.push_front(F_b);
 				}
@@ -320,7 +323,7 @@ void RAM::merge_RAM() {
 					Free_blocks_list.sort(compare);
 					it++;
 					Free_blocks_list.erase(it2, it);
-					cout << "jestem tam";
+
 				}
 			}
 			if (help == true) {
@@ -334,11 +337,19 @@ void RAM::merge_RAM() {
 	} while (help == true);
 }
 
+//TODO do dogadania z Assemblerem
+
 bool RAM::modify_RAM(int RAMposition, int byte) {
+
 	memory[RAMposition] = byte;
 	int position = stoi(memory[RAMposition]);
 	if (position == byte)
 		return true;
 	else
 		return false;
+}
+string RAM::char_RAM(int position) {
+
+	return memory[position];
+
 }

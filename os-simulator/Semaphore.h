@@ -18,7 +18,8 @@ public:
 	void Signal();
 
 	Semaphore(int k = 1);
-	
+
+	//krokowy
 	void show_Semaphore();
 
 };

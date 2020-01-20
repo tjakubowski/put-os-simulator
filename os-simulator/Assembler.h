@@ -52,6 +52,8 @@ public:
 	void saveFile(Assembler& reg, Process *pcb);
 
 	int countLine(std::string line);
+	
+	void print(Assembler& reg);
 };
 
 
