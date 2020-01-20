@@ -10,24 +10,19 @@ public:
 	std::string Name[32];
 	//Pierwszy element tablicy FAT 
 	int First[32];
-	
-
-
-	/*struct File
+	/*
+	struct File
 	{
 		Semaphore sem;
 		std::string name;
 		int adres;
 
-		File(std::string name, int adres) :sem(1)
+		File(std::string name, int adres, int k) 
 		{
 			this->name = name;
 			this->adres = adres;
 		}
-		File() :sem(1)
-		{
-
-		}
+	
 	};
 	*/
 

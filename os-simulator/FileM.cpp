@@ -1,4 +1,4 @@
-﻿
+﻿#include "pch.h"
 
 #include "FileM.h"
 
@@ -15,8 +15,10 @@ FileM::FileM()
 		FreeBlockCount = dysk.BlockCount;
 		DIR.Name[i] = "";
 		DIR.First[i] = 0;
+		
 
 	}
+	CreateSemaphors();
 }
 
 
@@ -24,36 +26,36 @@ std::string FileM::OpenFile(Process* pcb)
 {
 	std::string name = pcb->file_name();
 	std::string ProcessName = pcb->name();
-	if (InvestigateFile(name) == false)
+	int FoundFile = FindFile(name) - 1;
+	if (FoundFile == -1)
 	{
 		throw std::exception("tresc");
 
 	}
-
-
-	//przesyla PLIK stringiem.
+	Semafor[name].Wait(name);
 	return SendFile(name);
 
 }
 
 void FileM::CloseFile(std::string ProcessName)
 {
-	//Signal(ProcessName);
-
+	
+	Semafor.singal();
+	
 }
 
 //Szuka pierwszego wolnego bloku w FAT
 int FileM::FindFreeBlock()
 {
 	for (int i = 0; i < dysk.BlockCount; i++)
-		if (FileTable.Busy[i] == false) return i + 1;
+		if (!FileTable.Busy[i] == false) return i+1;
 	return -1;
 }
 //Szuka pierwszego wolnego miejsca w katalogu
 int  FileM::FindFreeDirectory()
 {
 	for (int i = 0; i < dysk.BlockCount; i++)
-		if (DIR.Name[i] == "") return i + 1;
+		if (DIR.Name[i] == "") return i+1;
 
 	return -1;
 }
@@ -61,6 +63,8 @@ int  FileM::FindFreeDirectory()
 //Tworzy pusty plik
 void FileM::CreateFile(const std::string& name)
 {
+	/*OBIEKT NOWEJ KLASY(NAZWAPLIKU);
+	*/
 	int Adress = FindFreeBlock();
 	if (Adress == -1)
 	{
@@ -78,6 +82,9 @@ void FileM::CreateFile(const std::string& name)
 	FileTable.Busy[Adress - 1] = true;
 	FileTable.Next[Adress - 1] = -1;
 	FreeBlockCount--;
+
+
+	//Semafor[Adress].Metoda(name, 1); 
 }
 
 //Szuka konkretnego pliku w katalogu
@@ -165,6 +172,8 @@ void FileM::ReplaceNewName(const std::string& name, const std::string& newname)
 
 void FileM::WriteFile(const std::string& name, std::string tresc)
 {
+
+
 	int HowLong = tresc.size();
 	int help1 = HowLong;
 	int FromStart = 0;
@@ -391,6 +400,14 @@ void FileM::ExtractFile(const std::string& name)
 	FromFile.close();
 }
 
+void FileM::CreateSemaphors()
+{
+	vector<Semaphore> Semafor;
+	Semafor.reserve(dysk.BlockCount);
+	for (int i = 0; i <= dysk.BlockCount; i++) {
+		Semafor.push_back(Semaphore(1));
+	}
+}
 
 
 

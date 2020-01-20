@@ -17,8 +17,11 @@ public:
 	void Wait(std::string name);
 	void Signal();
 
-	Semaphore(int k) : value(k) {}
-
+	Semaphore(int k)
+	{
+		this->value = k;
+	}
+	
 
 	//krokowy
 	void show_Semaphore();

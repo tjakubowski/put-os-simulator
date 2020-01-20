@@ -49,12 +49,11 @@ public:
 	void Stats();
 	//Znajduje miejsce na adres nowego Pliku w DIRze
 	int FindFreeDirectory();
+	//Tworzy Semafory
+	void CreateSemaphors();
 	Drive dysk;
 	FAT FileTable;
 	DirectoryFile DIR;
-
-
-
 
 private:
 	int FreeBlockCount;
