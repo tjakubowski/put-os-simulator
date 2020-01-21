@@ -127,9 +127,6 @@ void ProcessManager::KillProcess(Process* process)
 		running_process_ = dummy_process_; break;
 	default: break;
 	}
-
-	for(auto& file_name : process->opened_files())
-		FileSystem::GetInstance().close(file_name);
 	
 	RemoveFromVector(process, processes_);
 	RemoveProcessFromMemory(process);
