@@ -58,9 +58,9 @@ public:
 	Drive dysk;
 	FAT FileTable;
 	DirectoryFile DIR;
-
-private:
 	int FreeBlockCount;
+private:
+	
 
 	int FindFreeBlock();
 

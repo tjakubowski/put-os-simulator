@@ -15,7 +15,7 @@ FileM::FileM()
 		FreeBlockCount = dysk.BlockCount;
 		DIR.Name[i] = "";
 		DIR.First[i] = 0;
-		
+
 
 	}
 	CreateSemaphors();
@@ -39,23 +39,23 @@ std::string FileM::OpenFile(Process* pcb)
 
 void FileM::CloseFile(std::string ProcessName)
 {
-	
+
 	//Semafor.singal();
-	
+
 }
 
 //Szuka pierwszego wolnego bloku w FAT
 int FileM::FindFreeBlock()
 {
 	for (int i = 0; i < dysk.BlockCount; i++)
-		if (!FileTable.Busy[i] == false) return i+1;
+		if (!FileTable.Busy[i] == false) return i + 1;
 	return -1;
 }
 //Szuka pierwszego wolnego miejsca w katalogu
 int  FileM::FindFreeDirectory()
 {
 	for (int i = 0; i < dysk.BlockCount; i++)
-		if (DIR.Name[i] == "") return i+1;
+		if (DIR.Name[i] == "") return i + 1;
 
 	return -1;
 }
@@ -80,9 +80,6 @@ void FileM::CreateFile(const std::string& name)
 	FileTable.Busy[Adress - 1] = true;
 	FileTable.Next[Adress - 1] = -1;
 	FreeBlockCount--;
-
-
-	//Semafor[Adress].Metoda(name, 1); 
 }
 
 //Szuka konkretnego pliku w katalogu
@@ -150,10 +147,6 @@ void FileM::DeleteFile(const std::string& name)
 		}
 	}
 
-	for (int j = 0; j < dysk.BlockSize; j++)
-	{
-		dysk.A[dysk.BlockSize * Previous + j] = 0;
-	}
 	int Check = FileTable.Next[Previous];
 	int Next;
 	if (Check != -1)
@@ -227,6 +220,7 @@ void FileM::WriteFile(const std::string& name, std::string tresc)
 		FileTable.Busy[Adress] = true;
 		FileTable.Next[Previous] = Adress;
 		FileTable.Next[Adress] = -1;
+		FreeBlockCount++;
 
 		Previous = Adress;
 
@@ -302,7 +296,7 @@ bool FileM::InvestigateFile(const std::string& name)
 
 void FileM::Stats()
 {
-	std::cout << "Miejsce (wolne/max): " << "/" << dysk.BlockCount << "\n";
+	std::cout << "Miejsce (wolne/max): " << FreeBlockCount << "/" << dysk.BlockCount << "\n";
 }
 
 std::string FileM::SendFile(const std::string& name)
