@@ -30,7 +30,7 @@ int VirtualMemory::get_base(const int& limit)
 
 	for (int i = 0; i < pagefile_segment_tab.size(); i++)//false tam gdzie sa dane 
 	{
-		for(int j = 0; j < pagefile_segment_tab[i].limit; j++)
+		for (int j = 0; j < pagefile_segment_tab[i].limit; j++)
 		{
 			holes[pagefile_segment_tab[i].base + j] = false;
 		}
@@ -62,7 +62,7 @@ bool VMSegment::operator<(const VMSegment& s) const
 	return (base < s.base);
 }
 
-bool VirtualMemory::create_program(Process* pcb, std::string file) 
+bool VirtualMemory::create_program(Process* pcb, std::string file)
 {
 	//dodaj zaladowanie stringa z FileM
 	std::vector<Segment*> segment_tab = pcb->segment_tab();
@@ -251,7 +251,7 @@ void VirtualMemory::display_segment_tab(Process* pcb)
 {
 	std::cout << std::endl;
 	std::vector<Segment*> segment_tab = pcb->segment_tab();
-	for (int i = 0; i < segment_tab.size(); i++)
+	/*for (int i = 0; i < segment_tab.size(); i++)
 	{
 		std::cout << "<base in VM: " << segment_tab[i]->baseVM << " limit: " << segment_tab[i]->limit << " is in RAM: ";
 		if (segment_tab[i]->is_in_RAM)
@@ -263,7 +263,31 @@ void VirtualMemory::display_segment_tab(Process* pcb)
 			std::cout << "false";
 		}
 		std::cout << "> " << std::endl;
-	}
+	}*/
+
+	TablePrinter tp;
+	tp.AddColumn("BASE", 5);
+	tp.AddColumn("LIMIT", 5);
+	tp.AddColumn("IS IN RAM", 5);
+	tp.AddColumn("BASE IN RAM", 5);
+		for (int i = 0; i < segment_tab.size(); i++)
+		{
+			tp << segment_tab[i]->baseVM << segment_tab[i]->limit;
+			if (segment_tab[i]->is_in_RAM)
+			{
+				tp << "true" << segment_tab[i]->baseRAM;
+			}
+			else
+			{
+				tp << "false" << "----";
+			}
+		}
+	tp.PrintHeader();
+
+
+
+
+	tp.PrintFooter();
 }
 
 /*
