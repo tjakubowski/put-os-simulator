@@ -62,7 +62,7 @@ void CPU_M::scheduling()
 	order_heap(heap);
 	if (running_p->priority() < heap[0]->priority()) {
 		if (heap.size() > 1) {
-			int pos;
+			int pos = 0;
 			int tmp_id = heap[0]->id();
 			for (int i = 1; i < heap.size(); i++) {
 
@@ -77,9 +77,7 @@ void CPU_M::scheduling()
 					pos = i;
 					break;
 				}
-				else {
-					pos = 0;
-				}
+		
 			}
 			ProcessManager::GetInstance().SetProcessRunning(heap[pos]);
 
