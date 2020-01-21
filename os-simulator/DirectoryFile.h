@@ -10,6 +10,5 @@ public:
 	std::string Name[32];
 	//Pierwszy element tablicy FAT 
 	int First[32];
-
-
 };
+
