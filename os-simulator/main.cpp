@@ -3,6 +3,7 @@
 #include "ProcessManager.h"
 #include "FileSystem.h"
 #include "Assembler.h"
+#include "Shell.h"
 
 int main()
 {
@@ -52,5 +53,8 @@ int main()
 	FileSystem::GetInstance().print_data();
 	FileSystem::GetInstance().print_fat();
 	FileSystem::GetInstance().print_files();
+
+	Shell shell;
+	shell.run();
 	return 0;
 }
