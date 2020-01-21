@@ -4,12 +4,13 @@
 #include "FileSystem.h"
 #include "Assembler.h"
 #include "Shell.h"
+#include <fstream>
 
 int main()
 {
 	std::cout << "OS Simulator" << std::endl;
 
-	try
+	/*try
 	{
 		ProcessManager::GetInstance().PrintProcesses();
 
@@ -52,8 +53,20 @@ int main()
 	}
 	FileSystem::GetInstance().print_data();
 	FileSystem::GetInstance().print_fat();
-	FileSystem::GetInstance().print_files();
+	FileSystem::GetInstance().print_files();*/
 
+	std::ifstream file;
+	file.open("ciagEulera.txt", std::ios::in);
+	FileSystem::GetInstance().create("ciagEulera");
+	std::string kod;
+	std::string h;
+	while (getline(file, h)) {
+		kod += h;
+		kod += " ";
+	}
+	file.close();
+
+	FileSystem::GetInstance().write("ciagEulera", kod, false);
 	Shell shell;
 	shell.run();
 	return 0;
