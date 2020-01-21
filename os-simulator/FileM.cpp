@@ -63,8 +63,6 @@ int  FileM::FindFreeDirectory()
 //Tworzy pusty plik
 void FileM::CreateFile(const std::string& name)
 {
-	/*OBIEKT NOWEJ KLASY(NAZWAPLIKU);
-	*/
 	int Adress = FindFreeBlock();
 	if (Adress == -1)
 	{
@@ -102,43 +100,36 @@ int FileM::FindFile(const std::string& name)
 	return 0;
 }
 
-void FileM::DeleteFile(const std::string& name)
+void FileM::DeleteFileContent(const std::string& name)
 {
-	int FoundFile = FindFile(name) - 1;
-	if (FoundFile == -1)
+	int Previous = FindFile(name) - 1;
+	int Original = Previous;
+	if (Previous == -1)
 	{
 		throw std::exception("tresc");
-
 	}
-	//Usuwanie alternatywnych nazw pliku
-	for (int i = 0; i < dysk.BlockCount; i++)
+	for (int j = 0; j < dysk.BlockSize; j++)
 	{
-		if (DIR.First[i] == FoundFile)
-		{
-			DIR.First[i] = 0;
-			DIR.Name[i] = "";
-		}
+		dysk.A[dysk.BlockSize * Previous + j] = 0;
 	}
-	//Szuka wszystkich części pliku i usuwa je od pierwszego do ostatniego
-	int help = FoundFile;
-	while (help != 0)
+	int Check = FileTable.Next[Previous];
+	int Next;
+	if (Check != -1)
 	{
-		if (FileTable.Next[help] == -1)
+		while (Previous != -1)
 		{
-			FileTable.Busy[help] = false;
-			FileTable.Next[help] = 0;
-			help = 0;
-			FreeBlockCount++;
-		}
-		else
-		{
-			FileTable.Next[help] = 0;
-			FileTable.Busy[help] = false;
-			FreeBlockCount++;
-			help = FileTable.Next[help];
+			Next = Previous;
+			for (int j = 0; j < dysk.BlockSize; j++)
+			{
+				dysk.A[dysk.BlockSize * Next + j] = 0;
+			}
+			Previous = FileTable.Next[Next];
+			FileTable.Next[Next] = 0;
+			FileTable.Busy[Next] = false;
 		}
 	}
-
+	FileTable.Next[Original] = -1;
+	FileTable.Busy[Original] = true;
 }
 
 //Dodaje dodatkowa nazwe dla istniejacego pliku 
@@ -172,68 +163,37 @@ void FileM::ReplaceNewName(const std::string& name, const std::string& newname)
 
 void FileM::WriteFile(const std::string& name, std::string tresc)
 {
-
-
-	int HowLong = tresc.size();
-	int help1 = HowLong;
-	int FromStart = 0;
-	int HowMany = 0;
-	while (help1 > 32)
-	{
-		HowMany++;
-		help1 = help1 - 32;
-	}
-
 	int Previous = FindFile(name) - 1;
-	if (HowMany > 0)
+	int ToFinish = tresc.size();
+	int FromStart = 0;
+	if (Previous == -1)
 	{
-		//Kiedy uzwyamy wiecej niz jednego bloku pamieci
-		for (int i = 0; i <= HowMany; i++)
-		{
-			int  Free = FindFreeBlock() - 1;
-			if (Free == -1)
-			{
-				throw std::exception("drive");
-
-			}
-
-			FileTable.Next[Previous] = Free;
-			FileTable.Busy[Free] = true;
-			Previous = Free;
-			FreeBlockCount--;
-
-			for (int j = 0; j < dysk.BlockSize; j++)
-			{
-				dysk.A[dysk.BlockSize * Free + j] = tresc[FromStart];
-				//std::cout << dysk.A[dysk.BlockSize * Free + j] ;
-
-				if (FromStart == HowLong)
-					break;
-				FromStart++;
-			}
-
-
-		}
-
+		throw std::exception("tresc");
 	}
-	//Jezeli uzywamy tylko jednego bloku pamieci
-	else
+	int stop = 2;
+	while (stop != 0)
 	{
+		int Adress = FindFreeBlock();
+		if (Adress == -1)
+		{
+			throw std::exception("drive");
+		}
+		FileTable.Busy[Adress] = true;
+		FileTable.Next[Previous] = Adress;
+		FileTable.Next[Adress] = -1;
+
+		Previous = Adress;
+
 		for (int j = 0; j < dysk.BlockSize; j++)
 		{
-			dysk.A[dysk.BlockSize * Previous + j] = tresc[FromStart];
-
-			std::cout << dysk.A[dysk.BlockSize * Previous + j] << "\n";
-			if (FromStart == HowLong)
+			if (FromStart == ToFinish)
 				break;
+			dysk.A[dysk.BlockSize * Adress + j] = tresc[FromStart];
 			FromStart++;
-			FreeBlockCount--;
 		}
-
+		if (FromStart == ToFinish)
+			stop = 0;
 	}
-
-	FileTable.Next[Previous] = -1;
-
 }
 void FileM::PrintFile(const std::string& name)
 {
@@ -241,37 +201,22 @@ void FileM::PrintFile(const std::string& name)
 	if (Previous == -1)
 	{
 		throw std::exception("tresc");
-
-	}
-
-	for (int j = 0; j < dysk.BlockSize; j++)
-	{
-		if (dysk.A[dysk.BlockSize * Previous + j] == '\n')
-			break;
-		std::cout << dysk.A[dysk.BlockSize * Previous + j];
-
-
 	}
 	int Check = FileTable.Next[Previous];
-	int Next;
+	int Next = 0;
 	if (Check != -1)
 	{
 		while (Previous != -1)
 		{
-			Next = FileTable.Next[Previous];
+			Next = Previous;
 
 			for (int j = 0; j < dysk.BlockSize; j++)
 			{
 				if (dysk.A[dysk.BlockSize * Next + j] == 0)
 					break;
-
 				std::cout << dysk.A[dysk.BlockSize * Next + j];
-
-
 			}
-
 			Previous = FileTable.Next[Next];
-
 		}
 	}
 	std::cout << "\n";
@@ -315,31 +260,7 @@ void FileM::Stats()
 }
 
 std::string FileM::SendFile(const std::string& name)
-{/*
-	std::string data = "";
-
-	int Next = FindFile(name);
-	if (Next == -1)
-	{
-		throw std::exception("tresc");
-	}
-
-	for (int i = 0; i < dysk.BlockSize; i++)
-	{
-		data = data + dysk.A[dysk.BlockSize * Next + i];
-
-	}
-	int temp = 0;
-	while (temp != -1)
-	{
-		for (int i = 0; i < dysk.BlockSize; i++)
-		{
-			data = data + dysk.A[dysk.BlockSize * Next + i];
-		}
-		temp = FileTable.Next[temp];
-	}
-	return data;
-*/
+{
 	std::string data = "";
 	int Previous = FindFile(name) - 1;
 	if (Previous == -1)
@@ -409,37 +330,7 @@ void FileM::CreateSemaphors()
 	}
 }
 
-void FileM::DeleteFileContent(const std::string& name)
-{
-	int Previous = FindFile(name) - 1;
-	int Original = Previous;
-	if (Previous == -1)
-	{
-		throw std::exception("tresc");
-	}
-	for (int j = 0; j < dysk.BlockSize; j++)
-	{
-		dysk.A[dysk.BlockSize * Previous + j] = 0;
-	}
-	int Check = FileTable.Next[Previous];
-	int Next;
-	if (Check != -1)
-	{
-		while (Previous != -1)
-		{
-			Next = FileTable.Next[Previous];
-			for (int j = 0; j < dysk.BlockSize; j++)
-			{
-				dysk.A[dysk.BlockSize * Next + j] = 0;
-			}
-			Previous = FileTable.Next[Next];
-			FileTable.Next[Next] = 0;
-			FileTable.Busy[Next] = false;
-		}
-	}
-	FileTable.Next[Original] = -1;
-	FileTable.Busy[Original] = true;
-}
+
 
 
 
