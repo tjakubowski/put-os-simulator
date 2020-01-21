@@ -270,6 +270,7 @@ void VirtualMemory::display_segment_tab(Process* pcb)
 	tp.AddColumn("LIMIT", 5);
 	tp.AddColumn("IS IN RAM", 5);
 	tp.AddColumn("BASE IN RAM", 5);
+	tp.PrintHeader();
 		for (int i = 0; i < segment_tab.size(); i++)
 		{
 			tp << segment_tab[i]->baseVM << segment_tab[i]->limit;
@@ -282,7 +283,7 @@ void VirtualMemory::display_segment_tab(Process* pcb)
 				tp << "false" << "----";
 			}
 		}
-	tp.PrintHeader();
+	
 
 
 
