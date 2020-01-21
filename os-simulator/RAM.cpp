@@ -156,7 +156,7 @@ int RAM::add_to_RAM(Process* process) {
 void RAM::show_RAM() {
 	list<RAM_process>::iterator it;
 	int i = 0, ilosc_w = 0;
-/*	cout << "\n\tMEMORY\n  " << endl << "[ID]\t size\t  begining\t end" << endl;
+ cout << "\n\tMEMORY\n  " << endl << "[ID]\t size\t  begining\t end" << endl;
 	for (it = RAM_processes_list.begin(); it != RAM_processes_list.end(); ++it)
 	{
 		cout << it->id << "\t " << it->size << "\t   " << it->start << "\t\t  " << it->start + it->size <<"\t" << it->commands<< endl;
@@ -177,8 +177,10 @@ void RAM::show_RAM() {
 
 	std::cout << endl;
 	std::cout << endl;
-	std::cout << endl;*/
+	std::cout << endl;
 
+
+	/*
 
 	TablePrinter tp;
 	tp.AddColumn("BASE", 5);
@@ -215,6 +217,7 @@ void RAM::show_RAM() {
 		std::cout << i << ": " << memory[i] << "\t";
 
 	}
+	
 
 
 
@@ -225,6 +228,7 @@ void RAM::show_RAM() {
 
 
 	tp.PrintFooter();
+	*/
 }
 
 void RAM::delete_from_RAM(Process* process) {
