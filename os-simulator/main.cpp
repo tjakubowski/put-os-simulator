@@ -1,7 +1,7 @@
 #include "pch.h"
 #include <iostream>
 #include "Shell.h"
-//#include "FileM.h"
+#include "FileM.h"
 //#include "RAM.h"
 //#include "Assembler.h"
 
@@ -18,6 +18,22 @@ std::string code;
 int main()
 {
 	Shell shell;
+	FileM Nowy;
+	Nowy.CreateFile("AAA");
+	Nowy.WriteFile("AAA", "trescaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+	Nowy.PrintFile("AAA");
+	Nowy.ListFAT();
+	Nowy.ListDirectory();
+	Nowy.PrintDrive();
+	Nowy.AddNewName("AAA", "A2");
+	Nowy.PrintFile("A2");
+
+	Nowy.AddFileContent("A2", "bbbbbbbbbbbbbbbbbbbb");
+	Nowy.CreateFile("Kolejny plik");
+	Nowy.WriteFile("Kolejny plik", "tresc2");
+	Nowy.PrintDrive();
+
+
 
 	std::cout << "OS Simulator" << std::endl;
 
