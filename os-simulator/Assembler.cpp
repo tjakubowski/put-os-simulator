@@ -60,7 +60,8 @@ void Assembler::saveFile(Assembler& reg, Process* pcb)
 	string com = "";
 	int pom1 = reg.get_licznik();
 	int pom2 = reg.get_licznik() + 1;
-	com = program[pom1] + program[(pom2)];
+	com = program[pom1];
+	com	+= program[(pom2)];
 	int i, j;
 	for (i = reg.get_licznik(), j = 0; j < reg.ile_arg(com)+1; i++)
 	{
@@ -973,7 +974,7 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 
 	else if (line[0] == "FC")
 	{
-		FileM::GetInstance().CloseFile(line[1]);
+		//FileM::GetInstance().CloseFile(line[1]);
 	}
 
 	else if (line[0] == "DF")
@@ -1012,7 +1013,7 @@ void Assembler::lastLineControl(Assembler& reg, Process* pcb)
 	string program = "";
 	program = pcb->text_segment();
 	int sizeProgram = program.size();
-	if (sizeProgram < reg.get_licznik())
+	if (sizeProgram <= reg.get_licznik())
 	{
 		ProcessManager::GetInstance().KillProcess(pcb);
 	}
