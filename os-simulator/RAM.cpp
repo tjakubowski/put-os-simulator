@@ -211,9 +211,9 @@ void RAM::delete_from_RAM(Process* process) {
 		F_b.end = starting_point + F_b.size;
 		Free_blocks_list.push_back(F_b);
 
-		for (int i = it->start; i < F_b.end; i++) {
+		/*for (int i = it->start; i < F_b.end; i++) {
 			memory[i] = "=";
-		}
+		}*/
 
 		for (int i = 0; i < segment_tab.size(); i++) {
 			segment_tab[i]->baseRAM = -1;
