@@ -233,7 +233,7 @@ void VirtualMemory::display_pagefile()
 {
 	std::sort(pagefile_segment_tab.begin(), pagefile_segment_tab.end());
 	for (int i = 0; i < pagefile_segment_tab[pagefile_segment_tab.size() - 1].base + pagefile_segment_tab[pagefile_segment_tab.size() - 1].limit; i++) {
-		std::cout << pagefile[i];
+		std::cout <<i<<" : "<< pagefile[i]<<" ";
 		if (i % 20 == 0 && i != 0)std::cout << std::endl;
 	}
 }
@@ -251,20 +251,6 @@ void VirtualMemory::display_segment_tab(Process* pcb)
 {
 	std::cout << std::endl;
 	std::vector<Segment*> segment_tab = pcb->segment_tab();
-	/*for (int i = 0; i < segment_tab.size(); i++)
-	{
-		std::cout << "<base in VM: " << segment_tab[i]->baseVM << " limit: " << segment_tab[i]->limit << " is in RAM: ";
-		if (segment_tab[i]->is_in_RAM)
-		{
-			std::cout << "true" << " base in RAM: " << segment_tab[i]->baseRAM;
-		}
-		else
-		{
-			std::cout << "false";
-		}
-		std::cout << "> " << std::endl;
-	}*/
-
 	TablePrinter tp;
 	tp.AddColumn("BASE", 5);
 	tp.AddColumn("LIMIT", 5);
@@ -284,10 +270,6 @@ void VirtualMemory::display_segment_tab(Process* pcb)
 			}
 		}
 	
-
-
-
-
 	tp.PrintFooter();
 }
 
