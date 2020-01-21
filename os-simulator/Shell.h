@@ -28,7 +28,7 @@ private:
 
 private:
 
-	std::map<std::string, commands> commands = {
+	std::map<std::string, commands> komendy = {
 		{"step",commands::step},
 
 		{"cf",commands::cf},

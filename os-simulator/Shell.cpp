@@ -66,8 +66,11 @@ void Shell::help() {
 void Shell::perform_command() {
 
 	// PRACA KROKOWA
-
-	switch (commands[command[0]]) {
+	if (!komendy.count(command[0])) {
+		std::cout << system_name << "Nie rozpoznano tej komendy.";
+	}
+	else {
+		switch (komendy[command[0]]) {
 
 		case commands::step:
 			switch (command.size())
@@ -89,7 +92,7 @@ void Shell::perform_command() {
 			}
 			break;
 
-	// PLIKI
+			// PLIKI
 
 		case commands::cf:
 
@@ -108,7 +111,7 @@ void Shell::perform_command() {
 				std::cout << system_name << arguments;
 			}
 			break;
-		
+
 		case commands::df:
 
 			switch (command.size()) {
@@ -139,7 +142,7 @@ void Shell::perform_command() {
 				}
 				break;
 			default:
-				std::cout <<  system_name  << arguments ;
+				std::cout << system_name << arguments;
 			}
 			break;
 
@@ -156,7 +159,7 @@ void Shell::perform_command() {
 				}
 				break;
 			default:
-				std::cout <<  system_name  << arguments ;
+				std::cout << system_name << arguments;
 			}
 			break;
 
@@ -169,7 +172,7 @@ void Shell::perform_command() {
 				}
 				else {
 					if (1) { // w warunku metoda zwracajaca bool wyszukujaca nazwy pliku w tablicy FAT
-						
+
 						std::cout << "Plik o nazwie \"" << command[1] << "\" istnieje\n";
 					}
 					else {
@@ -191,7 +194,7 @@ void Shell::perform_command() {
 				}
 				else {
 					// metoda wyswietlajaca atrybuty pliku
-					
+
 				}
 				break;
 			default:
@@ -223,7 +226,7 @@ void Shell::perform_command() {
 			}
 			break;
 
-		// KATALOGI
+			// KATALOGI
 
 		case commands::ls:
 
@@ -242,7 +245,7 @@ void Shell::perform_command() {
 				}
 				break;
 			default:
-				std::cout  << system_name  << arguments ;
+				std::cout << system_name << arguments;
 			}
 			break;
 
@@ -260,7 +263,7 @@ void Shell::perform_command() {
 				}
 				break;
 			default:
-				std::cout  << system_name  << arguments ;
+				std::cout << system_name << arguments;
 			}
 			break;
 
@@ -273,14 +276,14 @@ void Shell::perform_command() {
 				}
 				else {
 					// metoda usuwajaca katalog
-					std::cout  << system_name  << "Usunieto katalog" << command[1] << ".\n";
+					std::cout << system_name << "Usunieto katalog" << command[1] << ".\n";
 				}
 				break;
 			default:
-				std::cout  << system_name  << arguments ;
+				std::cout << system_name << arguments;
 			}
 			break;
-		
+
 		case commands::move:
 
 			switch (command.size()) {
@@ -289,20 +292,20 @@ void Shell::perform_command() {
 					std::cout << helpdesk[command[0]];
 				}
 				else {
-					std::cout  << system_name  << arguments ;
+					std::cout << system_name << arguments;
 				}
 				break;
 			case 3:
 				// metoda zmieniajaca nazwe lub sciezke pliku
-				FileSystem::GetInstance().set_file_name(command[1],command[2]);
-				std::cout  << system_name  << "Plik " << command[1] << " ma nowa nazwe " << command[2] << ".\n";
+				FileSystem::GetInstance().set_file_name(command[1], command[2]);
+				std::cout << system_name << "Plik " << command[1] << " ma nowa nazwe " << command[2] << ".\n";
 				break;
 			default:
-				std::cout  << system_name  << arguments ;
+				std::cout << system_name << arguments;
 			}
-			break;	
+			break;
 
-		// DYSK
+			// DYSK
 
 		case commands::sb:
 
@@ -311,7 +314,7 @@ void Shell::perform_command() {
 				if (command[1] == "-h") {
 					std::cout << helpdesk[command[0]];
 				}
-				else if (std::stoi(command[1])>=0) {
+				else if (std::stoi(command[1]) >= 0) {
 					std::cout << system_name << "Wyswietlenie zawartosci bloku.\n";
 					// metoda wyswietlajaca zawartosc bloku dyskowego
 				}
@@ -320,7 +323,7 @@ void Shell::perform_command() {
 				}
 				break;
 			default:
-				std::cout  << system_name  << arguments ;
+				std::cout << system_name << arguments;
 			}
 			break;
 
@@ -337,42 +340,22 @@ void Shell::perform_command() {
 					std::cout << helpdesk[command[0]];
 				}
 				else {
-					std::cout  << system_name  << arguments ;
+					std::cout << system_name << arguments;
 				}
 				break;
 			default:
-				std::cout  << system_name  << arguments ;
+				std::cout << system_name << arguments;
 			}
 			break;
 
-		// PAMIEC RAM
+			// PAMIEC RAM
 
 		case commands::mem:
 
 			switch (command.size()) {
 			case 1:
-				std::cout  << system_name  << "Wyswietlenie aktualnego stanu pamieci RAM.\n";
-				RAM::GetInstance().show_RAM();			
-				break;
-			case 2:
-				if (command[1] == "-h") {
-					std::cout << helpdesk[command[0]];
-				}
-				else {
-					std::cout  << system_name  << arguments ;
-				}
-				break;
-			default:
-				std::cout  << system_name  << arguments ;
-			}
-			break;
-
-		case commands::cmem:
-
-			switch (command.size()) {
-			case 3:
-				std::cout << system_name << "Wyswietlenie komorki " << command[2] << " nalezacej do procesu " << command[1] << "\n";
-				RAM::GetInstance().read_RAM(ProcessManager::GetInstance().GetProcess(command[1]),std::stoi(command[2]));
+				std::cout << system_name << "Wyswietlenie aktualnego stanu pamieci RAM.\n";
+				RAM::GetInstance().show_RAM();
 				break;
 			case 2:
 				if (command[1] == "-h") {
@@ -387,13 +370,33 @@ void Shell::perform_command() {
 			}
 			break;
 
-		// PAMIEC WIRTUALNA
+		case commands::cmem:
+
+			switch (command.size()) {
+			case 3:
+				std::cout << system_name << "Wyswietlenie komorki " << command[2] << " nalezacej do procesu " << command[1] << "\n";
+				RAM::GetInstance().read_RAM(ProcessManager::GetInstance().GetProcess(command[1]), std::stoi(command[2]));
+				break;
+			case 2:
+				if (command[1] == "-h") {
+					std::cout << helpdesk[command[0]];
+				}
+				else {
+					std::cout << system_name << arguments;
+				}
+				break;
+			default:
+				std::cout << system_name << arguments;
+			}
+			break;
+
+			// PAMIEC WIRTUALNA
 
 		case commands::wmem:
 
 			switch (command.size()) {
 			case 1:
-				std::cout  << system_name  << "Wyswietlenie pliku wymiany.\n";
+				std::cout << system_name << "Wyswietlenie pliku wymiany.\n";
 				// metoda wyswietlajaca plik wymiany
 				VirtualMemory::GetInstance().display_pagefile();
 				break;
@@ -402,11 +405,11 @@ void Shell::perform_command() {
 					std::cout << helpdesk[command[0]];
 				}
 				else {
-					std::cout  << system_name  << arguments ;
+					std::cout << system_name << arguments;
 				}
 				break;
 			default:
-				std::cout  << system_name  << arguments ;
+				std::cout << system_name << arguments;
 			}
 			break;
 
@@ -427,7 +430,7 @@ void Shell::perform_command() {
 			}
 			break;
 
-		// PROCESY
+			// PROCESY
 
 		case commands::cp:
 
@@ -445,7 +448,7 @@ void Shell::perform_command() {
 				ProcessManager::GetInstance().CreateProcess(command[1], command[2], std::stoi(command[3]));
 				break;
 			default:
-				std::cout  << system_name  << arguments ;
+				std::cout << system_name << arguments;
 			}
 			break;
 
@@ -457,14 +460,14 @@ void Shell::perform_command() {
 					std::cout << helpdesk[command[0]];
 				}
 				else {
-					std::cout  << system_name  << arguments ;
+					std::cout << system_name << arguments;
 				}
 				break;
 			case 3:
 				// metoda ladujaca program do procesu
 				break;
 			default:
-				std::cout  << system_name  << arguments ;
+				std::cout << system_name << arguments;
 			}
 			break;
 
@@ -480,22 +483,22 @@ void Shell::perform_command() {
 					std::cout << helpdesk[command[0]];
 				}
 				else {
-					std::cout  << system_name  << arguments ;
+					std::cout << system_name << arguments;
 				}
 				break;
 			default:
-				std::cout  << system_name  << arguments ;
+				std::cout << system_name << arguments;
 			}
 			break;
 
-		// SEMAFORY
+			// SEMAFORY
 
 		case commands::ss:
 
 			switch (command.size()) {
 			case 1:
 				// metoda wyswietlajaca semafor
-				
+
 				break;
 			case 2:
 				if (command[1] == "-h") {
@@ -510,7 +513,7 @@ void Shell::perform_command() {
 			}
 			break;
 
-		// HELP
+			// HELP
 
 		case commands::help:
 
@@ -523,15 +526,15 @@ void Shell::perform_command() {
 					std::cout << helpdesk[command[0]];
 				}
 				else {
-					std::cout  << system_name  << arguments ;
+					std::cout << system_name << arguments;
 				}
 				break;
 			default:
-				std::cout  << system_name  << arguments ;
+				std::cout << system_name << arguments;
 			}
 			break;
 
-		// EXIT
+			// EXIT
 
 		case commands::sh:
 
@@ -544,18 +547,14 @@ void Shell::perform_command() {
 					std::cout << helpdesk[command[0]];
 				}
 				else {
-					std::cout  << system_name  << arguments ;
+					std::cout << system_name << arguments;
 				}
 				break;
 			default:
-				std::cout  << system_name  << arguments ;
+				std::cout << system_name << arguments;
 			}
 			break;
-
-		// ERROR
-
-		default:
-			std::cout << system_name << "Nie rozpoznano tej komendy.";
+		}
 	}
 }
 
