@@ -176,7 +176,7 @@ void Shell::perform_command() {
 					std::cout << helpdesk[command[0]];
 				}
 				else {
-					if (1) { // w warunku metoda zwracajaca bool wyszukujaca nazwy pliku w tablicy FAT
+					if (FileSystem::GetInstance().exists(command[1])) { // w warunku metoda zwracajaca bool wyszukujaca nazwy pliku w tablicy FAT
 
 						std::cout << "Plik o nazwie \"" << command[1] << "\" istnieje\n";
 					}
