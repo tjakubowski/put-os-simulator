@@ -37,6 +37,10 @@ void Shell::create_command() {
 				input.erase(input.begin());
 				command.emplace_back();
 			}
+			if (input.empty()) {
+				command.pop_back();
+				break;
+			}
 			if (input.front() == '\"') {
 				input.erase(input.begin());
 				if (texty)
