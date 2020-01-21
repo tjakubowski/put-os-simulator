@@ -354,14 +354,21 @@ void FileM::DeleteFileContent(const std::string& name)
 }
 
 void FileM::AddFileContent(const std::string& name, std::string tresc)
-{
-	std::string data = "";
-	data = SendFile(name);
-	DeleteFileContent(name);
+{	
+	int Previous = FindFile(name);
+	if (dysk.A[32*Previous] == 0)
+	{
+		WriteFile(name, tresc);
+	}
+	else 
+	{
+		std::string data = "";
+		data = SendFile(name);
+		DeleteFileContent(name);
 
-	data = data + tresc;
-	WriteFile(name, data);
-
+		data = data + tresc;
+		WriteFile(name, data);
+	}
 }
 
 void FileM::PrintDrive()

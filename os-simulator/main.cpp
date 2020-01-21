@@ -1,7 +1,7 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include <iostream>
 #include "Shell.h"
-//#include "FileM.h"
+#include "FileM.h"
 //#include "RAM.h"
 //#include "Assembler.h"
 
@@ -18,6 +18,12 @@ std::string code;
 int main()
 {
 	Shell shell;
+	FileM Nowy;
+	Nowy.CreateFile("plik");
+	Nowy.AddFileContent("plik", "druga czesc kodu aaaaaaaaaaaaaaaaa");
+	Nowy.AddFileContent("plik", "Trzecia czesc kodu iiiiiiiiiiiiiiiii");
+	Nowy.ListFAT();
+
 
 	std::cout << "OS Simulator" << std::endl;
 
