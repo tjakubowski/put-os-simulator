@@ -373,16 +373,13 @@ void Shell::perform_command() {
 		case commands::cmem:
 
 			switch (command.size()) {
-			case 3:
-				std::cout << system_name << "Wyswietlenie komorki " << command[2] << " nalezacej do procesu " << command[1] << "\n";
-				RAM::GetInstance().read_RAM(ProcessManager::GetInstance().GetProcess(command[1]), std::stoi(command[2]));
-				break;
 			case 2:
 				if (command[1] == "-h") {
 					std::cout << helpdesk[command[0]];
 				}
 				else {
-					std::cout << system_name << arguments;
+					std::cout << system_name << "Wyswietlenie komorki " << command[1] << " w RAM\n";
+					std::cout<< RAM::GetInstance().char_RAM(std::stoi(command[1])) << "\n";
 				}
 				break;
 			default:
@@ -390,7 +387,7 @@ void Shell::perform_command() {
 			}
 			break;
 
-			// PAMIEC WIRTUALNA
+		// PAMIEC WIRTUALNA
 
 		case commands::wmem:
 
