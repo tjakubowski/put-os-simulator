@@ -156,7 +156,7 @@ int RAM::add_to_RAM(Process* process) {
 void RAM::show_RAM() {
 	list<RAM_process>::iterator it;
 	int i = 0, ilosc_w = 0;
-	cout << "\n\tMEMORY\n  " << endl << "[ID]\t size\t  begining\t end" << endl;
+/*	cout << "\n\tMEMORY\n  " << endl << "[ID]\t size\t  begining\t end" << endl;
 	for (it = RAM_processes_list.begin(); it != RAM_processes_list.end(); ++it)
 	{
 		cout << it->id << "\t " << it->size << "\t   " << it->start << "\t\t  " << it->start + it->size <<"\t" << it->commands<< endl;
@@ -177,7 +177,7 @@ void RAM::show_RAM() {
 
 	std::cout << endl;
 	std::cout << endl;
-	std::cout << endl;
+	std::cout << endl;*/
 
 
 	TablePrinter tp;
@@ -189,26 +189,27 @@ void RAM::show_RAM() {
 	tp.PrintHeader();
 	for (it = RAM_processes_list.begin(); it != RAM_processes_list.end(); ++it)
 	{
-		tp << it->id << "\t " << it->size << "\t   " << it->start << "\t\t  " << it->start + it->size << "\t" << it->commands;
+		tp << it->id  << it->size  << it->start <<  it->start + it->size  << it->commands;
 		i++;
 	}
 	if (i == 0)
 		cout << "Brak procesow w pamieci" << endl;
-	tp.PrintFooter();
+	
 
-	TablePrinter tp;
-	tp.PrintHeader();
-	tp.AddColumn("START", 5);
-	tp.AddColumn("END", 5);
-	tp.AddColumn("SIZE", 5);
-	tp.AddColumn("COMMANDS", 5);
+	TablePrinter tp1;
+	tp1.PrintHeader();
+	tp1.AddColumn("START", 5);
+	tp1.AddColumn("END", 5);
+	tp1.AddColumn("SIZE", 5);
+	tp1.AddColumn("COMMANDS", 25);
+	tp1.PrintFooter();
 	for (auto e : Free_blocks_list)
 	{
-		tp << "\tStart: " << e.begining << " --> End: " << e.end << "  =  Size: " << e.size;
+		tp1 <<  e.begining  << e.end << e.size;
 		ilosc_w += e.size;
 	}
 	cout << "Razem:  " << ilosc_w << endl;
-	tp.PrintFooter();
+	tp1.PrintFooter();
 
 	for (int i = 1; i < 129; i++) {
 		std::cout << i << ": " << memory[i] << "\t";

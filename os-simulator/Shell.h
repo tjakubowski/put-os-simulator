@@ -101,7 +101,7 @@ private:
 
 		{"help","help - wyswietla wszystkie dostepne komendy\n"},
 
-		{"sh","shutdown - zamyka system\n"}
+		{"sh","sh - zamyka system\n"}
 	};
 
 	bool is_running = true;				// flaga dzia³ania systemu
