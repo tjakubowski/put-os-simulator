@@ -509,28 +509,6 @@ void Shell::perform_command() {
 			}
 			break;
 
-			// SEMAFORY
-
-		case commands::ss:
-
-			switch (command.size()) {
-			case 1:
-				// metoda wyswietlajaca semafor
-
-				break;
-			case 2:
-				if (command[1] == "-h") {
-					std::cout << helpdesk[command[0]];
-				}
-				else {
-					std::cout << system_name << arguments;
-				}
-				break;
-			default:
-				std::cout << system_name << arguments;
-			}
-			break;
-
 			// HELP
 
 		case commands::help:
