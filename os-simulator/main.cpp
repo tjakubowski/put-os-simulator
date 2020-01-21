@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include <iostream>
 #include "Shell.h"
 #include "FileM.h"
@@ -19,20 +19,10 @@ int main()
 {
 	Shell shell;
 	FileM Nowy;
-	Nowy.CreateFile("AAA");
-	Nowy.WriteFile("AAA", "trescaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-	Nowy.PrintFile("AAA");
+	Nowy.CreateFile("plik");
+	Nowy.AddFileContent("plik", "druga czesc kodu aaaaaaaaaaaaaaaaa");
+	Nowy.AddFileContent("plik", "Trzecia czesc kodu iiiiiiiiiiiiiiiii");
 	Nowy.ListFAT();
-	Nowy.ListDirectory();
-	Nowy.PrintDrive();
-	Nowy.AddNewName("AAA", "A2");
-	Nowy.PrintFile("A2");
-
-	Nowy.AddFileContent("A2", "bbbbbbbbbbbbbbbbbbbb");
-	Nowy.CreateFile("Kolejny plik");
-	Nowy.WriteFile("Kolejny plik", "tresc2");
-	Nowy.PrintDrive();
-
 
 
 	std::cout << "OS Simulator" << std::endl;
