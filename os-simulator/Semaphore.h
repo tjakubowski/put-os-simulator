@@ -18,7 +18,7 @@ public:
 	void Wait(Process* process);
 	void Signal();
 
-	Semaphore(std::string file_name, int k = 1);
+	Semaphore( int k = 1);
 
 	//krokowy
 	void show_Semaphore();

@@ -22,7 +22,7 @@ class FileSystem : public Singleton<FileSystem>
 	FatEntry* fat_;
 	char* data_;
 
-	bool exists(std::string file_name);
+	
 	unsigned get_free_clusters_count();
 	int get_first_empty_cluster_index();
 	bool will_fit(std::string file_name, std::string bytes, bool append);
@@ -38,6 +38,8 @@ public:
 	void create(std::string file_name);
 	void create(std::string file_name, std::string bytes);
 	void remove(std::string file_name);
+
+	bool exists(std::string file_name);
 	
 	void open(Process* process, std::string file_name);
 	void close(std::string file_name);

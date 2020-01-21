@@ -34,8 +34,13 @@ void Shell::create_command() {
 		}
 		else {
 			if (input.front() == ' ') {
-				input.erase(input.begin());
+				while(!input.empty() && input.front() == ' ')
+					input.erase(input.begin());
 				command.emplace_back();
+			}
+			if (input.empty()) {
+				command.pop_back();
+				break;
 			}
 			if (input.front() == '\"') {
 				input.erase(input.begin());
@@ -138,7 +143,7 @@ void Shell::perform_command() {
 					std::cout << helpdesk[command[0]];
 				}
 				else {
-					FileSystem::GetInstance().read_all(command[1]);
+					std::cout<<"\n"<<FileSystem::GetInstance().read_all(command[1])<<"\n";
 				}
 				break;
 			default:
@@ -171,7 +176,7 @@ void Shell::perform_command() {
 					std::cout << helpdesk[command[0]];
 				}
 				else {
-					if (1) { // w warunku metoda zwracajaca bool wyszukujaca nazwy pliku w tablicy FAT
+					if (FileSystem::GetInstance().exists(command[1])) { // w warunku metoda zwracajaca bool wyszukujaca nazwy pliku w tablicy FAT
 
 						std::cout << "Plik o nazwie \"" << command[1] << "\" istnieje\n";
 					}
@@ -593,11 +598,15 @@ void Shell::run() {
 	std::cout << "\nAby wyswietlic pomoc, wpisz komende 'help'.\n";
 
 	while (is_running) {
+		try {
+			std::cout << "\nconsole: ";
+			getline(std::cin, input);
 
-		std::cout << "\nconsole: ";
-		getline(std::cin, input);
-
-		create_command();
-		perform_command();
+			create_command();
+			perform_command();
+		}
+		catch (std::exception & e) {
+			std::cout << "\n" << e.what() << "\n";
+		}
 	}
 }
