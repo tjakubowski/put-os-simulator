@@ -143,7 +143,7 @@ void Shell::perform_command() {
 					std::cout << helpdesk[command[0]];
 				}
 				else {
-					FileSystem::GetInstance().read_all(command[1]);
+					std::cout<<"\n"<<FileSystem::GetInstance().read_all(command[1])<<"\n";
 				}
 				break;
 			default:
@@ -509,28 +509,6 @@ void Shell::perform_command() {
 			}
 			break;
 
-			// SEMAFORY
-
-		case commands::ss:
-
-			switch (command.size()) {
-			case 1:
-				// metoda wyswietlajaca semafor
-
-				break;
-			case 2:
-				if (command[1] == "-h") {
-					std::cout << helpdesk[command[0]];
-				}
-				else {
-					std::cout << system_name << arguments;
-				}
-				break;
-			default:
-				std::cout << system_name << arguments;
-			}
-			break;
-
 			// HELP
 
 		case commands::help:
@@ -598,11 +576,15 @@ void Shell::run() {
 	std::cout << "\nAby wyswietlic pomoc, wpisz komende 'help'.\n";
 
 	while (is_running) {
+		try {
+			std::cout << "\nconsole: ";
+			getline(std::cin, input);
 
-		std::cout << "\nconsole: ";
-		getline(std::cin, input);
-
-		create_command();
-		perform_command();
+			create_command();
+			perform_command();
+		}
+		catch (std::exception & e) {
+			std::cout << "\n" << e.what() << "\n";
+		}
 	}
 }

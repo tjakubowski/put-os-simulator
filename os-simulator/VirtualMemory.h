@@ -40,5 +40,4 @@ public:
 	void display_pagefile();
 	void display_pagefile_segment_tab();
 	void display_segment_tab(Process* pcb);
-	//bool create_program(Process* pcb, std::string data);//testowa
 };

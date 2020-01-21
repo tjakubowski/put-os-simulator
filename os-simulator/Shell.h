@@ -18,8 +18,6 @@ private:
 		wmem, cwmem,
 		
 		cp, load, lp, kp,
-
-		ss,
 		
 		help,
 		
@@ -59,8 +57,6 @@ private:
 		{"lp",commands::lp},
 		{"kp",commands::kp},
 
-		{"ss",commands::ss},
-
 		{"help",commands::help},
 
 		{"sh",commands::sh}
@@ -96,8 +92,6 @@ private:
 		{"load","load [nazwa_procesu][nazwa_pliku] - wczytuje program do procesu\n"},
 		{"lp","lp - wyswietla liste utworzonych procesow\n\n"},
 		{"kp","kp - zamyka proces\n"},
-
-		{"ss","ss - wyswietla informacje o semaforze\n"},
 
 		{"help","help - wyswietla wszystkie dostepne komendy\n"},
 

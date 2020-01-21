@@ -16,7 +16,7 @@ int main()
 		FileSystem::GetInstance().create("file1", ".text IC A .data 333");
 		FileSystem::GetInstance().create("file2", ".text IC A .data 99999999999999999999999999999999");
 		FileSystem::GetInstance().create("file3", ".text IC .data 7777");
-		
+
 		ProcessManager::GetInstance().CreateProcess("1", "file1", 5);
 		ProcessManager::GetInstance().CreateProcess("2", "file1", 5);
 		ProcessManager::GetInstance().CreateProcess("3", "file1", 5);
@@ -46,7 +46,7 @@ int main()
 		RAM::GetInstance().show_RAM();
 		ProcessManager::GetInstance().PrintProcesses();
 	}
-	catch(std::exception& e)
+	catch (std::exception & e)
 	{
 		std::cout << e.what() << std::endl;
 	}

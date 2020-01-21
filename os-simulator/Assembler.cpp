@@ -73,12 +73,13 @@ void Assembler::saveFile(Assembler& reg, Process* pcb)
 		pom_com += program[i];
 	}
 	reg.runCommand(pom_com, reg);
-	reg.set_licznik(reg.countLine(pom_com) + 2);
+	reg.set_licznik(reg.get_licznik() + reg.countLine(pom_com));
+	reg.set_licznik(reg.get_licznik() + int(2));
 }
 
 int Assembler::countLine(std::string line)
 {
-	int licznik = 0;
+	licznik = 0;
 	for (int i = 0; i < line.size(); i++)
 	{
 		if (line[i] != ' ')
@@ -175,9 +176,7 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 	cout <<"Wykonuje rozkaz " << line[0] << " " << line[1] << " " << line[2] << " " << line[3] << endl;
 
 	string ss = line[0] + line[1] + line[2] + line[3];
-	int size_ss = ss.size();
-	reg.set_licznik(reg.get_licznik() + size_ss);
-
+	
 	if (line[0] == "MV")
 	{
 		if (line[1] == "A")
@@ -1049,6 +1048,7 @@ void Assembler::runProgram()
 	process_run->set_bx(reg.get_B());
 	process_run->set_cx(reg.get_C());
 	process_run->set_dx(reg.get_D());
+	reg.set_licznik(reg.get_licznik() + 1);
 	process_run->set_instruction_counter(reg.get_licznik());
 	//get_licznik jest wczesniej zrobione w funkcji countLine
 	reg.print(reg);
