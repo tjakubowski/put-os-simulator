@@ -1015,7 +1015,7 @@ void Assembler::lastLineControl(Assembler& reg, Process* pcb)
 	string program = "";
 	program = pcb->text_segment();
 	int sizeProgram = program.size();
-	if (sizeProgram < reg.get_licznik())
+	if (sizeProgram <= reg.get_licznik())
 	{
 		ProcessManager::GetInstance().KillProcess(pcb);
 	}
