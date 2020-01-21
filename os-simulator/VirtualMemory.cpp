@@ -230,7 +230,7 @@ void VirtualMemory::display_pagefile()
 	std::sort(pagefile_segment_tab.begin(), pagefile_segment_tab.end());
 	for (int i = 0; i < pagefile_segment_tab[pagefile_segment_tab.size() - 1].base + pagefile_segment_tab[pagefile_segment_tab.size() - 1].limit; i++) {
 		std::cout <<i<<" : "<< pagefile[i]<<" ";
-		if (i % 20 == 0 && i != 0)std::cout << std::endl;
+		if (i % 10 == 0 && i != 0)std::cout << std::endl;
 	}
 }
 
