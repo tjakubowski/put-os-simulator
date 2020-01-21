@@ -59,6 +59,7 @@ void CPU_M::scheduling()
 {
 	auto running_p = ProcessManager::GetInstance().running_process();
 	auto heap = ProcessManager::GetInstance().ready_processes();
+	order_heap(heap);
 	if (running_p->priority() < heap[0]->priority()) {
 		if (heap.size() > 1) {
 			int pos;
