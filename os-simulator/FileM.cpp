@@ -132,6 +132,52 @@ void FileM::DeleteFileContent(const std::string& name)
 	FileTable.Busy[Original] = true;
 }
 
+void FileM::DeleteFile(const std::string& name)
+{
+	int Previous = FindFile(name) - 1;
+	int Original = Previous;
+	if (Previous == -1)
+	{
+		throw std::exception("tresc");
+	}
+	//Usuwanie alternatywnych nazw pliku
+	for (int i = 0; i < dysk.BlockCount; i++)
+	{
+		if (DIR.First[i] == Previous)
+		{
+			DIR.First[i] = 0;
+			DIR.Name[i] = "";
+		}
+	}
+
+	for (int j = 0; j < dysk.BlockSize; j++)
+	{
+		dysk.A[dysk.BlockSize * Previous + j] = 0;
+	}
+	int Check = FileTable.Next[Previous];
+	int Next;
+	if (Check != -1)
+	{
+		while (Previous != -1)
+		{
+			Next = Previous;
+			for (int j = 0; j < dysk.BlockSize; j++)
+			{
+				dysk.A[dysk.BlockSize * Next + j] = 0;
+			}
+			Previous = FileTable.Next[Next];
+			FileTable.Next[Next] = 0;
+			FileTable.Busy[Next] = false;
+		}
+	}
+	FileTable.Next[Original] = -1;
+	FileTable.Busy[Original] = true;
+}
+
+
+
+
+
 //Dodaje dodatkowa nazwe dla istniejacego pliku 
 void FileM::AddNewName(const std::string& name, const std::string& name2)
 {
@@ -283,7 +329,7 @@ std::string FileM::SendFile(const std::string& name)
 	{
 		while (Previous != -1)
 		{
-			Next = FileTable.Next[Previous];
+			Next = Previous;
 
 			for (int j = 0; j < dysk.BlockSize; j++)
 			{
@@ -328,6 +374,17 @@ void FileM::CreateSemaphors()
 	for (int i = 0; i <= dysk.BlockCount; i++) {
 		Semafor.push_back(Semaphore(1));
 	}
+}
+
+void FileM::AddFileContent(const std::string& name, std::string tresc)
+{
+	std::string data = "";
+	data = SendFile(name);
+	DeleteFileContent(name);
+
+	data = data + tresc;
+	WriteFile(name, data);
+
 }
 
 

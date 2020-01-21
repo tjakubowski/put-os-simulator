@@ -53,6 +53,7 @@ public:
 	void CreateSemaphors();
 	//Usuwa zawartosc pliku 
 	void DeleteFileContent(const std::string& name);
+
 	Drive dysk;
 	FAT FileTable;
 	DirectoryFile DIR;
