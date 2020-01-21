@@ -11,13 +11,14 @@ class Semaphore
 {
 protected:
 	int value;
+	std::string file_name;
 	queue<Process*> queue{};
 public:
 
 	void Wait(Process* process);
 	void Signal();
 
-	Semaphore(int k = 1);
+	Semaphore(std::string file_name, int k = 1);
 
 	//krokowy
 	void show_Semaphore();

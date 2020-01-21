@@ -2,7 +2,7 @@
 #include "Semaphore.h"
 #include <string>
 
-Semaphore::Semaphore(int k) : value(k)
+Semaphore::Semaphore(std::string file_name, int k) : value(k), file_name(file_name)
 {
 }
 
@@ -18,6 +18,7 @@ void Semaphore::Wait(Process* process)
 		value--;
 		queue.push(process);
 		ProcessManager::GetInstance().SetProcessWaiting(process);
+		process->add_opened_file(file_name);
 	}
 }
 void Semaphore::Signal()
@@ -26,6 +27,7 @@ void Semaphore::Signal()
 	{
 		const auto process = queue.front();
 		ProcessManager::GetInstance().SetProcessReady(process);
+		process->remove_opened_file(file_name);
 		queue.pop();
 		value++;
 	}

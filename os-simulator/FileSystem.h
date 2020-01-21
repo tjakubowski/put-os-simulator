@@ -14,8 +14,8 @@ class FileSystem : public Singleton<FileSystem>
 		int next_ = -1;
 	};
 
-	const unsigned int drive_size_ = 256; // 1024
-	const unsigned int cluster_size_ = 16; // 32
+	const unsigned int drive_size_ = 1024; // 1024
+	const unsigned int cluster_size_ = 32; // 32
 	const unsigned int clusters_count_ = drive_size_ / cluster_size_;
 
 	FileSystemDirectory root_directory_;

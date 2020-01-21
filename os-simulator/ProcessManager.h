@@ -32,6 +32,8 @@ public:
 	~ProcessManager();
 	Process* CreateProcess(std::string process_name, std::string process_file, int priority);
 
+	void CloseProcessFiles(Process* process);
+	void RemoveProcessFromMemory(Process* process);
 	void TryAllocateNewProcesses();
 
 	void KillProcess(Process* process);
@@ -58,6 +60,9 @@ public:
 	void PrintProcess(Process* process);
 	void PrintProcess(int process_id);
 	void PrintProcess(std::string process_name);
+
+	void OpenFile(Process* process, std::string file_name);
+	void CloseFile(Process* process, std::string file_name);
 
 	std::vector<Process*> processes() const;
 	std::vector<Process*> new_processes() const;

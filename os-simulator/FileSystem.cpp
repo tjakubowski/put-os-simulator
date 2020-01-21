@@ -123,7 +123,7 @@ void FileSystem::open(Process* process, std::string file_name)
 
 void FileSystem::close(std::string file_name)
 {
-	// root_directory_.get_file(file_name)->close();
+	root_directory_.get_file(file_name)->close();
 }
 
 void FileSystem::write(std::string file_name, char byte, bool append)

@@ -14,7 +14,7 @@ public:
 	File(const std::string& file_name, unsigned start_cluster);
 
 	void open(Process* process);
-	void close(Process* process);
+	void close();
 
 	std::string file_name() const;
 	unsigned int start_cluster() const;

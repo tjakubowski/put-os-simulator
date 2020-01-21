@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "File.h"
 
-File::File(const std::string& file_name, unsigned int start_cluster) : file_name_(file_name), start_cluster_(start_cluster), file_size_(0), last_read_byte_(0)
+File::File(const std::string& file_name, unsigned int start_cluster) : file_name_(file_name), start_cluster_(start_cluster), file_size_(0), last_read_byte_(0), semaphore_(file_name)
 {
 }
 
@@ -10,9 +10,9 @@ void File::open(Process* process)
 	semaphore_.Wait(process);
 }
 
-void File::close(Process* process)
+void File::close()
 {
-	// semaphore_.Signal(process);
+	semaphore_.Signal();
 }
 
 std::string File::file_name() const

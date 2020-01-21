@@ -77,6 +77,24 @@ Process* ProcessManager::CreateProcess(std::string process_name, std::string pro
 	return process;
 }
 
+void ProcessManager::CloseProcessFiles(Process* process)
+{
+	for (auto& file_name : process->opened_files())
+		FileSystem::GetInstance().close(file_name);
+}
+
+void ProcessManager::RemoveProcessFromMemory(Process* process)
+{
+	try
+	{
+		RAM::GetInstance().delete_from_RAM(process);
+	}
+	catch (std::exception & e)
+	{
+	}
+	VirtualMemory::GetInstance().delete_program(process);
+}
+
 void ProcessManager::TryAllocateNewProcesses()
 {
 	for (auto& process : new_processes_)
@@ -114,15 +132,8 @@ void ProcessManager::KillProcess(Process* process)
 		FileSystem::GetInstance().close(file_name);
 	
 	RemoveFromVector(process, processes_);
-
-	try
-	{
-		RAM::GetInstance().delete_from_RAM(process);
-	}
-	catch (std::exception & e)
-	{
-	}
-	VirtualMemory::GetInstance().delete_program(process);
+	RemoveProcessFromMemory(process);
+	CloseProcessFiles(process);
 
 	TryAllocateNewProcesses();
 
@@ -288,6 +299,16 @@ void ProcessManager::PrintProcess(int process_id)
 void ProcessManager::PrintProcess(std::string process_name) 
 {
 	PrintProcess(GetProcess(process_name));
+}
+
+void ProcessManager::OpenFile(Process* process, std::string file_name)
+{
+	process->add_opened_file(file_name);
+}
+
+void ProcessManager::CloseFile(Process* process, std::string file_name)
+{
+	process->remove_opened_file(file_name);
 }
 
 std::vector<Process*> ProcessManager::processes() const
