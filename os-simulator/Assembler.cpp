@@ -1049,6 +1049,7 @@ void Assembler::runProgram()
 	process_run->set_bx(reg.get_B());
 	process_run->set_cx(reg.get_C());
 	process_run->set_dx(reg.get_D());
+	process_run->set_instruction_counter(reg.get_licznik());
 	//get_licznik jest wczesniej zrobione w funkcji countLine
 	reg.print(reg);
 	//sprawdzenie czy ostatnia linia
