@@ -175,6 +175,11 @@ void RAM::show_RAM() {
 	cout << "Razem:  " << ilosc_w << endl;
 	cout << "" << endl;
 
+	for (int i = 1; i < 129; i++) {
+		std::cout << i << ": " << memory[i] << "\t";
+
+	}
+
 	std::cout << endl;
 	std::cout << endl;
 	std::cout << endl;
