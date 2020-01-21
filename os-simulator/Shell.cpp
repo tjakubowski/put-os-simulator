@@ -66,7 +66,7 @@ void Shell::perform_command() {
 			{
 			case 1:
 				// metoda wykonująca kolejny rozkaz przez interpreter polecen
-				
+				Assembler::GetInstance().runProgram();
 				break;
 			case 2:
 				if (command[1] == "-h") {
@@ -445,6 +445,7 @@ void Shell::perform_command() {
 			switch (command.size()) {
 			case 1:
 				// metoda wyswietlajaca wszystkie istniejace procesy
+				ProcessManager::GetInstance().PrintProcesses();
 				break;
 			case 2:
 				if (command[1] == "-h") {
@@ -466,6 +467,7 @@ void Shell::perform_command() {
 			switch (command.size()) {
 			case 1:
 				// metoda wyswietlajaca semafor
+				
 				break;
 			case 2:
 				if (command[1] == "-h") {
