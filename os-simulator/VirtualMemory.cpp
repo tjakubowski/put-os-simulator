@@ -102,13 +102,14 @@ bool VirtualMemory::create_program(Process* pcb, std::string file)
 			for (int i = 0; i < data_limit; i++) {
 				pagefile[data_base + i] = file[data_begin + 6 + i];
 				string_data += file[data_begin + 6 + i];
+			}
 			
 			text_pcbseg->data = string_text;
 			data_pcbseg->data = string_data;
 
 			segment_tab.push_back(text_pcbseg);
 			segment_tab.push_back(data_pcbseg);
-		}
+		
 	}
 	else if (bool_text && !bool_data) {
 		int text_limit = file.size() - text_begin - 6;//moze jeszcze -1;
@@ -224,10 +225,13 @@ bool VirtualMemory::load_to_virtualmemory(Process* pcb, const std::string data)
 
 void VirtualMemory::display_pagefile()
 {
-	std::sort(pagefile_segment_tab.begin(), pagefile_segment_tab.end());
-	for (int i = 0; i < pagefile_segment_tab[pagefile_segment_tab.size() - 1].base + pagefile_segment_tab[pagefile_segment_tab.size() - 1].limit; i++) {
+	//std::sort(pagefile_segment_tab.begin(), pagefile_segment_tab.end());
+/*	for (int i = 0; i < pagefile_segment_tab[pagefile_segment_tab.size() - 1].base + pagefile_segment_tab[pagefile_segment_tab.size() - 1].limit; i++) {
 		std::cout <<i<<" : "<< pagefile[i]<<" ";
 		if (i % 10 == 0 && i != 0)std::cout << std::endl;
+	}*/
+	for (int i = 0; i < kvirtualmemory_size; i++) {
+		std::cout << pagefile[i];
 	}
 }
 
