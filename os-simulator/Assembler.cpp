@@ -74,7 +74,7 @@ void Assembler::saveFile(Assembler& reg, Process* pcb)
 	}
 	reg.runCommand(pom_com, reg);
 	reg.set_licznik(reg.get_licznik() + reg.countLine(pom_com));
-	reg.set_licznik(reg.get_licznik() + int(2));
+	reg.set_licznik(reg.get_licznik());
 }
 
 int Assembler::countLine(std::string line)
@@ -82,10 +82,7 @@ int Assembler::countLine(std::string line)
 	licznik = 0;
 	for (int i = 0; i < line.size(); i++)
 	{
-		if (line[i] != ' ')
-		{
 			licznik++;
-		}
 	}
 	return licznik;
 }
@@ -1048,7 +1045,7 @@ void Assembler::runProgram()
 	process_run->set_bx(reg.get_B());
 	process_run->set_cx(reg.get_C());
 	process_run->set_dx(reg.get_D());
-	reg.set_licznik(reg.get_licznik() + 1);
+	reg.set_licznik(reg.get_licznik());
 	process_run->set_instruction_counter(reg.get_licznik());
 	//get_licznik jest wczesniej zrobione w funkcji countLine
 	reg.print(reg);
