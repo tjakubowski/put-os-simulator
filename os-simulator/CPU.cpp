@@ -77,6 +77,9 @@ void CPU_M::scheduling()
 					pos = i;
 					break;
 				}
+				else {
+					pos = 0;
+				}
 			}
 			ProcessManager::GetInstance().SetProcessRunning(heap[pos]);
 
