@@ -143,7 +143,7 @@ void Shell::perform_command() {
 					std::cout << helpdesk[command[0]];
 				}
 				else {
-					FileSystem::GetInstance().read_all(command[1]);
+					std::cout<<"\n"<<FileSystem::GetInstance().read_all(command[1])<<"\n";
 				}
 				break;
 			default:
