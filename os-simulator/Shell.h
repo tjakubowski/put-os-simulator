@@ -87,7 +87,7 @@ private:
 		{"sd","sd - wyswietla zawartosc dysku\n"},
 
 		{"mem","mem - wyswietla aktualny stan pamieci RAM\n"},
-		{"cmem","cmem [id_procesu][komorka] - wyswietla pojedyncza komorke pamieci\n"},
+		{"cmem","cmem [komorka] - wyswietla pojedyncza komorke pamieci RAM\n"},
 
 		{"wmem","wmem - wyswietla plik pamieci wirtualnej\n"},
 		{"cwmem","cwmem [nazwa_procesu] - wyswietla zawartosc pamieci wirtualnej dla procesu\n"},
