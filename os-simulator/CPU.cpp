@@ -84,6 +84,7 @@ void CPU_M::scheduling()
 			ProcessManager::GetInstance().SetProcessRunning(heap[0]);
 			heap.erase(heap.begin());
 		}
+		order_heap(heap);
 	}
 }
 
