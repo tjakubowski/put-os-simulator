@@ -6,6 +6,7 @@
 #include "ProcessManager.h"
 #include "Semaphore.h"
 #include "VirtualMemory.h"
+#include "FileM.h"
 #include <iostream>
 
 extern int change_state;
@@ -16,13 +17,37 @@ void Shell::create_command() {
 
 	command.emplace_back();
 
+	bool texty = 0;
+
 	while (!input.empty()) {
-		if (input.front() == ' ') {
+		if (texty) {
+			command.back().push_back(input[0]);
 			input.erase(input.begin());
-			command.emplace_back();
+			if (input.front() == '\"') {
+				input.erase(input.begin());
+				if (texty)
+					texty = 0;
+				else
+					texty = 1;
+				continue;
+			}
 		}
-		command.back().push_back(input[0]);
-		input.erase(input.begin());
+		else {
+			if (input.front() == ' ') {
+				input.erase(input.begin());
+				command.emplace_back();
+			}
+			if (input.front() == '\"') {
+				input.erase(input.begin());
+				if (texty)
+					texty = 0;
+				else
+					texty = 1;
+				continue;
+			}
+			command.back().push_back(input[0]);
+			input.erase(input.begin());
+		}
 	}
 }
 
@@ -74,12 +99,10 @@ void Shell::perform_command() {
 					std::cout << helpdesk[command[0]];
 				}
 				else {
-					std::cout << system_name << arguments;
+					// metoda tworząca plik
+					FileM::GetInstance().CreateFile(command[1]);
+					std::cout << system_name << "Utworzono plik " << command[1] << ".\n";
 				}
-				break;
-			case 3:
-				// metoda tworząca plik
-				std::cout << system_name << "Utworzono plik " << command[2] << ".\n";
 				break;
 			default:
 				std::cout << system_name << arguments;
@@ -94,16 +117,9 @@ void Shell::perform_command() {
 					std::cout << helpdesk[command[0]];
 				}
 				else {
-					std::cout <<  system_name  << arguments ;
-				}
-				break;
-			case 3:
-				if (command[2] == "rw" || command[2] == "r") {
 					// metoda otwierająca plik
-					std::cout <<  system_name  << "Otwarto plik.\n";
-				}
-				else {
-					std::cout <<  system_name  << "Nieprawidlowy tryb otwarcia.\n" ;
+					FileM::GetInstance().PrintFile(command[1]);
+					std::cout << system_name << "Otwarto plik.\n";
 				}
 				break;
 			default:
@@ -128,9 +144,31 @@ void Shell::perform_command() {
 			}
 			break;
 
-		// KATALOGI
+		case commands::ef:
 
-		case commands::ls:
+			switch (command.size()) {
+			case 2:
+				if (command[1] == "-h") {
+					std::cout << helpdesk[command[0]];
+				}
+				else
+					std::cout << system_name << arguments;
+				break;
+			case 4:
+				// metoda edytujaca plik
+				if (command[2] == ">>")
+					FileM::GetInstance().WriteFile(command[3],command[1]); // dopisywanie
+				else if (command[2] == ">")
+					FileM::GetInstance().WriteFile(command[3],command[1]); // nadpisywanie
+				else
+					std::cout << system_name << arguments;
+				break;
+			default:
+				std::cout << system_name << arguments;
+			}
+			break;
+
+		case commands::df:
 
 			switch (command.size()) {
 			case 2:
@@ -138,8 +176,32 @@ void Shell::perform_command() {
 					std::cout << helpdesk[command[0]];
 				}
 				else {
-					std::cout  << system_name  << "Wyswietlenie zawartosci folderu.\n";
-					// metoda wyswietlajaca zawartosc folderu
+					// metoda tworząca plik
+					FileM::GetInstance().DeleteFile(command[1]);
+					std::cout << system_name << "Usunieto plik " << command[1] << ".\n";
+				}
+				break;
+			default:
+				std::cout << system_name << arguments;
+			}
+			break;
+
+		// KATALOGI
+
+		case commands::ls:
+
+			switch (command.size()) {
+			case 1:
+				std::cout << system_name << "Wyswietlenie zawartosci folderu.\n";
+				// metoda wyswietlajaca zawartosc folderu
+				FileM::GetInstance().ListDirectory();
+				break;
+			case 2:
+				if (command[1] == "-h") {
+					std::cout << helpdesk[command[0]];
+				}
+				else {
+					std::cout << system_name << arguments;
 				}
 				break;
 			default:
@@ -258,20 +320,21 @@ void Shell::perform_command() {
 		case commands::sd:
 
 			switch (command.size()) {
+			case 1:
+				std::cout << system_name << "Wyswietlenie zawartosci dysku.\n";
+				// metoda wyswietlajaca zawartosc calego dysku
+				FileM::GetInstance().PrintDrive();
+				break;
 			case 2:
 				if (command[1] == "-h") {
 					std::cout << helpdesk[command[0]];
 				}
-				else if (command[1] == "a" || command[1] == "h") {
-					std::cout << system_name << "Wyswietlenie zawartosci dysku.\n";
-					// metoda wyswietlajaca zawartosc calego dysku				
-				}
 				else {
-					std::cout  << system_name  << arguments ;
+					std::cout << system_name << arguments;
 				}
 				break;
 			default:
-				std::cout  << system_name  << arguments ;
+				std::cout << system_name << arguments;
 			}
 			break;
 
