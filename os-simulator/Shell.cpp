@@ -34,7 +34,8 @@ void Shell::create_command() {
 		}
 		else {
 			if (input.front() == ' ') {
-				input.erase(input.begin());
+				while(!input.empty() && input.front() == ' ')
+					input.erase(input.begin());
 				command.emplace_back();
 			}
 			if (input.empty()) {
