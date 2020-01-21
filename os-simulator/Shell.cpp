@@ -93,7 +93,7 @@ void Shell::perform_command() {
 				else {
 					// metoda tworząca plik
 					FileSystem::GetInstance().create(command[1]);
-					std::cout << system_name << "Utworzono plik " << command[2] << ".\n";
+					std::cout << system_name << "Utworzono plik " << command[1] << ".\n";
 				}
 				break;
 			default:
@@ -111,7 +111,7 @@ void Shell::perform_command() {
 				else {
 					// metoda tworząca plik
 					FileSystem::GetInstance().remove(command[1]);
-					std::cout << system_name << "Usunieto plik " << command[2] << ".\n";
+					std::cout << system_name << "Usunieto plik " << command[1] << ".\n";
 				}
 				break;
 			default:
@@ -240,13 +240,10 @@ void Shell::perform_command() {
 					std::cout << helpdesk[command[0]];
 				}
 				else {
-					std::cout  << system_name  << arguments ;
+					// metoda tworzaca katalog
+
+					std::cout << system_name << "Utworzono katalog " << command[1] << ".\n";
 				}
-				break;
-			case 3:
-				// metoda tworzaca katalog
-			
-				std::cout  << system_name  << "Utworzono katalog " << command[2] << ".\n";
 				break;
 			default:
 				std::cout  << system_name  << arguments ;
@@ -316,14 +313,14 @@ void Shell::perform_command() {
 		case commands::sd:
 
 			switch (command.size()) {
+			case 1:
+				std::cout << system_name << "Wyswietlenie zawartosci dysku.\n";
+				// metoda wyswietlajaca zawartosc calego dysku
+				FileSystem::GetInstance().print_data();
+				break;
 			case 2:
 				if (command[1] == "-h") {
 					std::cout << helpdesk[command[0]];
-				}
-				else if (command[1] == "a" || command[1] == "h") {
-					std::cout << system_name << "Wyswietlenie zawartosci dysku.\n";
-					// metoda wyswietlajaca zawartosc calego dysku
-					FileSystem::GetInstance().print_data();
 				}
 				else {
 					std::cout  << system_name  << arguments ;
