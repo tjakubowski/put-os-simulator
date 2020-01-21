@@ -178,10 +178,52 @@ void RAM::show_RAM() {
 	std::cout << endl;
 	std::cout << endl;
 	std::cout << endl;
+
+
+	TablePrinter tp;
+	tp.AddColumn("BASE", 5);
+	tp.AddColumn("SIZE", 5);
+	tp.AddColumn("END", 5);
+	tp.AddColumn("COMMANDS", 5);
+
+	tp.PrintHeader();
+	for (it = RAM_processes_list.begin(); it != RAM_processes_list.end(); ++it)
+	{
+		tp << it->id << "\t " << it->size << "\t   " << it->start << "\t\t  " << it->start + it->size << "\t" << it->commands;
+		i++;
+	}
+	if (i == 0)
+		cout << "Brak procesow w pamieci" << endl;
+	tp.PrintFooter();
+
+	TablePrinter tp;
+	tp.PrintHeader();
+	tp.AddColumn("START", 5);
+	tp.AddColumn("END", 5);
+	tp.AddColumn("SIZE", 5);
+	tp.AddColumn("COMMANDS", 5);
+	for (auto e : Free_blocks_list)
+	{
+		tp << "\tStart: " << e.begining << " --> End: " << e.end << "  =  Size: " << e.size;
+		ilosc_w += e.size;
+	}
+	cout << "Razem:  " << ilosc_w << endl;
+	tp.PrintFooter();
+
 	for (int i = 1; i < 129; i++) {
 		std::cout << i << ": " << memory[i] << "\t";
 
 	}
+
+
+
+
+
+
+
+
+
+	tp.PrintFooter();
 }
 
 void RAM::delete_from_RAM(Process* process) {
