@@ -371,7 +371,7 @@ void Shell::perform_command() {
 
 			switch (command.size()) {
 			case 3:
-				std::cout << system_name << "Wyswietlenie komorki " << command[2] << " nalezacej do procesu o id " << command[1] << "\n";
+				std::cout << system_name << "Wyswietlenie komorki " << command[2] << " nalezacej do procesu " << command[1] << "\n";
 				RAM::GetInstance().read_RAM(ProcessManager::GetInstance().GetProcess(command[1]),std::stoi(command[2]));
 				break;
 			case 2:
@@ -407,6 +407,23 @@ void Shell::perform_command() {
 				break;
 			default:
 				std::cout  << system_name  << arguments ;
+			}
+			break;
+
+		case commands::cwmem:
+
+			switch (command.size()) {
+			case 2:
+				if (command[1] == "-h") {
+					std::cout << helpdesk[command[0]];
+				}
+				else {
+					std::cout << system_name << "Wyswietlenie danych w pamieci wrtualnej dla procesu " << command[1] << "\n";
+					VirtualMemory::GetInstance().display_segment_tab(ProcessManager::GetInstance().GetProcess(command[1]));
+				}
+				break;
+			default:
+				std::cout << system_name << arguments;
 			}
 			break;
 

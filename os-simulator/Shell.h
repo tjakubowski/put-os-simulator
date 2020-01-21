@@ -15,7 +15,7 @@ private:
 		
 		mem, cmem,
 		
-		wmem,
+		wmem, cwmem,
 		
 		cp, load, lp, kp,
 
@@ -52,6 +52,7 @@ private:
 		{"cmem",commands::cmem},
 
 		{"wmem",commands::wmem},
+		{"cwmem",commands::cwmem},
 
 		{"cp",commands::cp},
 		{"load",commands::load},
@@ -89,6 +90,7 @@ private:
 		{"cmem","cmem [id_procesu][komorka] - wyswietla pojedyncza komorke pamieci\n"},
 
 		{"wmem","wmem - wyswietla plik pamieci wirtualnej\n"},
+		{"cwmem","cwmem [nazwa_procesu] - wyswietla zawartosc pamieci wirtualnej dla procesu\n"},
 
 		{"cp","cp [nazwa_procesu][nazwa_pliku][priorytet] - tworzy nowy proces\n"},
 		{"load","load [nazwa_procesu][nazwa_pliku] - wczytuje program do procesu\n"},
