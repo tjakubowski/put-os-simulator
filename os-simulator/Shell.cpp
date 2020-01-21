@@ -23,6 +23,14 @@ void Shell::create_command() {
 		if (texty) {
 			command.back().push_back(input[0]);
 			input.erase(input.begin());
+			if (input.front() == '\"') {
+				input.erase(input.begin());
+				if (texty)
+					texty = 0;
+				else
+					texty = 1;
+				continue;
+			}
 		}
 		else {
 			if (input.front() == ' ') {
@@ -79,7 +87,7 @@ void Shell::perform_command() {
 			default:
 				std::cout << system_name << arguments;
 			}
-		break;
+			break;
 
 	// PLIKI
 
@@ -172,6 +180,7 @@ void Shell::perform_command() {
 			default:
 				std::cout << system_name << arguments;
 			}
+			break;
 
 		case commands::pf:
 
@@ -188,6 +197,7 @@ void Shell::perform_command() {
 			default:
 				std::cout << system_name << arguments;
 			}
+			break;
 
 		case commands::ef:
 
@@ -211,20 +221,24 @@ void Shell::perform_command() {
 			default:
 				std::cout << system_name << arguments;
 			}
+			break;
 
 		// KATALOGI
 
 		case commands::ls:
 
 			switch (command.size()) {
+			case 1:
+				std::cout << system_name << "Wyswietlenie zawartosci folderu.\n";
+				// metoda wyswietlajaca zawartosc folderu
+				FileSystem::GetInstance().print_files();
+				break;
 			case 2:
 				if (command[1] == "-h") {
 					std::cout << helpdesk[command[0]];
 				}
 				else {
-					std::cout  << system_name  << "Wyswietlenie zawartosci folderu.\n";
-					// metoda wyswietlajaca zawartosc folderu
-					FileSystem::GetInstance().print_files();
+					std::cout << system_name << arguments;
 				}
 				break;
 			default:
