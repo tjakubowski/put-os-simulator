@@ -993,6 +993,7 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 	else if (line[0] == "NP")
 	{
 		//nic nie robi!
+		return;
 	}
 
 	else if (line[0] == "EX")		//Koniec programu
