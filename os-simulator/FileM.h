@@ -40,7 +40,7 @@ public:
 	//Szuka pliku true - istnieje false - nie istnieje
 	bool InvestigateFile(const std::string& name);
 	//Pobiera plik z zewnetrznego pliku
-	void ExtractFile(const std::string& name);
+	void ExtractFile(std::string name);
 	//Wyswietla pliki w katalogu
 	void ListDirectory() const;
 	//Wyswietla tablice FAT
@@ -53,7 +53,8 @@ public:
 	void CreateSemaphors();
 	//Usuwa zawartosc pliku 
 	void DeleteFileContent(const std::string& name);
-
+	//Dopisuje Dodatkowe informacje do pliku
+	void AddFileContent(const std::string& name, std::string tresc);
 	Drive dysk;
 	FAT FileTable;
 	DirectoryFile DIR;

@@ -347,26 +347,25 @@ std::string FileM::SendFile(const std::string& name)
 	}
 	return data;
 }
-//WORKING ON IT
-void FileM::ExtractFile(const std::string& name)
+
+void FileM::ExtractFile(std::string name)
 {
 
-	CreateFile(name);
-	std::string Content;
+	std::ifstream file(name);
+	std::string names;
 	std::string ToSend = "";
-	int Count = 0;
-	std::fstream FromFile;
 
-	FromFile.open(name);
-	while (!getline(FromFile, Content))
+	while (!file.eof())
 	{
-		ToSend = ToSend + Content;
-
+		getline(file, names);
+		ToSend = ToSend + names;
+		//Czyta spacje wczytuje rozne linie ale nie oznacza ich
+		//ToSend = ToSend + "\n" <- z tym zaznacza je ale rozsadza wszystkie odczytywania wizualnie;
 	}
-	WriteFile(name, ToSend);
-	FromFile.close();
-}
 
+	CreateFile(name);
+	WriteFile(name, ToSend);
+}
 void FileM::CreateSemaphors()
 {
 	vector<Semaphore> Semafor;
