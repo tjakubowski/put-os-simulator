@@ -427,7 +427,7 @@ void Shell::perform_command() {
 			}
 			break;
 
-			// PROCESY
+		// PROCESY
 
 		case commands::cp:
 
@@ -443,6 +443,22 @@ void Shell::perform_command() {
 			case 4:
 				//metoda tworzaca proces z programem
 				ProcessManager::GetInstance().CreateProcess(command[1], command[2], std::stoi(command[3]));
+				break;
+			default:
+				std::cout << system_name << arguments;
+			}
+			break;
+
+		case commands::kp:
+
+			switch (command.size()) {
+			case 2:
+				if (command[1] == "-h") {
+					std::cout << helpdesk[command[0]];
+				}
+				else {
+					ProcessManager::GetInstance().KillProcess(command[1]);
+				}
 				break;
 			default:
 				std::cout << system_name << arguments;
