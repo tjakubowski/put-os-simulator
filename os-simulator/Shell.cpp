@@ -598,11 +598,15 @@ void Shell::run() {
 	std::cout << "\nAby wyswietlic pomoc, wpisz komende 'help'.\n";
 
 	while (is_running) {
+		try {
+			std::cout << "\nconsole: ";
+			getline(std::cin, input);
 
-		std::cout << "\nconsole: ";
-		getline(std::cin, input);
-
-		create_command();
-		perform_command();
+			create_command();
+			perform_command();
+		}
+		catch (std::exception & e) {
+			std::cout << "\n" << e.what() << "\n";
+		}
 	}
 }
