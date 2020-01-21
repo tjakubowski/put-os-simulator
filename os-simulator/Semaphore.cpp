@@ -2,7 +2,7 @@
 #include "Semaphore.h"
 #include <string>
 
-Semaphore::Semaphore( int k) : value(k)
+Semaphore::Semaphore(int k) : value(k)
 {
 }
 
