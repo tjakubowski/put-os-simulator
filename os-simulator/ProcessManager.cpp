@@ -266,13 +266,18 @@ void ProcessManager::InitializeProcessPrinter()
 	process_printer_.AddColumn("File", 10);
 	process_printer_.AddColumn("Priority", 2);
 	process_printer_.AddColumn("State", 7);
+	process_printer_.AddColumn("AX", 3);
+	process_printer_.AddColumn("BX", 3);
+	process_printer_.AddColumn("CX", 3);
+	process_printer_.AddColumn("DX", 3);
+	process_printer_.AddColumn("IC", 3);
 }
 
 void ProcessManager::PrintProcesses(std::vector<Process*> processes)
 {
 	process_printer_.PrintHeader();
 	for (auto process : processes)
-		process_printer_ << process->id() << process->name() << process->file_name() << process->priority() << process->process_state();
+		process_printer_ << process->id() << process->name() << process->file_name() << process->priority() << process->process_state() << process->ax() << process->bx() << process->cx() << process->dx() << process->instruction_counter();
 	process_printer_.PrintFooter();
 }
 
@@ -284,7 +289,7 @@ void ProcessManager::PrintProcesses()
 void ProcessManager::PrintProcess(Process* process) 
 {
 	process_printer_.PrintHeader();
-	process_printer_ << process->id() << process->name() << process->file_name() << process->priority() << process->process_state();
+	process_printer_ << process->id() << process->name() << process->file_name() << process->priority() << process->process_state() << process->ax() << process->bx() << process->cx() << process->dx() << process->instruction_counter();
 	process_printer_.PrintFooter();
 }
 
