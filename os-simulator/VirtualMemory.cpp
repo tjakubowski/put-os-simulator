@@ -256,14 +256,16 @@ void VirtualMemory::display_segment_tab(Process* pcb)
 	tp.PrintHeader();
 		for (int i = 0; i < segment_tab.size(); i++)
 		{
-			tp << segment_tab[i]->baseVM << segment_tab[i]->limit;
-			if (segment_tab[i]->is_in_RAM)
-			{
-				tp << "true" << segment_tab[i]->baseRAM;
-			}
-			else
-			{
-				tp << "false" << "----";
+			if (segment_tab[i] != nullptr) {
+				tp << segment_tab[i]->baseVM << segment_tab[i]->limit;
+				if (segment_tab[i]->is_in_RAM)
+				{
+					tp << "true" << segment_tab[i]->baseRAM;
+				}
+				else
+				{
+					tp << "false" << "----";
+				}
 			}
 		}
 	
