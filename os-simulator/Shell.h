@@ -11,9 +11,9 @@ private:
 
 		sem,
 
-		ls, cd, md, rd, move,
+		ls, rn,
 
-		sb, sd,
+		sd, sfat,
 		
 		mem, cmem,
 		
@@ -42,13 +42,10 @@ private:
 		{"sem",commands::sem},
 		
 		{"ls",commands::ls},
-		{"cd",commands::cd},
-		{"md",commands::md},
-		{"rd",commands::rd},
-		{"move",commands::move},
+		{"rn",commands::rn},
 
-		{"sb",commands::sb},
 		{"sd",commands::sd},
+		{"sfat",commands::sfat},
 
 		{"mem",commands::mem},
 		{"cmem",commands::cmem},
@@ -77,22 +74,19 @@ private:
 		{"sf","sf [nazwa_pliku] - sprawdza, czy plik o podanej nazwie istnieje\n"},
 		{"ef","ef [text] > | >> [nazwa_pliku] - edycja pliku ([text] koniecznie w cudzyslowie!) (> - nadpisanie, >> - dopisanie)\n"},
 
-		{"sem","sem [nazwa_pliku] - wyswietla informacje o semaforze"},
+		{"sem","sem [nazwa_pliku] - wyswietla informacje o semaforze (nazwa pliku opcjonalna)\n"},
 
-		{"ls","ls [nazwa_katalogu] - wyswietla zawartosc katalogu o podanej nazwie lub biezacego katalogu, gdy nazwa nie jest podana\n"},
-		{"cd","cd [nazwa_katalogu] - wyswietla nazwe biezacego katalogu lub zmienia go\n"},
-		{"md","md [nazwa_katalogu] - tworzy katalog\n"},
-		{"rd","rd [nazwa_katalogu] - usuwa katalog\n"},
-		{"move","move [sciezka][nowa_sciezka] - zmienia sciezke do pliku\n"},
+		{"ls","ls - wyswietla zawartosc katalogu o podanej nazwie lub biezacego katalogu, gdy nazwa nie jest podana\n"},
+		{"rn","rn [nazwa][nowa_nazwa] - zmienia sciezke do pliku\n"},
 
-		{"sb","sb [numer_bloku] - wyswietla zawartosc bloku dyskowego\n"},
 		{"sd","sd - wyswietla zawartosc dysku\n"},
+		{"sfat","sfat - wyswietla informacje o fat\n"},
 
 		{"mem","mem - wyswietla aktualny stan pamieci RAM\n"},
 		{"cmem","cmem [komorka] - wyswietla pojedyncza komorke pamieci RAM\n"},
 
-		{"vmem","wmem - wyswietla plik pamieci wirtualnej\n"},
-		{"cvmem","cwmem [nazwa_procesu] - wyswietla zawartosc pamieci wirtualnej dla procesu\n"},
+		{"vmem","vmem - wyswietla plik pamieci wirtualnej\n"},
+		{"cvmem","cvmem [nazwa_procesu] - wyswietla zawartosc pamieci wirtualnej dla procesu\n"},
 
 		{"cp","cp [nazwa_procesu][nazwa_pliku][priorytet] - tworzy nowy proces\n"},
 		{"load","load [nazwa_procesu][nazwa_pliku] - wczytuje program do procesu\n"},

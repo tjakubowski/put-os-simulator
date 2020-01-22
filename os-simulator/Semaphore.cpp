@@ -17,6 +17,7 @@ bool Semaphore::Wait(Process* process)
 	else
 	{
 		value--;
+		ProcessManager::GetInstance().SetProcessWaiting(process);
 		queue.push(process);
 		return false;
 	}
@@ -27,6 +28,7 @@ Process* Semaphore::Signal()
 	if (!queue.empty())
 	{
 		const auto process = queue.front();
+		ProcessManager::GetInstance().SetProcessReady(process);
 		queue.pop();
 		value++;
 		return process;

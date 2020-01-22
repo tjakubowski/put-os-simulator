@@ -231,17 +231,20 @@ void Shell::perform_command() {
 			}
 			break;
 
+		//SEMAFORY
+
 		case commands::sem:
 
 			switch (command.size()) {
 			case 1:
-				//FileSystem::GetInstance().print_semaphores();
+				FileSystem::GetInstance().print_files_semaphores();
+				break;
 			case 2:
 				if (command[1] == "-h") {
 					std::cout << helpdesk[command[0]];
 				}
 				else
-					std::cout << system_name << arguments;
+					FileSystem::GetInstance().print_file_semaphore(command[1]);
 				break;
 			default:
 				std::cout << system_name << arguments;
@@ -271,42 +274,7 @@ void Shell::perform_command() {
 			}
 			break;
 
-		case commands::md:
-
-			switch (command.size()) {
-			case 2:
-				if (command[1] == "-h") {
-					std::cout << helpdesk[command[0]];
-				}
-				else {
-					// metoda tworzaca katalog
-
-					std::cout << system_name << "Utworzono katalog " << command[1] << ".\n";
-				}
-				break;
-			default:
-				std::cout << system_name << arguments;
-			}
-			break;
-
-		case commands::rd:
-
-			switch (command.size()) {
-			case 2:
-				if (command[1] == "-h") {
-					std::cout << helpdesk[command[0]];
-				}
-				else {
-					// metoda usuwajaca katalog
-					std::cout << system_name << "Usunieto katalog" << command[1] << ".\n";
-				}
-				break;
-			default:
-				std::cout << system_name << arguments;
-			}
-			break;
-
-		case commands::move:
+		case commands::rn:
 
 			switch (command.size()) {
 			case 2:
@@ -329,16 +297,17 @@ void Shell::perform_command() {
 
 			// DYSK
 
-		case commands::sb:
+		case commands::sd:
 
 			switch (command.size()) {
+			case 1:
+				std::cout << system_name << "Wyswietlenie zawartosci dysku.\n";
+				// metoda wyswietlajaca zawartosc calego dysku
+				FileSystem::GetInstance().print_data();
+				break;
 			case 2:
 				if (command[1] == "-h") {
 					std::cout << helpdesk[command[0]];
-				}
-				else if (std::stoi(command[1]) >= 0) {
-					std::cout << system_name << "Wyswietlenie zawartosci bloku.\n";
-					// metoda wyswietlajaca zawartosc bloku dyskowego
 				}
 				else {
 					std::cout << system_name << arguments;
@@ -349,13 +318,13 @@ void Shell::perform_command() {
 			}
 			break;
 
-		case commands::sd:
+		case commands::sfat:
 
 			switch (command.size()) {
 			case 1:
-				std::cout << system_name << "Wyswietlenie zawartosci dysku.\n";
+				std::cout << system_name << "Wyswietlenie informacji o fat.\n";
 				// metoda wyswietlajaca zawartosc calego dysku
-				FileSystem::GetInstance().print_data();
+				FileSystem::GetInstance().print_fat();
 				break;
 			case 2:
 				if (command[1] == "-h") {

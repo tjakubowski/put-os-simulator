@@ -34,6 +34,9 @@ public:
 	void print_fat() const;
 	void print_data() const;
 	void print_files();
+	void print_files_semaphores();
+	void print_file_semaphore(std::string file_name);
+	void print_file_semaphore(File* file);
 
 	void create(std::string file_name);
 	void create(std::string file_name, std::string bytes);
