@@ -72,7 +72,7 @@ void CPU_M::scheduling()
 			for (int i = 0; i < heap.size(); i++) {
 
 				int tmp_p = heap[0]->priority();
-				if (heap[i]->priority() == tmp_p && tmp_id < heap[i]->id()) {
+				if (heap[i]->priority() == tmp_p && tmp_id > heap[i]->id()) {
 					tmp_id = heap[i]->id();
 				}
 
