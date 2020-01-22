@@ -79,7 +79,7 @@ int RAM::add_to_RAM(Process* process) {
 
 		if (last == 0) {
 			Free_blocks_list.pop_back();
-			F_b.begining = length+1; //tutaj zmiana
+			F_b.begining = length+1; //tutaj zmiana zaaaa
 			last = length + 1;
 			F_b.end = 256;
 			F_b.size = F_b.end - F_b.begining;
