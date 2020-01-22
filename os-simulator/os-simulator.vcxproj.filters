@@ -37,5 +37,6 @@
     <ClInclude Include="FileSystem.h" />
     <ClInclude Include="FileSystemDirectory.h" />
     <ClInclude Include="File.h" />
+    <Text Include="test.txt" />
   </ItemGroup>
 </Project>

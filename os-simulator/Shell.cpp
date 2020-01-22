@@ -231,6 +231,23 @@ void Shell::perform_command() {
 			}
 			break;
 
+		case commands::sem:
+
+			switch (command.size()) {
+			case 1:
+				//FileSystem::GetInstance().print_semaphores();
+			case 2:
+				if (command[1] == "-h") {
+					std::cout << helpdesk[command[0]];
+				}
+				else
+					std::cout << system_name << arguments;
+				break;
+			default:
+				std::cout << system_name << arguments;
+			}
+			break;
+
 			// KATALOGI
 
 		case commands::ls:

@@ -9,6 +9,8 @@ private:
 	enum class commands{
 		step, cf, df, op, cl, sf, pf, ef,
 
+		sem,
+
 		ls, cd, md, rd, move,
 
 		sb, sd,
@@ -36,6 +38,8 @@ private:
 		{"sf",commands::sf},
 		{"pf",commands::pf},
 		{"ef",commands::ef},
+
+		{"sem",commands::sem},
 		
 		{"ls",commands::ls},
 		{"cd",commands::cd},
@@ -72,6 +76,8 @@ private:
 		{"pf","pf [nazwa_pliku] - wyswietla atrybuty pliku o podanej nazwie\n"},
 		{"sf","sf [nazwa_pliku] - sprawdza, czy plik o podanej nazwie istnieje\n"},
 		{"ef","ef [text] > | >> [nazwa_pliku] - edycja pliku ([text] koniecznie w cudzyslowie!) (> - nadpisanie, >> - dopisanie)\n"},
+
+		{"sem","sem [nazwa_pliku] - wyswietla informacje o semaforze"},
 
 		{"ls","ls [nazwa_katalogu] - wyswietla zawartosc katalogu o podanej nazwie lub biezacego katalogu, gdy nazwa nie jest podana\n"},
 		{"cd","cd [nazwa_katalogu] - wyswietla nazwe biezacego katalogu lub zmienia go\n"},
