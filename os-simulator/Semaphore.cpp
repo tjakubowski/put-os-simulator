@@ -49,20 +49,16 @@ void Semaphore::show_Semaphore()
 	table_printer.AddColumn("Aktualny rozmiar kolejki", 2);
 
 
-	if (queue.size() == 0)
+	if (queue.empty())
 	{
-		std::cout << "\t" << value << "\nKolejka jest pusta\n" << std::endl;
-		
+		table_printer.PrintHeader();
+		table_printer << value << "Kolejka jest pusta";
 	}
 	else
 	{
-		
-		table_printer.AddColumn("poczatek kolejki", 2);
+		table_printer.AddColumn("Poczatek kolejki", 2);
 		table_printer.PrintHeader();
-
-		std::cout << "\t" << value << queue.size() << queue.front()->file_name() << std::endl;
-
-		table_printer.PrintFooter();
+		table_printer << value << queue.size() << queue.front()->file_name();
 	}
 	table_printer.PrintFooter();
 }

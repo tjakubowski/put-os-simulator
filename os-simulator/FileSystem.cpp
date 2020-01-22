@@ -69,7 +69,9 @@ void FileSystem::print_file_semaphore(std::string file_name)
 
 void FileSystem::print_file_semaphore(File* file)
 {
-	std::cout << file->file_name() << std::endl;
+	TablePrinter tp;
+	tp.AddColumn(file->file_name(), 5);
+	tp.PrintHeader();
 	file->print_semaphore();
 }
 
