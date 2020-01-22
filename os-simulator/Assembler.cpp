@@ -80,6 +80,7 @@ void Assembler::saveFile(Assembler& reg, Process* pcb)
 	}
 	catch(std::exception& e)
 	{
+		std::cout << "\n" << e.what() << "\n";
 	}
 	if (com == "JP" || com == "JC" || com == "JZ" || com == "JL" || com == "JM" || com=="NP")
 	{
@@ -981,7 +982,7 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 
 	else if (line[0] == "AF")
 	{
-		FileSystem::GetInstance().write(line[1], line[2]);
+		//FileSystem::GetInstance().write(line[1], line[2]);
 	}
 
 	else if (line[0] == "AR")
@@ -1106,7 +1107,8 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 	{
 		
 	// Otwieranie pliku !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! WROC TU
-	//	FileSystem::GetInstance().OpenFile(line[1]);
+	FileSystem::GetInstance().open(ProcessManager::GetInstance().running_process(), line[1]);
+	
 	}
 
 	else if (line[0] == "FC")
@@ -1119,10 +1121,9 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 		FileSystem::GetInstance().remove(line[1]);
 	}
 
-	else if (line[0] == "PF")
+	else if (line[0] == "PF")					//BRAK CZYTANIA Z PLIKU
 	{
-		//FileSystem::GetInstance().PrintFile(line[1]);
-		// todo: call print single file
+	//	FileSystem::GetInstance().print_files(line[1]);
 	}
 
 	else if (line[0] == "SF")
