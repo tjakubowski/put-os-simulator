@@ -66,7 +66,9 @@ int main()
 	}
 	file.close();
 
+	ProcessManager::GetInstance();
 	FileSystem::GetInstance().write("ciagEulera", kod, false);
+	
 	Shell shell;
 	shell.run();
 	return 0;
