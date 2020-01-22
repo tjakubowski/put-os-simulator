@@ -1096,8 +1096,7 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 	else if (line[0] == "FO")
 	{
 		
-	// Otwieranie pliku !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! WROC TU
-	FileSystem::GetInstance().open(ProcessManager::GetInstance().running_process(), line[1]);
+		FileSystem::GetInstance().open(ProcessManager::GetInstance().running_process(), line[1]);
 	
 	}
 
@@ -1111,15 +1110,15 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 		FileSystem::GetInstance().remove(line[1]);
 	}
 
-	else if (line[0] == "RF")					//BRAK CZYTANIA Z PLIKU
+	else if (line[0] == "PF")					//BRAK CZYTANIA Z PLIKU
 	{
-	char rej_X = ProcessManager::GetInstance().ReadFileByte(ProcessManager::GetInstance().running_process(), line[1]);
-	string rejX = "";
-	rejX = rej_X;
-	reg.set_D(stoi(rejX));
+		char rej_X = ProcessManager::GetInstance().ReadFileByte(ProcessManager::GetInstance().running_process(), line[1]);
+		string rejX = "";
+		rejX = rej_X;
+		reg.set_D(stoi(rejX));
 	}
 
-	else if (line[0] == "PF")	
+	else if (line[0] == "RF")	
 	{
 	ProcessManager::GetInstance().ResetFilePointer(ProcessManager::GetInstance().running_process(),line[1]);
 		//(line[1]);
@@ -1138,7 +1137,7 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 
 	else if (line[0] == "EX")		//Koniec programu
 	{
-		reg.set_licznik(-1);
+		//reg.set_licznik();
 		cout << "Koniec programu ";
 	}
 	else
