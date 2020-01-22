@@ -124,7 +124,9 @@ void ProcessManager::KillProcess(Process* process)
 	case Process::Ready:
 		RemoveFromVector(process, ready_processes_); break;
 	case Process::Running:
-		running_process_ = dummy_process_; break;
+		running_process_ = nullptr;
+		SetProcessRunning(dummy_process_);
+		break;
 	default: break;
 	}
 	
