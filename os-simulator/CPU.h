@@ -20,9 +20,9 @@ class CPU_M : public Singleton<CPU_M>{
 	void print_heap();
 	
     //Utrzymanie kopca
-	static void order_heap(std::vector<Process*> &heap);
+	void order_heap(std::vector<Process*> &heap);
    
-	static void heapify(std::vector<Process*> &heap, int n, int i);
+	void heapify(std::vector<Process*> &heap, int n, int i);
    
 	//Porownanie procesow pod wzgledem priority
 	bool compare(Process *p1, Process *p2);

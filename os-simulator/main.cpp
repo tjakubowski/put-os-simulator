@@ -10,7 +10,7 @@ int main()
 {
 	std::cout << "OS Simulator" << std::endl;
 
-	/*try
+	try
 	{
 		ProcessManager::GetInstance().PrintProcesses();
 
@@ -53,7 +53,7 @@ int main()
 	}
 	FileSystem::GetInstance().print_data();
 	FileSystem::GetInstance().print_fat();
-	FileSystem::GetInstance().print_files();*/
+	FileSystem::GetInstance().print_files();
 
 	std::ifstream file;
 	file.open("ciagEulera.txt", std::ios::in);
