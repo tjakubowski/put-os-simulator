@@ -15,11 +15,9 @@ protected:
 	queue<Process*> queue{};
 public:
 
-	void Wait(Process* process);
-	void Signal();
+	bool Wait(Process* process);
+	Process* Signal();
 
-	bool if_open();
-	
 	Semaphore( int k = 1);
 	
 
