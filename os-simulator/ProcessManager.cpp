@@ -308,12 +308,18 @@ void ProcessManager::PrintProcess(std::string process_name)
 
 void ProcessManager::OpenFile(Process* process, std::string file_name)
 {
-	process->add_opened_file(file_name);
+	if (process->is_file_opened(file_name))
+		throw std::exception("File is already opened.");
+
+	FileSystem::GetInstance().open(process, file_name);
 }
 
 void ProcessManager::CloseFile(Process* process, std::string file_name)
 {
-	process->remove_opened_file(file_name);
+	if (!process->is_file_opened(file_name))
+		throw std::exception("Process cannot close not opened file.");
+
+	FileSystem::GetInstance().close(file_name);
 }
 
 std::vector<Process*> ProcessManager::processes() const

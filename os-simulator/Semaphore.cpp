@@ -7,38 +7,36 @@ Semaphore::Semaphore(int k) : value(k)
 }
 
 
-void Semaphore::Wait(Process* process)
+bool Semaphore::Wait(Process* process)
 {
 	if (value > 0)
 	{
 		value--;
+		return true;
 	}
 	else
 	{
 		value--;
 		queue.push(process);
-		ProcessManager::GetInstance().SetProcessWaiting(process);
+		return false;
 	}
 }
-void Semaphore::Signal()
+
+Process* Semaphore::Signal()
 {
-	if (queue.empty() == false)
+	if (!queue.empty())
 	{
 		const auto process = queue.front();
-		ProcessManager::GetInstance().SetProcessReady(process);
 		queue.pop();
 		value++;
+		return process;
 	}
 	else
 	{
 		value++;
+		return nullptr;
 	}
 }
-bool Semaphore::if_open()
-{
-	return value == 1;
-}
-
 
 //interfejs pracy krokowej 
 

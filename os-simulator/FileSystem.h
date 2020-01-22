@@ -51,5 +51,7 @@ public:
 	void copy_file(std::string file_name, std::string new_file_name);
 
 	char read_next_byte(std::string file_name);
+	char read_next_byte(File* file);
 	std::string read_all(std::string file_name);
+	std::string read_all(File* file);
 };
