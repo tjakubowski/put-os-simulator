@@ -17,7 +17,7 @@ class CPU_M : public Singleton<CPU_M>{
     void scheduling();
 	
 	//Print the heap with ID and PRIORITY
-	void print_heap(std::vector<Process*> &heap);
+	void print_heap();
 	
     //Utrzymanie kopca
 	static void order_heap(std::vector<Process*> &heap);
