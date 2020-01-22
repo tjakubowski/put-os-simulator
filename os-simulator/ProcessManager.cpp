@@ -320,6 +320,7 @@ void ProcessManager::CloseFile(Process* process, std::string file_name)
 		throw std::exception("Process cannot close not opened file.");
 
 	FileSystem::GetInstance().close(file_name);
+	process->remove_opened_file(file_name);
 }
 
 std::vector<Process*> ProcessManager::processes() const

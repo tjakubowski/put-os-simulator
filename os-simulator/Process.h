@@ -50,6 +50,7 @@ public:
 	std::string data_segment();
 	std::string message_segment();
 	bool is_file_opened(std::string file_name);
+	void print_opened_files();
 
 	void set_name(const std::string& name);
 	void set_file_name(const std::string& file_name);

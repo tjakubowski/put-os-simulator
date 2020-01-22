@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Process.h"
+#include "TablePrinter.h"
 
 Process::Process(const std::string& name, const std::string& file_name, const int priority, const int id) : name_(name), file_name_(file_name), id_(id)
 {
@@ -144,4 +145,27 @@ std::string Process::message_segment() {
 bool Process::is_file_opened(std::string file_name)
 {
 	return std::find(opened_files_.begin(), opened_files_.end(), file_name) != opened_files_.end();
+}
+
+void Process::print_opened_files()
+{
+	
+	TablePrinter tp;
+	tp.AddColumn("ID", 2);
+	tp.AddColumn("Name", 10);
+	tp.AddColumn("Opened files", 15);
+	
+	tp.PrintHeader();
+	tp << id_ <<  name_;
+
+	if (opened_files_.empty())
+		tp << "";
+
+	for (auto file = opened_files_.begin(); file != opened_files_.end(); ++file)
+	{
+		if (file != opened_files_.begin())
+			tp << "" << "";
+		tp << *file;
+	}
+	tp.PrintFooter();
 }
