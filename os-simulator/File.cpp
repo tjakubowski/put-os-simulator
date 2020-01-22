@@ -65,3 +65,8 @@ void File::set_file_name(const std::string& file_name)
 {
 	file_name_ = file_name;
 }
+
+void File::print_semaphore()
+{
+	semaphore_.show_Semaphore();
+}
