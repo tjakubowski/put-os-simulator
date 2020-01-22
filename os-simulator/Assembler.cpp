@@ -1117,6 +1117,12 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 	reg.set_D(stoi(rejX));
 	}
 
+	else if (line[0] == "PF")	
+	{
+	//ProcessManager::GetInstance()
+		//(line[1]);
+	}
+
 	else if (line[0] == "SF")
 	{
 		FileSystem::GetInstance().set_file_name(line[1], line[2]);
