@@ -10,7 +10,7 @@ int main()
 {
 	std::cout << "OS Simulator" << std::endl;
 
-	/*try
+	try
 	{
 		ProcessManager::GetInstance().PrintProcesses();
 
@@ -28,15 +28,7 @@ int main()
 		ProcessManager::GetInstance().CreateProcess("8", "file1", 5);
 		ProcessManager::GetInstance().CreateProcess("9", "file1", 5);
 		ProcessManager::GetInstance().CreateProcess("10", "file1", 5);
-		ProcessManager::GetInstance().CreateProcess("rest", "file2", 5);
-		ProcessManager::GetInstance().CreateProcess("rest2", "file2", 5);
-		ProcessManager::GetInstance().CreateProcess("rest3", "file2", 5);
-		VirtualMemory::GetInstance().display_pagefile_segment_tab();
-		VirtualMemory::GetInstance().display_pagefile();
-		ProcessManager::GetInstance().KillProcess("9");
-		ProcessManager::GetInstance().KillProcess("3");
-		ProcessManager::GetInstance().KillProcess("5");
-		ProcessManager::GetInstance().KillProcess("7");
+		
 
 		ProcessManager::GetInstance().CreateProcess("seven", "file3", 5);
 
@@ -53,8 +45,8 @@ int main()
 	}
 	FileSystem::GetInstance().print_data();
 	FileSystem::GetInstance().print_fat();
-	FileSystem::GetInstance().print_files();*/
-
+	FileSystem::GetInstance().print_files();
+	/*
 	std::ifstream file;
 	file.open("ciagEulera.txt", std::ios::in);
 	FileSystem::GetInstance().create("ciagEulera");
@@ -68,7 +60,7 @@ int main()
 
 	ProcessManager::GetInstance();
 	FileSystem::GetInstance().write("ciagEulera", kod, false);
-	
+	*/
 	Shell shell;
 	shell.run();
 	return 0;
