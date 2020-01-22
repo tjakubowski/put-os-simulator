@@ -154,6 +154,8 @@ int Assembler::ile_arg(const string command)
 		return 2;
 	else if (command == "RF")
 		return 1;
+	else if (command == "PF")
+		return 1;
 	else if (command == "PC")
 		return 3;
 	else if (command == "PD")
@@ -1119,7 +1121,7 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 
 	else if (line[0] == "PF")	
 	{
-	//ProcessManager::GetInstance()
+	ProcessManager::GetInstance().ResetFilePointer(ProcessManager::GetInstance().running_process(),line[1]);
 		//(line[1]);
 	}
 
