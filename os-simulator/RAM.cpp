@@ -230,7 +230,7 @@ std:cout << std::endl;
 	;
 	for (auto e : Free_blocks_list)
 	{
-		tp1 << e.begining << e.end-1 << e.size;
+		tp1 << e.begining << e.end << e.size;
 		ilosc_w += e.size;
 	}
 	cout << "FREE SPACE:  " << ilosc_w << endl;
@@ -299,7 +299,7 @@ void RAM::delete_from_RAM(Process* process) {
 
 	F_b.begining = starting_point;
 	F_b.size = it->size;
-	F_b.end = starting_point + F_b.size;
+	F_b.end = starting_point + F_b.size-1; // sprawdzanie 2.0
 	Free_blocks_list.push_back(F_b);
 
 	/*for (int i = it->start; i < F_b.end; i++) {

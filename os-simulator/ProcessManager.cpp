@@ -57,10 +57,11 @@ Process* ProcessManager::CreateProcess(std::string process_name, std::string pro
 {
 	const auto process_code = FileSystem::GetInstance().read_all(process_file);
 	const auto process = new Process(process_name, process_file, priority, ++last_process_id_);
-	processes_.push_back(process);
 
-	SetProcessNew(process);
 	VirtualMemory::GetInstance().create_program(process, process_code);
+
+	processes_.push_back(process);
+	SetProcessNew(process);
 	
 	try
 	{
@@ -322,6 +323,8 @@ void ProcessManager::CloseFile(Process* process, std::string file_name)
 	FileSystem::GetInstance().close(file_name);
 	process->remove_opened_file(file_name);
 }
+
+void 
 
 std::vector<Process*> ProcessManager::processes() const
 {

@@ -20,17 +20,17 @@ int main()
 		FileSystem::GetInstance().create("file3", ".text IC .data 7777");
 
 		ProcessManager::GetInstance().CreateProcess("1", "file1", 5);
-		ProcessManager::GetInstance().CreateProcess("2", "file1", 5);
-		ProcessManager::GetInstance().CreateProcess("3", "file1", 5);
+		ProcessManager::GetInstance().CreateProcess("2", "file1", 4);
+		ProcessManager::GetInstance().CreateProcess("3", "file1", 4);
 		ProcessManager::GetInstance().CreateProcess("4", "file1", 7);
 		ProcessManager::GetInstance().CreateProcess("5", "file1", 5);
-		ProcessManager::GetInstance().CreateProcess("6", "file1", 5);
+		ProcessManager::GetInstance().CreateProcess("6", "file1", 9);
 		ProcessManager::GetInstance().CreateProcess("7", "file1", 5);
 		ProcessManager::GetInstance().CreateProcess("8", "file1", 13);
 		ProcessManager::GetInstance().CreateProcess("9", "file1", 5);
-		ProcessManager::GetInstance().CreateProcess("10", "file1", 5);
+		ProcessManager::GetInstance().CreateProcess("10", "file1", 11);
 		ProcessManager::GetInstance().CreateProcess("rest", "file2", 5);
-		ProcessManager::GetInstance().CreateProcess("rest2", "file2", 5);
+		ProcessManager::GetInstance().CreateProcess("rest2", "file2", 12);
 		ProcessManager::GetInstance().CreateProcess("rest3", "file2", 5);
 		VirtualMemory::GetInstance().display_pagefile_segment_tab();
 		VirtualMemory::GetInstance().display_pagefile();
