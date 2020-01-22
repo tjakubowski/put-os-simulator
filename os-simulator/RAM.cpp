@@ -121,7 +121,7 @@ int RAM::add_to_RAM(Process* process) {
 				}
 			}
 			if (!finder) {
-				F_b.end = 256;
+				F_b.end = 256; // test
 			}
 			F_b.size = F_b.end - F_b.begining;
 
