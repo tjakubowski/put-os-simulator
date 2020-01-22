@@ -55,6 +55,9 @@ void ProcessManager::CreateDummyProcess()
 
 Process* ProcessManager::CreateProcess(std::string process_name, std::string process_file, const int priority)
 {
+	if (Exists(process_name))
+		throw std::exception("Process with given name already exists");
+
 	const auto process_code = FileSystem::GetInstance().read_all(process_file);
 	const auto process = new Process(process_name, process_file, priority, ++last_process_id_);
 
@@ -150,6 +153,11 @@ void ProcessManager::KillProcess(int process_id)
 void ProcessManager::KillProcess(std::string process_name)
 {
 	KillProcess(GetProcess(process_name));
+}
+
+bool ProcessManager::Exists(std::string process_name)
+{
+	return std::find_if(processes_.begin(), processes_.end(), [process_name](Process* process) { return process->name() == process_name; }) != processes_.end();
 }
 
 Process* ProcessManager::GetProcess(int process_id)
