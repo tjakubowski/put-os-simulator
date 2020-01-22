@@ -23,21 +23,13 @@ int RAM::add_to_RAM(Process* process) {
 	auto segment_tab = process->segment_tab();
 	
 	if (segment_tab[0]->data != "") {
-		help += segment_tab[0]->data;
-		
-
-		commands += help;
-		commands += ' ';
-
+		help = segment_tab[0]->data;
 	}
 
 	if (segment_tab[1]->data != "") {
 		help += segment_tab[1]->data;
 		length += help.size();
-
-		commands += help;
-		commands += ' ';
-
+		commands = help;
 	}
 
 	
@@ -87,7 +79,7 @@ int RAM::add_to_RAM(Process* process) {
 
 		if (last == 0) {
 			Free_blocks_list.pop_back();
-			F_b.begining = length + 1;
+			F_b.begining = length + 2;
 			last = length + 1;
 			F_b.end = 256;
 			F_b.size = F_b.end - F_b.begining;
@@ -113,7 +105,7 @@ int RAM::add_to_RAM(Process* process) {
 			for (fbi = Free_blocks_list.begin(); fbi != Free_blocks_list.end(); fbi++) {
 				if (fbi->biggest == true && fbi->size >= length)
 				{
-					F_b.begining = fbi->begining + length;
+					F_b.begining = fbi->begining + length + 1;
 
 					break;
 					
@@ -123,7 +115,7 @@ int RAM::add_to_RAM(Process* process) {
 			bool finder = false;
 			for (auto a : RAM_processes_list) {
 				if (a.start >= F_b.begining) {
-					F_b.end = a.start - 1;
+					F_b.end = a.start-1;
 					finder = true;
 					break;
 				}
@@ -144,17 +136,20 @@ int RAM::add_to_RAM(Process* process) {
 		RAM_process.id = id;
 		RAM_process.size = length;
 		RAM_process.commands = commands;
-		RAM_process.start = (F_b.begining - length);
+		RAM_process.start = (F_b.begining - length)-1;
 		RAM_processes_list.push_back(RAM_process);
 
 		segment_tab[1]->is_in_RAM = true;
 		segment_tab[1]->baseRAM = RAM_process.start;
 		process->set_segment_tab(segment_tab);
 		int j = 0;
-		for (auto i = RAM_process.start; i < (RAM_process.size + RAM_process.start); i++) {
+		for (auto i = RAM_process.start; i < (RAM_process.size + RAM_process.start); i++){
+
 			memory[i] = commands[j];
+			std::cout<< "twoje komendy: " << commands[j]<<std::endl;
 			j++;
 		}
+		
 
 
 
@@ -215,8 +210,7 @@ void RAM::show_RAM() {
 	for (it = RAM_processes_list.begin(); it != RAM_processes_list.end(); ++it)
 	{	
 		string com = it->commands;
-		com.pop_back();
-		tp << it->id << it->size << it->start << (it->start + it->size) <<com ;
+		tp << it->id << it->size << it->start << (it->start + it->size) << com ;
 		i++;
 	}
 	if (i == 0)
@@ -257,15 +251,14 @@ std::cout << "RAM" << std::endl;
 		for (int j = 1; j < 9; j++)
 		{
 			bytes += memory[i * 8 + j];
-			bytes += ' ';
+			bytes += " ";
 		}
 		tp2 << help;
 		tp2 << bytes;
 	}
 
 	/*for (int i = 1; i < 129; i++) {
-		tp2 << i  << memory[i];
-
+		std::cout<<i << ": "  << memory[i] << "\t";
 	}*/
 	tp2.PrintFooter();
 	
