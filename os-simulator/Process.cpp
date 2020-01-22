@@ -140,3 +140,8 @@ std::string Process::data_segment() {
 std::string Process::message_segment() {
 	return segment_tab_[2]->data;
 }
+
+bool Process::is_file_opened(std::string file_name)
+{
+	return std::find(opened_files_.begin(), opened_files_.end(), file_name) != opened_files_.end();
+}
