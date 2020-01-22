@@ -257,9 +257,9 @@ std::cout << "RAM" << std::endl;
 		tp2 << bytes;
 	}
 
-	for (int i = 1; i < 129; i++) {
+	/*for (int i = 1; i < 129; i++) {
 		std::cout<<i << ": "  << memory[i] << "\t";
-	}
+	}*/
 	tp2.PrintFooter();
 	
 

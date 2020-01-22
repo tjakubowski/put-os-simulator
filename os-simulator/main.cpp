@@ -54,7 +54,7 @@ int main()
 	FileSystem::GetInstance().print_data();
 	FileSystem::GetInstance().print_fat();
 	FileSystem::GetInstance().print_files();
-	*/
+	
 
 	std::ifstream file;
 	file.open("ciagEulera.txt", std::ios::in);
@@ -69,7 +69,7 @@ int main()
 
 	ProcessManager::GetInstance();
 	FileSystem::GetInstance().write("ciagEulera", kod, false);
-	*/
+	
 	Shell shell;
 	shell.run();
 	return 0;
