@@ -34,17 +34,17 @@ struct RAM_process
 class RAM : public Singleton<RAM> { //single tone do sprawdzenia
 	friend class Singleton<RAM>;
  //private potem
-	int memory_capacity = 128;
-	int free_space = 128;
+	int memory_capacity = 256;
+	int free_space = 256;
 	list<Free_blocks> Free_blocks_list;
 	list<RAM_process> RAM_processes_list;
 	int command_length;
-	string memory[128];
+	string memory[256];
 public:
 	RAM() {
 		Free_blocks F_b;
 		F_b.begining = 1;
-		F_b.end = 128;
+		F_b.end = 256;
 		F_b.size = F_b.end - F_b.begining;
 		Free_blocks_list.push_back(F_b);
 	}

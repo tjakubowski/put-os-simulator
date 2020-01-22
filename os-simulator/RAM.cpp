@@ -13,7 +13,7 @@ bool compare(const Free_blocks& a, const Free_blocks& b) {
 
 int RAM::add_to_RAM(Process* process) {
 	fstream file;
-	string commands, help, line[128];
+	string commands, help, line[256];
 	int max_size = 0;
 	int list_index = 0;
 	int id = process->id();
@@ -21,14 +21,26 @@ int RAM::add_to_RAM(Process* process) {
 
 	int length = 0, counter = 0;
 	auto segment_tab = process->segment_tab();
-	if (segment_tab[1]->data != "") {
-		help = segment_tab[1]->data;
-		length = help.size();
+	
+	if (segment_tab[0]->data != "") {
+		help += segment_tab[0]->data;
+		
 
 		commands += help;
-		commands += '\n';
+		commands += ' ';
 
 	}
+
+	if (segment_tab[1]->data != "") {
+		help += segment_tab[1]->data;
+		length += help.size();
+
+		commands += help;
+		commands += ' ';
+
+	}
+
+	
 
 
 	else {
@@ -36,6 +48,8 @@ int RAM::add_to_RAM(Process* process) {
 		return 2;
 	}
 	//cout << "all commands together:" << commands << "\n";
+	//std::cout << "COMMANDS: " << commands;
+	//::cout << "dligosc " << length;
 
 	bool empty = true;
 	for (int i = 0; i < commands.length(); i++)
@@ -75,7 +89,7 @@ int RAM::add_to_RAM(Process* process) {
 			Free_blocks_list.pop_back();
 			F_b.begining = length + 1;
 			last = length + 1;
-			F_b.end = 128;
+			F_b.end = 256;
 			F_b.size = F_b.end - F_b.begining;
 			Free_blocks_list.push_back(F_b);
 		}
@@ -115,7 +129,7 @@ int RAM::add_to_RAM(Process* process) {
 				}
 			}
 			if (!finder) {
-				F_b.end = 128;
+				F_b.end = 256;
 			}
 			F_b.size = F_b.end - F_b.begining;
 
@@ -234,7 +248,7 @@ std::cout << "RAM" << std::endl;
 	tp2.AddColumn("DATA", 8*2);
 	tp2.PrintHeader();
 
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < 32; i++)
 	{
 		std::string help = std::to_string((i * 8)+1) + " - " + std::to_string(8 * (1 + i));
 		
@@ -312,7 +326,7 @@ void RAM::delete_from_RAM(Process* process) {
 	
 		list<Free_blocks>::iterator fbi;
 		F_b.begining = 1;
-		F_b.end = 128;
+		F_b.end = 256;
 		F_b.size = F_b.end - F_b.begining;
 		Free_blocks_list.clear();
 		Free_blocks_list.push_back(F_b);
