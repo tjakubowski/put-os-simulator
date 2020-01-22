@@ -11,7 +11,7 @@ class CPU_M : public Singleton<CPU_M>{
 	
 	public:
 	//Dodanie procesu do kopca
-	void insert_to_heap(std::vector<Process*> &heap, Process *p);
+	void insert_to_heap(Process *p);
 
 	//WYkonywanie procesu na gorze kopca
     void scheduling();

@@ -394,7 +394,7 @@ void Shell::perform_command() {
 
 		// PAMIEC WIRTUALNA
 
-		case commands::wmem:
+		case commands::vmem:
 
 			switch (command.size()) {
 			case 1:
@@ -415,7 +415,7 @@ void Shell::perform_command() {
 			}
 			break;
 
-		case commands::cwmem:
+		case commands::cvmem:
 
 			switch (command.size()) {
 			case 2:

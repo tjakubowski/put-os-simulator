@@ -102,19 +102,21 @@ bool VirtualMemory::create_program(Process* pcb, std::string file)
 			for (int i = 0; i < data_limit; i++) {
 				pagefile[data_base + i] = file[data_begin + 6 + i];
 				string_data += file[data_begin + 6 + i];
+			}
 			
 			text_pcbseg->data = string_text;
 			data_pcbseg->data = string_data;
 
 			segment_tab.push_back(text_pcbseg);
 			segment_tab.push_back(data_pcbseg);
-		}
+		
 	}
 	else if (bool_text && !bool_data) {
 		int text_limit = file.size() - text_begin - 6;//moze jeszcze -1;
 		int text_base = get_base(text_limit);
 		VMSegment text_seg(text_base, text_limit);
 		pagefile_segment_tab.push_back(text_seg);
+		
 		text_pcbseg->baseVM = text_base;
 		text_pcbseg->limit = text_limit;
 		text_pcbseg->is_in_RAM = false;
@@ -126,8 +128,8 @@ bool VirtualMemory::create_program(Process* pcb, std::string file)
 				string_text += file[text_begin + 6 + i];
 			}
 			text_pcbseg->data = string_text;
-			segment_tab.push_back(text_pcbseg);
-		
+			segment_tab.push_back(text_pcbseg);	
+			segment_tab.emplace_back();
 	}
 	else if (!bool_text && bool_data) {
 		int data_limit = file.size() - data_begin - 6;
@@ -224,10 +226,13 @@ bool VirtualMemory::load_to_virtualmemory(Process* pcb, const std::string data)
 
 void VirtualMemory::display_pagefile()
 {
-	std::sort(pagefile_segment_tab.begin(), pagefile_segment_tab.end());
-	for (int i = 0; i < pagefile_segment_tab[pagefile_segment_tab.size() - 1].base + pagefile_segment_tab[pagefile_segment_tab.size() - 1].limit; i++) {
+	//std::sort(pagefile_segment_tab.begin(), pagefile_segment_tab.end());
+/*	for (int i = 0; i < pagefile_segment_tab[pagefile_segment_tab.size() - 1].base + pagefile_segment_tab[pagefile_segment_tab.size() - 1].limit; i++) {
 		std::cout <<i<<" : "<< pagefile[i]<<" ";
 		if (i % 10 == 0 && i != 0)std::cout << std::endl;
+	}*/
+	for (int i = 0; i < kvirtualmemory_size; i++) {
+		std::cout << pagefile[i];
 	}
 }
 
@@ -252,14 +257,16 @@ void VirtualMemory::display_segment_tab(Process* pcb)
 	tp.PrintHeader();
 		for (int i = 0; i < segment_tab.size(); i++)
 		{
-			tp << segment_tab[i]->baseVM << segment_tab[i]->limit;
-			if (segment_tab[i]->is_in_RAM)
-			{
-				tp << "true" << segment_tab[i]->baseRAM;
-			}
-			else
-			{
-				tp << "false" << "----";
+			if (segment_tab[i] != nullptr) {
+				tp << segment_tab[i]->baseVM << segment_tab[i]->limit;
+				if (segment_tab[i]->is_in_RAM)
+				{
+					tp << "true" << segment_tab[i]->baseRAM;
+				}
+				else
+				{
+					tp << "false" << "----";
+				}
 			}
 		}
 	

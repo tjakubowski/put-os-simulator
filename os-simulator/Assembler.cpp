@@ -72,10 +72,19 @@ void Assembler::saveFile(Assembler& reg, Process* pcb)
 		}
 		pom_com += program[i];
 	}
-	reg.runCommand(pom_com, reg);
-	reg.set_licznik(reg.get_licznik() + reg.countLine(pom_com));
-	reg.set_licznik(reg.get_licznik());
-}
+	if (com == "JP" || com == "JC" || com == "JZ" || com == "JL" || com == "JM" || com=="NP")
+	{
+
+		reg.runCommand(pom_com, reg);
+		reg.set_licznik(reg.get_licznik());
+	}
+	else
+	{	
+		reg.runCommand(pom_com, reg);
+		reg.set_licznik(reg.get_licznik() + reg.countLine(pom_com));
+//		reg.set_licznik(reg.get_licznik());
+	}
+	}
 
 int Assembler::countLine(std::string line)
 {
@@ -147,7 +156,9 @@ int Assembler::ile_arg(const string command)
 		return 0;
 	}
 }
-
+void toJump()
+{
+}
 //przyjmuje string komendy i dzieli
 string* Assembler::split(string toSplit)
 {
@@ -169,6 +180,7 @@ string* Assembler::split(string toSplit)
 
 void Assembler::runCommand(string c_line, Assembler& reg)
 {
+
 	string* line = split(c_line);
 	cout <<"Wykonuje rozkaz " << line[0] << " " << line[1] << " " << line[2] << " " << line[3] << endl;
 
@@ -202,10 +214,16 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 					}
 					reg.set_A(stoi(RAM::GetInstance().char_RAM(stoi(xy))));
 				}
-				else if (x[0] > '0' && x[0] <= '9')
+				else if (x[0] >= '0' && x[0] <= '9')
 				{
-					reg.set_A(stoi(x));
+					reg.set_B(stoi(x));
 				}
+				else
+				{
+					std::cout << "\nBledne argumenty!";
+					return;
+				}
+
 			}
 
 		}
@@ -235,9 +253,14 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 					}
 					reg.set_B(stoi(RAM::GetInstance().char_RAM(stoi(xy))));
 				}
-				else if (x[0] > '0' && x[0] <= '9')
+				else if (x[0] >= '0' && x[0] <= '9')
 				{
 					reg.set_B(stoi(x));
+				}
+				else
+				{
+					std::cout << "\nBledne argumenty!";
+					return;
 				}
 			}
 
@@ -268,9 +291,14 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 					}
 					reg.set_C(stoi(RAM::GetInstance().char_RAM(stoi(xy))));
 				}
-				else if (x[0] > '0' && x[0] <= '9')
+				else if (x[0] >= '0' && x[0] <= '9')
 				{
 					reg.set_C(stoi(x));
+				}
+				else
+				{
+					std::cout << "\nBledne argumenty!";
+					return;
 				}
 			}
 		}
@@ -301,9 +329,14 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 					}
 					reg.set_D(stoi(RAM::GetInstance().char_RAM(stoi(xy))));
 				}
-				else if (x[0] > '0' && x[0] <= '9')
+				else if (x[0] >= '0' && x[0] <= '9')
 				{
 					reg.set_D(stoi(x));
+				}
+				else
+				{
+					std::cout << "\nBledne argumenty!";
+					return;
 				}
 			}
 		}
@@ -341,9 +374,14 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 					}
 					reg.set_A(reg.get_A() + stoi(RAM::GetInstance().char_RAM(stoi(xy))));
 				}
-				else if (x[0] > '0' && x[0] <= '9')
+				else if (x[0] >= '0' && x[0] <= '9')
 				{
 					reg.set_A(reg.get_A() + stoi(x));
+				}
+				else
+				{
+					std::cout << "\nBledne argumenty!";
+					return;
 				}
 			}
 		}
@@ -378,9 +416,14 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 					}
 					reg.set_B(reg.get_B() + stoi(RAM::GetInstance().char_RAM(stoi(xy))));
 				}
-				else if (x[0] > '0' && x[0] <= '9')
+				else if (x[0] >= '0' && x[0] <= '9')
 				{
 					reg.set_B(reg.get_B() + stoi(x));
+				}
+				else
+				{
+					std::cout << "\nBledne argumenty!";
+					return;
 				}
 			}
 		}
@@ -415,9 +458,14 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 					}
 					reg.set_C(reg.get_C() + stoi(RAM::GetInstance().char_RAM(stoi(xy))));
 				}
-				else if (x[0] > '0' && x[0] <= '9')
+				else if (x[0] >= '0' && x[0] <= '9')
 				{
 					reg.set_C(reg.get_C() + stoi(x));
+				}
+				else
+				{
+					std::cout << "\nBledne argumenty!";
+					return;
 				}
 			}
 		}
@@ -452,9 +500,14 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 					}
 					reg.set_D(reg.get_D() + stoi(RAM::GetInstance().char_RAM(stoi(xy))));
 				}	
-				else if (x[0] > '0' && x[0] <= '9')
+				else if (x[0] >= '0' && x[0] <= '9')
 				{
 					reg.set_D(reg.get_D() + stoi(x));
+				}
+				else
+				{
+					std::cout << "\nBledne argumenty!";
+					return;
 				}
 			}
 		}
@@ -492,9 +545,14 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 					}
 					reg.set_A(reg.get_A() - stoi(RAM::GetInstance().char_RAM(stoi(xy))));
 				}
-				else if (x[0] > '0' && x[0] <= '9')
+				else if (x[0] >= '0' && x[0] <= '9')
 				{
 					reg.set_A(reg.get_A() - stoi(x));
+				}
+				else
+				{
+					std::cout << "\nBledne argumenty!";
+					return;
 				}
 			}
 		}
@@ -528,9 +586,14 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 					}
 					reg.set_B(reg.get_B() - stoi(RAM::GetInstance().char_RAM(stoi(xy))));
 				}
-				else if (x[0] > '0' && x[0] <= '9')
+				else if (x[0] >= '0' && x[0] <= '9')
 				{
 					reg.set_B(reg.get_B() - stoi(x));
+				}
+				else
+				{
+					std::cout << "\nBledne argumenty!";
+					return;
 				}
 			}
 		}
@@ -564,9 +627,14 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 					}
 					reg.set_C(reg.get_C() - stoi(RAM::GetInstance().char_RAM(stoi(xy))));
 				}
-				else if (x[0] > '0' && x[0] <= '9')
+				else if (x[0] >= '0' && x[0] <= '9')
 				{
 					reg.set_C(reg.get_C() - stoi(x));
+				}
+				else
+				{
+					std::cout << "\nBledne argumenty!";
+					return;
 				}
 			}
 		}
@@ -600,9 +668,14 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 					}
 					reg.set_D(reg.get_D() - stoi(RAM::GetInstance().char_RAM(stoi(xy))));
 				}	
-				else if (x[0] > '0' && x[0] <= '9')
+				else if (x[0] >= '0' && x[0] <= '9')
 				{
 					reg.set_D(reg.get_D() - stoi(x));
+				}
+				else
+				{
+					std::cout << "\nBledne argumenty!";
+					return;
 				}
 			}
 		}
@@ -643,9 +716,14 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 					}
 					reg.set_A(reg.get_A() * stoi(RAM::GetInstance().char_RAM(stoi(xy))));
 				}
-				else if (x[0] > '0' && x[0] <= '9')
+				else if (x[0] >= '0' && x[0] <= '9')
 				{
 					reg.set_A(reg.get_A() * stoi(x));
+				}
+				else
+				{
+					std::cout << "\nBledne argumenty!";
+					return;
 				}
 			}
 		}
@@ -679,9 +757,14 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 					}
 					reg.set_B(reg.get_B()* stoi(RAM::GetInstance().char_RAM(stoi(xy))));
 				}
-				else if (x[0] > '0' && x[0] <= '9')
+				else if (x[0] >= '0' && x[0] <= '9')
 				{
 					reg.set_B(reg.get_B()* stoi(x));
+				}
+				else
+				{
+					std::cout << "\nBledne argumenty!";
+					return;
 				}
 			}
 		}
@@ -715,9 +798,14 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 					}
 					reg.set_C(reg.get_C() * stoi(RAM::GetInstance().char_RAM(stoi(xy))));
 				}
-				else if (x[0] > '0' && x[0] <= '9')
+				else if (x[0] >= '0' && x[0] <= '9')
 				{
 					reg.set_C(reg.get_C() * stoi(x));
+				}
+				else
+				{
+					std::cout << "\nBledne argumenty!";
+					return;
 				}
 			}
 		}
@@ -751,9 +839,14 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 					}
 					reg.set_D(reg.get_D() * stoi(RAM::GetInstance().char_RAM(stoi(xy))));
 				}
-				else if (x[0] > '0' && x[0] <= '9')
+				else if (x[0] >= '0' && x[0] <= '9')
 				{
 					reg.set_D(reg.get_D() * stoi(x));
+				}
+				else
+				{
+					std::cout << "\nBledne argumenty!";
+					return;
 				}
 			}
 		}
@@ -785,9 +878,14 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 					}
 					reg.set_C(reg.get_C() * stoi(RAM::GetInstance().char_RAM(stoi(xy))));
 				}
-				else if (x[0] > '0' && x[0] <= '9')
+				else if (x[0] >= '0' && x[0] <= '9')
 				{
 					reg.set_C(reg.get_C() * stoi(x));
+				}
+				else
+				{
+					std::cout << "\nBledne argumenty!";
+					return;
 				}
 			}
 		}
@@ -796,8 +894,10 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 
 	else if (line[0] == "JC")
 	{
-		if (reg.get_C() != 0)
+		if (reg.get_C() > 0)
 			reg.set_licznik(stoi(line[1]));
+		else
+			reg.set_licznik(reg.get_licznik() + reg.countLine(c_line));
 	}
 
 
@@ -805,6 +905,8 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 	{
 		if (reg.get_C() == 0)
 			reg.set_licznik(stoi(line[1]));
+		else
+			reg.set_licznik(reg.get_licznik() + reg.countLine(c_line));
 	}
 
 
@@ -812,6 +914,8 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 	{
 		if (reg.get_C() < 0)
 			reg.set_licznik(stoi(line[1]));
+		else
+			reg.set_licznik(reg.get_licznik() + reg.countLine(c_line));
 	}
 
 
@@ -825,6 +929,8 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 	{
 		if (reg.get_C() > 0)
 			reg.set_licznik(stoi(line[1]));
+		else
+			reg.set_licznik(reg.get_licznik() + reg.countLine(c_line));
 	}
 
 	//Odczytywanie rejestrów?
@@ -845,6 +951,11 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 		else if (line[1] == "D")
 		{
 			std::cout << "\nRejestr " << line[1] << ": " << reg.get_D();
+		}
+		else
+		{
+			std::cout << "\nBledne argumenty!";
+			return;
 		}
 	}
 
@@ -894,6 +1005,11 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 			string D = ss.str();
 			FileSystem::GetInstance().write(line[1], D);
 		}
+		else
+		{
+			std::cout << "\nBledne argumenty!";
+			return;
+		}
 
 	}
 
@@ -915,6 +1031,11 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 		{
 			reg.set_D(reg.get_D() + 1);
 		}
+		else
+		{
+			std::cout << "\nBledne argumenty!";
+			return;
+		}
 	}
 
 	else if (line[0] == "DC")
@@ -934,6 +1055,11 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 		else if (line[1] == "D")
 		{
 			reg.set_D(reg.get_D() - 1);
+		}
+		else
+		{
+			std::cout << "\nBledne argumenty!";
+			return;
 		}
 	}
 
@@ -1004,6 +1130,7 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 	else
 	{
 		std::cout << "\nNierozpoznano rozkazu " << line[0];
+		return;
 	}
 }
 
@@ -1047,11 +1174,14 @@ void Assembler::runProgram()
 	process_run->set_cx(reg.get_C());
 	process_run->set_dx(reg.get_D());
 	reg.set_licznik(reg.get_licznik());
-	process_run->set_instruction_counter(reg.get_licznik());
+//	std::string name = process_run->name;
+//	if (name != "Dummy") {
+		process_run->set_instruction_counter(reg.get_licznik());
+		lastLineControl(reg, process_run);
+	//}
 	//get_licznik jest wczesniej zrobione w funkcji countLine
 	reg.print(reg);
 	//sprawdzenie czy ostatnia linia
-	lastLineControl(reg,process_run);
 }
 /*
 int main()

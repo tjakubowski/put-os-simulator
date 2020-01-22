@@ -20,7 +20,7 @@ int main()
 
 		ProcessManager::GetInstance().CreateProcess("1", "file1", 5);
 		ProcessManager::GetInstance().CreateProcess("2", "file1", 5);
-		ProcessManager::GetInstance().CreateProcess("3", "file1", 5);
+		ProcessManager::GetInstance().CreateProcess("3", "file1", 7);
 		ProcessManager::GetInstance().CreateProcess("4", "file1", 5);
 		ProcessManager::GetInstance().CreateProcess("5", "file1", 5);
 		ProcessManager::GetInstance().CreateProcess("6", "file1", 5);
@@ -28,13 +28,13 @@ int main()
 		ProcessManager::GetInstance().CreateProcess("8", "file1", 5);
 		ProcessManager::GetInstance().CreateProcess("9", "file1", 5);
 		ProcessManager::GetInstance().CreateProcess("10", "file1", 5);
-		ProcessManager::GetInstance().CreateProcess("rest", "file2", 5);
+		ProcessManager::GetInstance().CreateProcess("rest", "file2", 13);
 		ProcessManager::GetInstance().CreateProcess("rest2", "file2", 5);
 		ProcessManager::GetInstance().CreateProcess("rest3", "file2", 5);
 		VirtualMemory::GetInstance().display_pagefile_segment_tab();
 		VirtualMemory::GetInstance().display_pagefile();
 		ProcessManager::GetInstance().KillProcess("9");
-		ProcessManager::GetInstance().KillProcess("3");
+		//ProcessManager::GetInstance().KillProcess("3");
 		ProcessManager::GetInstance().KillProcess("5");
 		ProcessManager::GetInstance().KillProcess("7");
 
@@ -53,7 +53,8 @@ int main()
 	}
 	FileSystem::GetInstance().print_data();
 	FileSystem::GetInstance().print_fat();
-	FileSystem::GetInstance().print_files();*/
+	FileSystem::GetInstance().print_files();
+	*/
 
 	std::ifstream file;
 	file.open("ciagEulera.txt", std::ios::in);
@@ -66,7 +67,9 @@ int main()
 	}
 	file.close();
 
+	ProcessManager::GetInstance();
 	FileSystem::GetInstance().write("ciagEulera", kod, false);
+	
 	Shell shell;
 	shell.run();
 	return 0;

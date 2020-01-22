@@ -6,8 +6,9 @@
 #include <vector>
 
 
-void CPU_M::insert_to_heap(std::vector<Process*> &heap, Process *p)
+void CPU_M::insert_to_heap(Process *p)
 {
+	auto heap = ProcessManager::GetInstance().ready_processes();
 	heap.push_back(p);
 	order_heap(heap);
 }
@@ -84,7 +85,7 @@ void CPU_M::scheduling()
 		
 			}
 			ProcessManager::GetInstance().SetProcessRunning(heap[pos]);
-
+			heap.erase(heap.begin());
 		}
 		else {
 			ProcessManager::GetInstance().SetProcessRunning(heap[0]);
