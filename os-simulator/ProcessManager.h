@@ -39,7 +39,8 @@ public:
 	void KillProcess(Process* process);
 	void KillProcess(int process_id);
 	void KillProcess(std::string process_name);
-	
+	bool Exists(std::string process_name);
+
 	Process* GetProcess(int process_id);
 	Process* GetProcess(std::string process_name);
 
