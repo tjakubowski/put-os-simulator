@@ -48,8 +48,8 @@ int RAM::add_to_RAM(Process* process) {
 		return 2;
 	}
 	//cout << "all commands together:" << commands << "\n";
-	std::cout << "COMMANDS: " << commands;
-	std::cout << "dligosc " << length;
+	//std::cout << "COMMANDS: " << commands;
+	//::cout << "dligosc " << length;
 
 	bool empty = true;
 	for (int i = 0; i < commands.length(); i++)
