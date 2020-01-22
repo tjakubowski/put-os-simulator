@@ -18,7 +18,10 @@ public:
 	void Wait(Process* process);
 	void Signal();
 
+	bool if_open();
+	
 	Semaphore( int k = 1);
+	
 
 	//krokowy
 	void show_Semaphore();
