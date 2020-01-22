@@ -152,8 +152,6 @@ int Assembler::ile_arg(const string command)
 		return 2;
 	else if (command == "AR")
 		return 2;
-	else if (command == "PF")
-		return 1;
 	else if (command == "RF")
 		return 1;
 	else if (command == "PC")
@@ -1111,14 +1109,12 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 		FileSystem::GetInstance().remove(line[1]);
 	}
 
-	else if (line[0] == "PF")					//BRAK CZYTANIA Z PLIKU
-	{
-	//	FileSystem::GetInstance().;
-	}
-
 	else if (line[0] == "RF")					//BRAK CZYTANIA Z PLIKU
 	{
-	//	FileSystem::GetInstance().;
+	char rej_X = ProcessManager::GetInstance().ReadFileByte(ProcessManager::GetInstance().running_process(), line[1]);
+	string rejX = "";
+	rejX = rej_X;
+	reg.set_D(stoi(rejX));
 	}
 
 	else if (line[0] == "SF")
