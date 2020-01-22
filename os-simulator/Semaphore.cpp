@@ -34,7 +34,10 @@ void Semaphore::Signal()
 		value++;
 	}
 }
-
+bool Semaphore::if_open()
+{
+	return value == 1;
+}
 
 
 //interfejs pracy krokowej 
