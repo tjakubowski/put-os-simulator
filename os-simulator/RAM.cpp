@@ -79,8 +79,8 @@ int RAM::add_to_RAM(Process* process) {
 
 		if (last == 0) {
 			Free_blocks_list.pop_back();
-			F_b.begining = length + 1; //tutaj zmiana zaaaa
-			last = length + 1;
+			F_b.begining = length+1; //tutaj zmiana zaaaa
+			last = length+1;// tutaj zmiana
 			F_b.end = 256;
 			F_b.size = F_b.end - F_b.begining;
 			Free_blocks_list.push_back(F_b);
@@ -115,7 +115,7 @@ int RAM::add_to_RAM(Process* process) {
 			bool finder = false;
 			for (auto a : RAM_processes_list) {
 				if (a.start >= F_b.begining) {
-					F_b.end = a.start - 1;
+					F_b.end = a.start-1;
 					finder = true;
 					break;
 				}
@@ -123,7 +123,7 @@ int RAM::add_to_RAM(Process* process) {
 			if (!finder) {
 				F_b.end = 256; // test
 			}
-			F_b.size = F_b.end - F_b.begining;
+			F_b.size = F_b.end - F_b.begining+1; // tutaj sprawdzam teraz
 
 			if (F_b.size > 0)
 				Free_blocks_list.emplace_front(F_b);
@@ -230,7 +230,7 @@ std:cout << std::endl;
 	;
 	for (auto e : Free_blocks_list)
 	{
-		tp1 << e.begining << e.end << e.size;
+		tp1 << e.begining << e.end-1 << e.size;
 		ilosc_w += e.size;
 	}
 	cout << "FREE SPACE:  " << ilosc_w << endl;
