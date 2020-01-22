@@ -192,7 +192,7 @@ void RAM::show_RAM() {
 	tp.AddColumn("SIZE", 5);
 	tp.AddColumn("BEGINING", 5);
 	tp.AddColumn("END", 5);
-	tp.AddColumn("COMMANDS", 70);
+	tp.AddColumn("DATA SEGMENT", 70);
 	std::cout << std::endl;
 	std::cout << std::endl;
 	std::cout << "RAM PROCESSES LIST" << endl;
