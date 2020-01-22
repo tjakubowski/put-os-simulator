@@ -146,7 +146,7 @@ int RAM::add_to_RAM(Process* process) {
 		for (auto i = RAM_process.start; i < (RAM_process.size + RAM_process.start); i++){
 
 			memory[i] = commands[j];
-			std::cout<< "twoje komendy: " << commands[j]<<std::endl;
+			//std::cout<< "twoje komendy: " << commands[j]<<std::endl;
 			j++;
 		}
 		
