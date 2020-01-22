@@ -332,6 +332,22 @@ void ProcessManager::WriteFile(Process* process, std::string file_name, std::str
 	FileSystem::GetInstance().write(file_name, bytes, append);
 }
 
+std::string ProcessManager::ReadFile(Process* process, std::string file_name)
+{
+	if(!process->is_file_opened(file_name))
+		throw std::exception("Process cannot read not opened file.");
+
+	return FileSystem::GetInstance().read_all(file_name);
+}
+
+char ProcessManager::ReadFileByte(Process* process, std::string file_name)
+{
+	if(!process->is_file_opened(file_name))
+		throw std::exception("Process cannot read not opened file.");
+
+	return FileSystem::GetInstance().read_next_byte(file_name);
+}
+
 std::vector<Process*> ProcessManager::processes() const
 {
 	return processes_;

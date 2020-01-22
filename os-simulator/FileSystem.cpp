@@ -237,9 +237,8 @@ void FileSystem::write(std::string file_name, std::string bytes, bool append)
 	}
 }
 
-char FileSystem::read_next_byte(std::string file_name)
+char FileSystem::read_next_byte(File* file)
 {
-	auto file = root_directory_.get_file(file_name);
 	auto byte_to_read = file->last_read_byte();
 	auto cluster_index = file->start_cluster();
 
@@ -255,9 +254,20 @@ char FileSystem::read_next_byte(std::string file_name)
 	return data_[cluster_index * cluster_size_ + byte_to_read % cluster_size_];
 }
 
+char FileSystem::read_next_byte(std::string file_name)
+{
+	const auto file = root_directory_.get_file(file_name);
+	return read_next_byte(file);
+}
+
 std::string FileSystem::read_all(std::string file_name)
 {
-	auto file = root_directory_.get_file(file_name);
+	const auto file = root_directory_.get_file(file_name);
+	return read_all(file);
+}
+
+std::string FileSystem::read_all(File* file)
+{
 	auto bytes_to_read = file->file_size();
 	auto cluster_index = file->start_cluster();
 
