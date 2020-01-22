@@ -115,6 +115,7 @@ bool VirtualMemory::create_program(Process* pcb, std::string file)
 		int text_base = get_base(text_limit);
 		VMSegment text_seg(text_base, text_limit);
 		pagefile_segment_tab.push_back(text_seg);
+		
 		text_pcbseg->baseVM = text_base;
 		text_pcbseg->limit = text_limit;
 		text_pcbseg->is_in_RAM = false;
@@ -126,8 +127,8 @@ bool VirtualMemory::create_program(Process* pcb, std::string file)
 				string_text += file[text_begin + 6 + i];
 			}
 			text_pcbseg->data = string_text;
-			segment_tab.push_back(text_pcbseg);
-		
+			segment_tab.push_back(text_pcbseg);	
+			segment_tab.emplace_back();
 	}
 	else if (!bool_text && bool_data) {
 		int data_limit = file.size() - data_begin - 6;
