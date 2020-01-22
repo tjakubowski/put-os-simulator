@@ -384,7 +384,7 @@ void RAM::merge_RAM() {
 		{
 			if (loop >= 1) {
 
-				if (it->begining == it2->end)
+				if (it->begining-1 == it2->end)
 				{
 					Free_blocks F_b;
 					help = true;
