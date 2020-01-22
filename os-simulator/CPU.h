@@ -24,6 +24,7 @@ class CPU_M : public Singleton<CPU_M>{
    
 	void heapify(std::vector<Process*> &heap, int n, int i);
    
+private:
 	//Porownanie procesow pod wzgledem priority
 	bool compare(Process *p1, Process *p2);
 
