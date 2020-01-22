@@ -17,6 +17,7 @@ public:
 
 	bool Wait(Process* process);
 	Process* Signal();
+	bool is_opened();
 
 	Semaphore( int k = 1);
 	

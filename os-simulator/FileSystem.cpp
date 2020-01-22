@@ -150,6 +150,10 @@ void FileSystem::remove(std::string file_name)
 		throw std::exception("File does not exist");
 
 	const auto file = root_directory_.get_file(file_name);
+
+	if (file->is_opened())
+		throw std::exception("Opened file cannot be removed");
+	
 	root_directory_.remove(file);
 
 	for(int next = file->start_cluster(); next != -1; next = fat_[next].next_)

@@ -149,7 +149,6 @@ bool Process::is_file_opened(std::string file_name)
 
 void Process::print_opened_files()
 {
-	
 	TablePrinter tp;
 	tp.AddColumn("ID", 2);
 	tp.AddColumn("Name", 10);

@@ -58,6 +58,8 @@ public:
 	
 	void PrintProcesses(std::vector<Process*> processes);
 	void PrintProcesses();
+	void PrintProcessOpenedFiles(Process* process);
+	void PrintProcessOpenedFiles(std::string process_name);
 	void PrintProcess(Process* process);
 	void PrintProcess(int process_id);
 	void PrintProcess(std::string process_name);

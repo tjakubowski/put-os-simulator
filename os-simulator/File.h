@@ -25,5 +25,7 @@ public:
 	void set_last_read_byte(unsigned last_read_byte);
 	void set_file_name(const std::string& file_name);
 
+	bool is_opened();
+	
 	void print_semaphore();
 };
