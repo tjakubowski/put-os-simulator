@@ -310,6 +310,17 @@ void ProcessManager::PrintProcesses()
 	PrintProcesses(processes_);
 }
 
+void ProcessManager::PrintProcessOpenedFiles(Process* process)
+{
+	process->print_opened_files();
+}
+
+void ProcessManager::PrintProcessOpenedFiles(std::string process_name)
+{
+	const auto process = GetProcess(process_name);
+	PrintProcessOpenedFiles(process);
+}
+
 void ProcessManager::PrintProcess(Process* process) 
 {
 	process_printer_.PrintHeader();
@@ -322,7 +333,7 @@ void ProcessManager::PrintProcess(int process_id)
 	PrintProcess(GetProcess(process_id));
 }
 
-void ProcessManager::PrintProcess(std::string process_name) 
+void ProcessManager::PrintProcess(std::string process_name)
 {
 	PrintProcess(GetProcess(process_name));
 }
