@@ -15,7 +15,7 @@ private:
 		
 		mem, cmem,
 		
-		wmem, cwmem,
+		vmem, cvmem,
 		
 		cp, load, lp, kp,
 		
@@ -49,8 +49,8 @@ private:
 		{"mem",commands::mem},
 		{"cmem",commands::cmem},
 
-		{"wmem",commands::wmem},
-		{"cwmem",commands::cwmem},
+		{"vmem",commands::vmem},
+		{"cvmem",commands::cvmem},
 
 		{"cp",commands::cp},
 		{"load",commands::load},
@@ -85,12 +85,12 @@ private:
 		{"mem","mem - wyswietla aktualny stan pamieci RAM\n"},
 		{"cmem","cmem [komorka] - wyswietla pojedyncza komorke pamieci RAM\n"},
 
-		{"wmem","wmem - wyswietla plik pamieci wirtualnej\n"},
-		{"cwmem","cwmem [nazwa_procesu] - wyswietla zawartosc pamieci wirtualnej dla procesu\n"},
+		{"vmem","wmem - wyswietla plik pamieci wirtualnej\n"},
+		{"cvmem","cwmem [nazwa_procesu] - wyswietla zawartosc pamieci wirtualnej dla procesu\n"},
 
 		{"cp","cp [nazwa_procesu][nazwa_pliku][priorytet] - tworzy nowy proces\n"},
 		{"load","load [nazwa_procesu][nazwa_pliku] - wczytuje program do procesu\n"},
-		{"lp","lp - wyswietla liste utworzonych procesow\n\n"},
+		{"lp","lp - wyswietla liste utworzonych procesow\n"},
 		{"kp","kp - zamyka proces\n"},
 
 		{"help","help - wyswietla wszystkie dostepne komendy\n"},
