@@ -324,7 +324,13 @@ void ProcessManager::CloseFile(Process* process, std::string file_name)
 	process->remove_opened_file(file_name);
 }
 
-void 
+void ProcessManager::WriteFile(Process* process, std::string file_name, std::string bytes, bool append)
+{
+	if(!process->is_file_opened(file_name))
+		throw std::exception("Process cannot write to not opened file.");
+
+	FileSystem::GetInstance().write(file_name, bytes, append);
+}
 
 std::vector<Process*> ProcessManager::processes() const
 {
