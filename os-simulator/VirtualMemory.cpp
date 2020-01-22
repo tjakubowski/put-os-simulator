@@ -69,12 +69,26 @@ bool VirtualMemory::create_program(Process* pcb, std::string file)
 
 	bool bool_text = false;
 	bool bool_data = false;
-	if (text_begin != std::string::npos) {
+	int temp = 0;
+	/*if (text_begin != std::string::npos) {
 		bool_text = true;
+		temp++;
 	}
 	if (data_begin != std::string::npos) {
 		bool_data = true;
+		temp++;
+	}*/
+	if (text_begin < file.size()) {
+		bool_text = true;
+		temp++;
 	}
+	if (data_begin < file.size()) {
+		bool_data = true;
+		temp++;
+	}
+	std::cout <<"temp"<< temp <<" indeks pocatku textu  "<<text_begin<<" indeks pocatku data "<<data_begin<< " string size " <<file.size()<<std::endl;
+	std::cout << std::string::npos << std::endl;
+	std::cout << "text " << bool_text << " data " << bool_data << std::endl;
 	if (bool_text && bool_data) {
 
 		int text_limit = data_begin - text_begin - 6;
@@ -206,18 +220,6 @@ bool VirtualMemory::load_to_virtualmemory(Process* pcb, const std::string data)
 
 void VirtualMemory::display_pagefile()
 {
-	/*TablePrinter tp1;
-	tp1.AddColumn("index", 15);
-	tp1.PrintHeader();
-	for (int i = 0; i < 64; i++) {
-		std::string s;
-		s += std::to_string(i+i*64);
-		s += "---";
-		s += std::to_string(i + i * 64 + 64);
-		tp1 << s;
-
-	}
-	tp1.PrintFooter();*/
 
 	TablePrinter tp2;
 	tp2.AddColumn("index", 12);
