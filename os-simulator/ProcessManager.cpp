@@ -211,7 +211,8 @@ void ProcessManager::SetProcessReady(Process* process)
 	case Process::Ready:
 		return;
 	case Process::Running:
-		SetProcessRunning(dummy_process_); break;
+		//SetProcessRunning(dummy_process_);
+		break;
 	default: break;
 	}
 
