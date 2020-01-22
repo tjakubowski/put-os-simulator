@@ -370,6 +370,27 @@ void Shell::perform_command() {
 			}
 			break;
 
+		case commands::sfat:
+
+			switch (command.size()) {
+			case 1:
+				std::cout << system_name << "Wyswietlenie informacji o fat.\n";
+				// metoda wyswietlajaca zawartosc calego dysku
+				FileSystem::GetInstance().print_fat();
+				break;
+			case 2:
+				if (command[1] == "-h") {
+					std::cout << helpdesk[command[0]];
+				}
+				else {
+					std::cout << system_name << arguments;
+				}
+				break;
+			default:
+				std::cout << system_name << arguments;
+			}
+			break;
+
 			// PAMIEC RAM
 
 		case commands::mem:

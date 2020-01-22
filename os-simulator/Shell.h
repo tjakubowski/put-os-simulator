@@ -13,7 +13,7 @@ private:
 
 		ls, cd, md, rd, move,
 
-		sb, sd,
+		sb, sd, sfat,
 		
 		mem, cmem,
 		
@@ -49,6 +49,7 @@ private:
 
 		{"sb",commands::sb},
 		{"sd",commands::sd},
+		{"sfat",commands::sfat},
 
 		{"mem",commands::mem},
 		{"cmem",commands::cmem},
@@ -87,6 +88,7 @@ private:
 
 		{"sb","sb [numer_bloku] - wyswietla zawartosc bloku dyskowego\n"},
 		{"sd","sd - wyswietla zawartosc dysku\n"},
+		{"sfat","sfat - wyswietla informacje o fat\n"},
 
 		{"mem","mem - wyswietla aktualny stan pamieci RAM\n"},
 		{"cmem","cmem [komorka] - wyswietla pojedyncza komorke pamieci RAM\n"},
