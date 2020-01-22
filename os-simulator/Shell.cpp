@@ -151,23 +151,6 @@ void Shell::perform_command() {
 			}
 			break;
 
-		case commands::cl:
-
-			switch (command.size()) {
-			case 2:
-				if (command[1] == "-h") {
-					std::cout << helpdesk[command[0]];
-				}
-				else {
-					FileSystem::GetInstance().close(command[1]);
-					std::cout << system_name << "Zamknieto plik " << command[1] << "\n";
-				}
-				break;
-			default:
-				std::cout << system_name << arguments;
-			}
-			break;
-
 		case commands::sf:
 
 			switch (command.size()) {
@@ -202,7 +185,7 @@ void Shell::perform_command() {
 					std::cout << helpdesk[command[0]];
 				}
 				else {
-					
+					FileSystem::GetInstance().print_file(command[1]);
 				}
 				break;
 			default:

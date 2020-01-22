@@ -7,7 +7,7 @@ class Shell {
 private:
 
 	enum class commands{
-		step, cf, df, op, cl, sf, pf, ef,
+		step, cf, df, op, sf, pf, ef,
 
 		sem,
 
@@ -34,7 +34,6 @@ private:
 		{"cf",commands::cf},
 		{"df",commands::df},
 		{"op",commands::op},
-		{"cl",commands::cl},
 		{"sf",commands::sf},
 		{"pf",commands::pf},
 		{"ef",commands::ef},
@@ -68,9 +67,8 @@ private:
 
 		{"cf","cf [nazwa_pliku] - tworzy plik\n"},
 		{"df","df [nazwa_pliku] - usuwa plik\n"},
-		{"op","op [nazwa_pliku] - otwiera plik\n"},
-		{"cl","cl [nazwa_pliku] - zamyka otwarty plik\n"},
-		{"pf","pf [nazwa_pliku] - wyswietla atrybuty pliku o podanej nazwie\n"},
+		{"op","op [nazwa_pliku] - wyswietla zawartosc pliku\n"},
+		{"pf","pf [nazwa_pliku] - wyswietla atrybuty pliku/plików (nazwa pliku opcjonalna)\n"},
 		{"sf","sf [nazwa_pliku] - sprawdza, czy plik o podanej nazwie istnieje\n"},
 		{"ef","ef [text] > | >> [nazwa_pliku] - edycja pliku ([text] koniecznie w cudzyslowie!) (> - nadpisanie, >> - dopisanie)\n"},
 

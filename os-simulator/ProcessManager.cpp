@@ -199,12 +199,16 @@ void ProcessManager::SetProcessWaiting(Process* process)
 	case Process::Ready:
 		RemoveFromVector(process, ready_processes_); break;
 	case Process::Running:
-		SetProcessRunning(dummy_process_); break;
+		break;
 	default: break;
 	}
 
 	process->set_process_state(Process::Waiting);
 	waiting_processes_.push_back(process);
+
+	dummy_process_->set_process_state(Process::Running);
+	running_process_ = dummy_process_;
+	CPU_M::GetInstance().scheduling();
 }
 
 void ProcessManager::SetProcessWaiting(int process_id)
