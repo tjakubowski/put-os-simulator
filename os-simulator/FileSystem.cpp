@@ -50,9 +50,30 @@ void FileSystem::print_data() const
 	tp.PrintFooter();
 }
 
-void FileSystem::print_files()
+void FileSystem::print_files() const
 {
-	root_directory_.print();
+	TablePrinter tp;
+	tp.AddColumn("File name", 16);
+	tp.AddColumn("Start cluster", 5);
+	tp.AddColumn("File size", 5);
+
+	tp.PrintHeader();
+	for (auto& file : root_directory_.files())
+		tp << file->file_name() << file->start_cluster() << file->file_size();
+	tp.PrintFooter();
+}
+
+void FileSystem::print_file(std::string file_name)
+{
+	auto file = root_directory_.get_file(file_name);
+	TablePrinter tp;
+	tp.AddColumn("File name", 16);
+	tp.AddColumn("Start cluster", 5);
+	tp.AddColumn("File size", 5);
+
+	tp.PrintHeader();
+	tp << file->file_name() << file->start_cluster() << file->file_size();
+	tp.PrintFooter();
 }
 
 void FileSystem::print_files_semaphores()

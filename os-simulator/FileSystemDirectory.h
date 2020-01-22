@@ -17,5 +17,4 @@ public:
 	bool exists(std::string file_name);
 	void create(std::string file_name, unsigned int cluster_index);
 	void remove(File* file);
-	void print();
 };

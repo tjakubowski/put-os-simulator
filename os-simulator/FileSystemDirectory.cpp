@@ -48,16 +48,3 @@ void FileSystemDirectory::remove(File* file)
 {
 	files_.erase(std::remove(files_.begin(), files_.end(), file), files_.end());
 }
-
-void FileSystemDirectory::print()
-{
-	TablePrinter tp;
-	tp.AddColumn("File name", 16);
-	tp.AddColumn("Start cluster", 5);
-	tp.AddColumn("File size", 5);
-	
-	tp.PrintHeader();
-	for(auto& file : files_)
-		tp << file->file_name() << file->start_cluster() << file->file_size();
-	tp.PrintFooter();
-}
