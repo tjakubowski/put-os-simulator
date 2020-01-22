@@ -348,6 +348,14 @@ char ProcessManager::ReadFileByte(Process* process, std::string file_name)
 	return FileSystem::GetInstance().read_next_byte(file_name);
 }
 
+void ProcessManager::ResetFilePointer(Process* process, std::string file_name)
+{
+	if(!process->is_file_opened(file_name))
+		throw std::exception("Process cannot read not opened file.");
+
+	FileSystem::GetInstance().reset_last_read_byte(file_name);
+}
+
 std::vector<Process*> ProcessManager::processes() const
 {
 	return processes_;

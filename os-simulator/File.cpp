@@ -13,6 +13,8 @@ void File::open(Process* process)
 		process->add_opened_file(file_name_);
 	else
 		process->remove_opened_file(file_name_);
+
+	set_last_read_byte(0);
 }
 
 void File::close()
