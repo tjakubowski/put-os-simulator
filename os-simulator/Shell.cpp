@@ -238,6 +238,7 @@ void Shell::perform_command() {
 			switch (command.size()) {
 			case 1:
 				FileSystem::GetInstance().print_files_semaphores();
+				break;
 			case 2:
 				if (command[1] == "-h") {
 					std::cout << helpdesk[command[0]];
