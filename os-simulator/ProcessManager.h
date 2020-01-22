@@ -66,6 +66,7 @@ public:
 	void WriteFile(Process* process, std::string file_name, std::string bytes, bool append = false);
 	std::string ReadFile(Process* process, std::string file_name);
 	char ReadFileByte(Process* process, std::string file_name);
+	void ResetFilePointer(Process* process, std::string file_name);
 
 	std::vector<Process*> processes() const;
 	std::vector<Process*> new_processes() const;

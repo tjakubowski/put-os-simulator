@@ -188,6 +188,8 @@ void FileSystem::write(std::string file_name, std::string bytes, bool append)
 	auto cluster_index = file->start_cluster();
 	int byte_index = 0;
 
+	reset_last_read_byte(file);
+
 	if (!will_fit(file_name, bytes, append))
 		throw std::exception("There is not enough memory in file system.");
 
@@ -235,6 +237,17 @@ void FileSystem::write(std::string file_name, std::string bytes, bool append)
 
 		cluster_index = fat_[cluster_index].next_;
 	}
+}
+
+void FileSystem::reset_last_read_byte(std::string file_name)
+{
+	const auto file = root_directory_.get_file(file_name);
+	return reset_last_read_byte(file);
+}
+
+void FileSystem::reset_last_read_byte(File* file)
+{
+	file->set_last_read_byte(0);
 }
 
 char FileSystem::read_next_byte(File* file)

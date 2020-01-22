@@ -50,6 +50,9 @@ public:
 	void write(std::string file_name, std::string bytes, bool append = false);
 	void write(std::string file_name, char byte, bool append = false);
 
+	void reset_last_read_byte(std::string file_name);
+	void reset_last_read_byte(File* file);
+
 	void set_file_name(std::string file_name, std::string new_file_name);
 	void copy_file(std::string file_name, std::string new_file_name);
 
