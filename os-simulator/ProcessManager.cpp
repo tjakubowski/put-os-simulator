@@ -61,7 +61,15 @@ Process* ProcessManager::CreateProcess(std::string process_name, std::string pro
 	const auto process_code = FileSystem::GetInstance().read_all(process_file);
 	const auto process = new Process(process_name, process_file, priority, ++last_process_id_);
 
-	VirtualMemory::GetInstance().create_program(process, process_code);
+	try
+	{
+		VirtualMemory::GetInstance().create_program(process, process_code);
+	}
+	catch(std::exception& e)
+	{
+		delete process;
+		throw e;
+	}
 
 	processes_.push_back(process);
 	SetProcessNew(process);
