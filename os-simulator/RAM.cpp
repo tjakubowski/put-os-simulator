@@ -79,7 +79,7 @@ int RAM::add_to_RAM(Process* process) {
 
 		if (last == 0) {
 			Free_blocks_list.pop_back();
-			F_b.begining = length + 2;
+			F_b.begining = length+1; //tutaj zmiana
 			last = length + 1;
 			F_b.end = 256;
 			F_b.size = F_b.end - F_b.begining;
@@ -105,7 +105,7 @@ int RAM::add_to_RAM(Process* process) {
 			for (fbi = Free_blocks_list.begin(); fbi != Free_blocks_list.end(); fbi++) {
 				if (fbi->biggest == true && fbi->size >= length)
 				{
-					F_b.begining = fbi->begining + length + 1;
+					F_b.begining = fbi->begining + length;//tutaj zmiana
 
 					break;
 					
@@ -136,7 +136,7 @@ int RAM::add_to_RAM(Process* process) {
 		RAM_process.id = id;
 		RAM_process.size = length;
 		RAM_process.commands = commands;
-		RAM_process.start = (F_b.begining - length)-1;
+		RAM_process.start = (F_b.begining - length);//tutaj zmiana
 		RAM_processes_list.push_back(RAM_process);
 
 		segment_tab[1]->is_in_RAM = true;
@@ -210,7 +210,7 @@ void RAM::show_RAM() {
 	for (it = RAM_processes_list.begin(); it != RAM_processes_list.end(); ++it)
 	{	
 		string com = it->commands;
-		tp << it->id << it->size << it->start << (it->start + it->size) << com ;
+		tp << it->id << it->size << it->start << ((it->start + it->size)-1) << com ;
 		i++;
 	}
 	if (i == 0)
