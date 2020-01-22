@@ -10,6 +10,7 @@ int main()
 {
 	std::cout << "OS Simulator" << std::endl;
 
+	/*
 	try
 	{
 		ProcessManager::GetInstance().PrintProcesses();
@@ -54,6 +55,7 @@ int main()
 	FileSystem::GetInstance().print_data();
 	FileSystem::GetInstance().print_fat();
 	FileSystem::GetInstance().print_files();
+	*/
 
 	std::ifstream file;
 	file.open("ciagEulera.txt", std::ios::in);
@@ -65,8 +67,21 @@ int main()
 		kod += " ";
 	}
 	file.close();
-
 	FileSystem::GetInstance().write("ciagEulera", kod, false);
+
+	h.clear();
+	kod.clear();
+
+	file.open("CheckProcess.txt", std::ios::in);
+	FileSystem::GetInstance().create("CheckProcess");
+	while (getline(file, h)) {
+		kod += h;
+		kod += " ";
+	}
+	file.close();
+	FileSystem::GetInstance().write("CheckProcess", kod, false);
+
+	
 	Shell shell;
 	shell.run();
 	return 0;
