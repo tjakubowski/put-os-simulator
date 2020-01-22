@@ -29,13 +29,12 @@ public:
 	std::array<char, kvirtualmemory_size> pagefile;
 	std::vector<VMSegment> pagefile_segment_tab;
 
-	int get_base(const int& limit); //znajduje adres poczatkowy adresowania (wolne miejsce) 
+	int get_base(const int& limit); 
 	VirtualMemory();
 	~VirtualMemory();
 	bool create_program(Process* pcb, std::string file);
 	bool load_to_virtualmemory(Process* pcb, const std::string data);
-	bool load_program_to_ram(Process* pcb);
-	bool delete_program(Process* pcb);//usuwa program z ram i vm
+	bool delete_program(Process* pcb);
 	std::string get_segment(Process* pcb, const int segment);
 	void display_pagefile();
 	void display_pagefile_segment_tab();

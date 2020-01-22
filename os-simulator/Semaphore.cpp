@@ -42,8 +42,6 @@ Process* Semaphore::Signal()
 
 void Semaphore::show_Semaphore() 
 {
-
-
 	TablePrinter table_printer;
 	table_printer.AddColumn("Aktualny stan Semaphora", 3);
 	
@@ -53,7 +51,6 @@ void Semaphore::show_Semaphore()
 
 	table_printer.ClearColumns();
 
-	
 	if (queue.size() == 0)
 	{
 		std::cout << "\nKolejka jest pusta\n" << std::endl;
@@ -69,6 +66,4 @@ void Semaphore::show_Semaphore()
 
 		table_printer.PrintFooter();
 	}
-	
-
 }
