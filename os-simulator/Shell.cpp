@@ -231,6 +231,23 @@ void Shell::perform_command() {
 			}
 			break;
 
+		case commands::sem:
+
+			switch (command.size()) {
+			case 1:
+				//FileSystem::GetInstance().print_semaphores();
+			case 2:
+				if (command[1] == "-h") {
+					std::cout << helpdesk[command[0]];
+				}
+				else
+					std::cout << system_name << arguments;
+				break;
+			default:
+				std::cout << system_name << arguments;
+			}
+			break;
+
 			// KATALOGI
 
 		case commands::ls:
@@ -339,6 +356,27 @@ void Shell::perform_command() {
 				std::cout << system_name << "Wyswietlenie zawartosci dysku.\n";
 				// metoda wyswietlajaca zawartosc calego dysku
 				FileSystem::GetInstance().print_data();
+				break;
+			case 2:
+				if (command[1] == "-h") {
+					std::cout << helpdesk[command[0]];
+				}
+				else {
+					std::cout << system_name << arguments;
+				}
+				break;
+			default:
+				std::cout << system_name << arguments;
+			}
+			break;
+
+		case commands::sfat:
+
+			switch (command.size()) {
+			case 1:
+				std::cout << system_name << "Wyswietlenie informacji o fat.\n";
+				// metoda wyswietlajaca zawartosc calego dysku
+				FileSystem::GetInstance().print_fat();
 				break;
 			case 2:
 				if (command[1] == "-h") {

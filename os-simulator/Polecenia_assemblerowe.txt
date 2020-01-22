@@ -41,7 +41,7 @@ Nie zrobione jeszcze
 --AR nazwa rejestr 	- dopisuje do pliku o nazwie nazwa wartosc rejestru rejestr
 --FP nazwa		- wyświtla plik o nazwie nazwa
 
--PC nazwa plik priority	- zamknij proces o nazwie nazwa plik priority
+-PC nazwa plik priority	- tworz proces o nazwie nazwa plik priority
 -PW nazwa		- ustawia proces na waiting
 -PR nazwa 		- ustawia proces na ready
 -RP nazwa		- ustawia proces na Running			

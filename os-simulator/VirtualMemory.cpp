@@ -48,7 +48,7 @@ int VirtualMemory::get_base(const int& limit)
 			return i - occurrences + 1;
 	}
 
-	return -1; 
+	return -1;
 }
 
 bool VMSegment::operator<(const VMSegment& s) const
@@ -58,11 +58,11 @@ bool VMSegment::operator<(const VMSegment& s) const
 
 bool VirtualMemory::create_program(Process* pcb, std::string file)
 {
-	
+
 	std::vector<Segment*> segment_tab = pcb->segment_tab();
 	Segment* text_pcbseg = new Segment();
 	Segment* data_pcbseg = new Segment();
-	
+
 	size_t sLength;
 	size_t text_begin = file.find(".text ");
 	size_t data_begin = file.find(".data ");
@@ -94,42 +94,42 @@ bool VirtualMemory::create_program(Process* pcb, std::string file)
 		data_pcbseg->is_in_RAM = false;
 
 		std::string string_data, string_text;
-		
-			for (int i = 0; i < text_limit; i++) {
-				pagefile[text_base + i] = file[text_begin + 6 + i];
-				string_text += file[text_begin + 6 + i];;
-			}
-			for (int i = 0; i < data_limit; i++) {
-				pagefile[data_base + i] = file[data_begin + 6 + i];
-				string_data += file[data_begin + 6 + i];
-			}
-			
-			text_pcbseg->data = string_text;
-			data_pcbseg->data = string_data;
 
-			segment_tab.push_back(text_pcbseg);
-			segment_tab.push_back(data_pcbseg);
-		
+		for (int i = 0; i < text_limit; i++) {
+			pagefile[text_base + i] = file[text_begin + 6 + i];
+			string_text += file[text_begin + 6 + i];;
+		}
+		for (int i = 0; i < data_limit; i++) {
+			pagefile[data_base + i] = file[data_begin + 6 + i];
+			string_data += file[data_begin + 6 + i];
+		}
+
+		text_pcbseg->data = string_text;
+		data_pcbseg->data = string_data;
+
+		segment_tab.push_back(text_pcbseg);
+		segment_tab.push_back(data_pcbseg);
+
 	}
 	else if (bool_text && !bool_data) {
 		int text_limit = file.size() - text_begin - 6;//moze jeszcze -1;
 		int text_base = get_base(text_limit);
 		VMSegment text_seg(text_base, text_limit);
 		pagefile_segment_tab.push_back(text_seg);
-		
+
 		text_pcbseg->baseVM = text_base;
 		text_pcbseg->limit = text_limit;
 		text_pcbseg->is_in_RAM = false;
 
 		std::string string_text;
-	
-			for (int i = 0; i < text_limit; i++) {
-				pagefile[text_base + i] = file[text_begin + 6 + i];
-				string_text += file[text_begin + 6 + i];
-			}
-			text_pcbseg->data = string_text;
-			segment_tab.push_back(text_pcbseg);	
-			segment_tab.emplace_back();
+
+		for (int i = 0; i < text_limit; i++) {
+			pagefile[text_base + i] = file[text_begin + 6 + i];
+			string_text += file[text_begin + 6 + i];
+		}
+		text_pcbseg->data = string_text;
+		segment_tab.push_back(text_pcbseg);
+		segment_tab.emplace_back();
 	}
 	else if (!bool_text && bool_data) {
 		int data_limit = file.size() - data_begin - 6;
@@ -141,16 +141,16 @@ bool VirtualMemory::create_program(Process* pcb, std::string file)
 		data_pcbseg->is_in_RAM = false;
 		std::string string_data;
 
-	
+
 		for (int i = 0; i < data_limit; i++) {
 			pagefile[data_base + i] = file[data_begin + 6 + i];
 			string_data += file[data_begin + 6 + i];
 		}
-			text_pcbseg->data = "";
-			segment_tab.push_back(text_pcbseg);
-			data_pcbseg->data = string_data;
-			segment_tab.push_back(data_pcbseg);
-		
+		text_pcbseg->data = "";
+		segment_tab.push_back(text_pcbseg);
+		data_pcbseg->data = string_data;
+		segment_tab.push_back(data_pcbseg);
+
 	}
 	else if (!bool_data && !bool_text) {
 		throw std::exception("THERE IS NOT .TEXT AND .DATA SEGMENT");
@@ -161,23 +161,6 @@ bool VirtualMemory::create_program(Process* pcb, std::string file)
 	return true;
 }
 
-bool VirtualMemory::load_program_to_ram(Process* pcb) {
-
-	auto segment_tab = pcb->segment_tab();
-	for (int i = 0; i < segment_tab.size(); i++) {
-		if (segment_tab[i]->is_in_RAM == 0) {
-			std::string result;
-			for (int j = segment_tab[i]->baseVM; j < segment_tab[i]->baseVM + segment_tab[i]->limit; j++) {
-				result += pagefile.at(j);
-			}
-			//if (za³aduj do ramu false retun false); pramaters (Process *pcb, string data, int segment)
-			//{return false;
-			//}
-		}
-	}
-	std::sort(pagefile_segment_tab.begin(), pagefile_segment_tab.end());
-	return true;
-}
 
 //usuwa program z VM i RAMu
 bool VirtualMemory::delete_program(Process* pcb) {
@@ -226,14 +209,20 @@ bool VirtualMemory::load_to_virtualmemory(Process* pcb, const std::string data)
 
 void VirtualMemory::display_pagefile()
 {
-	//std::sort(pagefile_segment_tab.begin(), pagefile_segment_tab.end());
-/*	for (int i = 0; i < pagefile_segment_tab[pagefile_segment_tab.size() - 1].base + pagefile_segment_tab[pagefile_segment_tab.size() - 1].limit; i++) {
-		std::cout <<i<<" : "<< pagefile[i]<<" ";
-		if (i % 10 == 0 && i != 0)std::cout << std::endl;
-	}*/
-	for (int i = 0; i < kvirtualmemory_size; i++) {
-		std::cout << pagefile[i];
+	TablePrinter tp2;
+	tp2.AddColumn("virtual memory", 70);
+	tp2.PrintHeader();
+	int k = 0;
+	for (int i = 0; i < kvirtualmemory_size; i += 64)
+	{
+		std::string temp;
+		for (int j = 0; j < 64; j++) {
+			temp += pagefile[i + j];
+		}
+		tp2 << temp;
+
 	}
+	tp2.PrintFooter();
 }
 
 void VirtualMemory::display_pagefile_segment_tab()
@@ -255,21 +244,21 @@ void VirtualMemory::display_segment_tab(Process* pcb)
 	tp.AddColumn("IS IN RAM", 5);
 	tp.AddColumn("BASE IN RAM", 5);
 	tp.PrintHeader();
-		for (int i = 0; i < segment_tab.size(); i++)
-		{
-			if (segment_tab[i] != nullptr) {
-				tp << segment_tab[i]->baseVM << segment_tab[i]->limit;
-				if (segment_tab[i]->is_in_RAM)
-				{
-					tp << "true" << segment_tab[i]->baseRAM;
-				}
-				else
-				{
-					tp << "false" << "----";
-				}
+	for (int i = 0; i < segment_tab.size(); i++)
+	{
+		if (segment_tab[i] != nullptr) {
+			tp << segment_tab[i]->baseVM << segment_tab[i]->limit;
+			if (segment_tab[i]->is_in_RAM)
+			{
+				tp << "true" << segment_tab[i]->baseRAM;
+			}
+			else
+			{
+				tp << "false" << "----";
 			}
 		}
-	
+	}
+
 	tp.PrintFooter();
 }
 

@@ -9,9 +9,11 @@ private:
 	enum class commands{
 		step, cf, df, op, cl, sf, pf, ef,
 
+		sem,
+
 		ls, cd, md, rd, move,
 
-		sb, sd,
+		sb, sd, sfat,
 		
 		mem, cmem,
 		
@@ -36,6 +38,8 @@ private:
 		{"sf",commands::sf},
 		{"pf",commands::pf},
 		{"ef",commands::ef},
+
+		{"sem",commands::sem},
 		
 		{"ls",commands::ls},
 		{"cd",commands::cd},
@@ -45,6 +49,7 @@ private:
 
 		{"sb",commands::sb},
 		{"sd",commands::sd},
+		{"sfat",commands::sfat},
 
 		{"mem",commands::mem},
 		{"cmem",commands::cmem},
@@ -73,6 +78,8 @@ private:
 		{"sf","sf [nazwa_pliku] - sprawdza, czy plik o podanej nazwie istnieje\n"},
 		{"ef","ef [text] > | >> [nazwa_pliku] - edycja pliku ([text] koniecznie w cudzyslowie!) (> - nadpisanie, >> - dopisanie)\n"},
 
+		{"sem","sem [nazwa_pliku] - wyswietla informacje o semaforze"},
+
 		{"ls","ls [nazwa_katalogu] - wyswietla zawartosc katalogu o podanej nazwie lub biezacego katalogu, gdy nazwa nie jest podana\n"},
 		{"cd","cd [nazwa_katalogu] - wyswietla nazwe biezacego katalogu lub zmienia go\n"},
 		{"md","md [nazwa_katalogu] - tworzy katalog\n"},
@@ -81,6 +88,7 @@ private:
 
 		{"sb","sb [numer_bloku] - wyswietla zawartosc bloku dyskowego\n"},
 		{"sd","sd - wyswietla zawartosc dysku\n"},
+		{"sfat","sfat - wyswietla informacje o fat\n"},
 
 		{"mem","mem - wyswietla aktualny stan pamieci RAM\n"},
 		{"cmem","cmem [komorka] - wyswietla pojedyncza komorke pamieci RAM\n"},

@@ -85,7 +85,7 @@ void CPU_M::scheduling()
 		
 			}
 			ProcessManager::GetInstance().SetProcessRunning(heap[pos]);
-			heap.erase(heap.begin());
+			heap.erase(heap.begin()+pos);
 		}
 		else {
 			ProcessManager::GetInstance().SetProcessRunning(heap[0]);
