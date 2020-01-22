@@ -72,19 +72,28 @@ void Assembler::saveFile(Assembler& reg, Process* pcb)
 		}
 		pom_com += program[i];
 	}
+
+	int o;
+	try
+	{
+		reg.runCommand(pom_com, reg);
+	}
+	catch(std::exception& e)
+	{
+	}
 	if (com == "JP" || com == "JC" || com == "JZ" || com == "JL" || com == "JM" || com=="NP")
 	{
-
-		reg.runCommand(pom_com, reg);
 		reg.set_licznik(reg.get_licznik());
 	}
 	else
 	{	
-		reg.runCommand(pom_com, reg);
-		reg.set_licznik(reg.get_licznik() + reg.countLine(pom_com));
+		int a1 = reg.get_licznik();
+		int a2 = reg.countLine(pom_com);
+		reg.set_licznik(a1+a2);
 //		reg.set_licznik(reg.get_licznik());
 	}
-	}
+
+}
 
 int Assembler::countLine(std::string line)
 {
@@ -150,6 +159,8 @@ int Assembler::ile_arg(const string command)
 		return 1;
 	else if (command == "RP")
 		return 1;
+	else if (command == "PD")
+		return 1;
 	else
 	{
 		std::cout << "\nNierozpoznano komendy w ILE_ARG!";
@@ -183,7 +194,10 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 
 	string* line = split(c_line);
 	cout <<"Wykonuje rozkaz " << line[0] << " " << line[1] << " " << line[2] << " " << line[3] << endl;
-
+	string l1 = line[0];
+	string l2 = line[1];
+	string l3 = line[2];
+	string l4 = line[3];
 	string ss = line[0] + line[1] + line[2] + line[3];
 	
 	if (line[0] == "MV")
