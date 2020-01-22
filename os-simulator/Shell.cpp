@@ -193,13 +193,16 @@ void Shell::perform_command() {
 		case commands::pf:
 
 			switch (command.size()) {
+			case 1:
+				// metoda wyswietlajaca atrybuty pliku
+				FileSystem::GetInstance().print_files();
+				break;
 			case 2:
 				if (command[1] == "-h") {
 					std::cout << helpdesk[command[0]];
 				}
 				else {
-					// metoda wyswietlajaca atrybuty pliku
-
+					
 				}
 				break;
 			default:
