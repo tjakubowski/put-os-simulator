@@ -190,6 +190,7 @@
     <ClInclude Include="TablePrinter.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="CheckProcess.txt" />
     <Text Include="ciagEulera.txt" />
     <Text Include="Polecenia_assemblerowe.txt" />
     <Text Include="test.txt" />

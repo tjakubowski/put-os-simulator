@@ -1,1 +1,1 @@
-.text PC ciagEulera file200 1 PC proc_As2 file200 9 PW proc_As2 RP proc_As1 PD proc_As2 DF file200 .data 5"
+.text PC ciagEulera file200 1 PC proc_As2 file200 9 PD proc_As2 DF file200 .data 5"

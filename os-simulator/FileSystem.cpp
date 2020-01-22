@@ -55,6 +55,26 @@ void FileSystem::print_files()
 	root_directory_.print();
 }
 
+void FileSystem::print_files_semaphores()
+{
+	for (auto& file : root_directory_.files())
+		print_file_semaphore(file);
+}
+
+void FileSystem::print_file_semaphore(std::string file_name)
+{
+	auto file = root_directory_.get_file(file_name);
+	print_file_semaphore(file);
+}
+
+void FileSystem::print_file_semaphore(File* file)
+{
+	TablePrinter tp;
+	tp.AddColumn(file->file_name(), 5);
+	tp.PrintHeader();
+	file->print_semaphore();
+}
+
 bool FileSystem::exists(std::string file_name)
 {
 	return root_directory_.exists(file_name);

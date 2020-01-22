@@ -161,19 +161,16 @@ bool VirtualMemory::create_program(Process* pcb, std::string file)
 	return true;
 }
 
-
-//usuwa program z VM i RAMu
 bool VirtualMemory::delete_program(Process* pcb) {
-	//uruchamia funkcje z ramu do usuwania programu daje jej Process*pcb jako argument
 	auto segment_tab = pcb->segment_tab();
 	int size = segment_tab.size();
-	for (int i = 0; i < size; i++) { //for every segment (.text, .data)
+	for (int i = 0; i < size; i++) { 
 		VMSegment segment = pagefile_segment_tab[i];
 		for (int j = 0; j < pagefile_segment_tab.size(); j++) {
 			if (segment.base == segment_tab[i]->baseVM && segment.limit == segment_tab[i]->limit) {
-				for (int k = segment.base; k < segment.base + segment.limit; k++) {
-					pagefile[k] = ' ';
-				}
+			//	for (int k = segment.base; k < segment.base + segment.limit; k++) {
+				//	pagefile[k] = ' ';
+				//}
 				pagefile_segment_tab.erase(pagefile_segment_tab.begin() + j);
 				segment_tab.erase(segment_tab.begin() + i);
 				i--;
@@ -209,17 +206,36 @@ bool VirtualMemory::load_to_virtualmemory(Process* pcb, const std::string data)
 
 void VirtualMemory::display_pagefile()
 {
+	/*TablePrinter tp1;
+	tp1.AddColumn("index", 15);
+	tp1.PrintHeader();
+	for (int i = 0; i < 64; i++) {
+		std::string s;
+		s += std::to_string(i+i*64);
+		s += "---";
+		s += std::to_string(i + i * 64 + 64);
+		tp1 << s;
+
+	}
+	tp1.PrintFooter();*/
+
 	TablePrinter tp2;
+	tp2.AddColumn("index", 12);
 	tp2.AddColumn("virtual memory", 70);
 	tp2.PrintHeader();
 	int k = 0;
+	int index = 0;
 	for (int i = 0; i < kvirtualmemory_size; i += 64)
 	{
+		std::string id;
+		id = std::to_string(index ) + "-" + std::to_string(index + 64);
 		std::string temp;
 		for (int j = 0; j < 64; j++) {
 			temp += pagefile[i + j];
 		}
+		tp2 << id;
 		tp2 << temp;
+		index +=64;
 
 	}
 	tp2.PrintFooter();
