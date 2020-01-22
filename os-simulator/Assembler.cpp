@@ -148,18 +148,16 @@ int Assembler::ile_arg(const string command)
 		return 2;
 	else if (command == "AF")
 		return 2;
+	else if (command == "WF")
+		return 2;
 	else if (command == "AR")
 		return 2;
-	else if (command == "FP")
+	else if (command == "PF")
+		return 1;
+	else if (command == "RF")
 		return 1;
 	else if (command == "PC")
 		return 3;
-	else if (command == "PW")
-		return 1;
-	else if (command == "PR")
-		return 1;
-	else if (command == "RP")
-		return 1;
 	else if (command == "PD")
 		return 1;
 	else
@@ -982,7 +980,12 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 
 	else if (line[0] == "AF")
 	{
-		//FileSystem::GetInstance().write(line[1], line[2]);
+		ProcessManager::GetInstance().WriteFile(ProcessManager::GetInstance().running_process(), line[1], line[2], true);
+	}
+
+	else if (line[0] == "WF")
+	{
+	ProcessManager::GetInstance().WriteFile(ProcessManager::GetInstance().running_process(), line[1], line[2], false);
 	}
 
 	else if (line[0] == "AR")
@@ -1083,20 +1086,7 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 		ProcessManager::GetInstance().CreateProcess(line[1],line[2], stoi(line[3]));
 	}
 
-	else if (line[0] == "PW")		// Process Waiting
-	{
-		ProcessManager::GetInstance().SetProcessWaiting(line[1]);
-	}
 
-	else if (line[0] == "PR")		// Process ready
-	{
-		ProcessManager::GetInstance().SetProcessReady(line[1]);
-	}
-
-	else if (line[0] == "RP")		// Process Running
-	{
-	ProcessManager::GetInstance().SetProcessRunning(line[1]);
-	}
 
 	else if (line[0] == "PD")		//Kasuje proces
 	{
@@ -1123,7 +1113,12 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 
 	else if (line[0] == "PF")					//BRAK CZYTANIA Z PLIKU
 	{
-	//	FileSystem::GetInstance().print_files(line[1]);
+	//	FileSystem::GetInstance().;
+	}
+
+	else if (line[0] == "RF")					//BRAK CZYTANIA Z PLIKU
+	{
+	//	FileSystem::GetInstance().;
 	}
 
 	else if (line[0] == "SF")
