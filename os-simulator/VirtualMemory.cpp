@@ -161,23 +161,6 @@ bool VirtualMemory::create_program(Process* pcb, std::string file)
 	return true;
 }
 
-bool VirtualMemory::load_program_to_ram(Process* pcb) {
-
-	auto segment_tab = pcb->segment_tab();
-	for (int i = 0; i < segment_tab.size(); i++) {
-		if (segment_tab[i]->is_in_RAM == 0) {
-			std::string result;
-			for (int j = segment_tab[i]->baseVM; j < segment_tab[i]->baseVM + segment_tab[i]->limit; j++) {
-				result += pagefile.at(j);
-			}
-			//if (za³aduj do ramu false retun false); pramaters (Process *pcb, string data, int segment)
-			//{return false;
-			//}
-		}
-	}
-	std::sort(pagefile_segment_tab.begin(), pagefile_segment_tab.end());
-	return true;
-}
 
 //usuwa program z VM i RAMu
 bool VirtualMemory::delete_program(Process* pcb) {
@@ -226,14 +209,25 @@ bool VirtualMemory::load_to_virtualmemory(Process* pcb, const std::string data)
 
 void VirtualMemory::display_pagefile()
 {
-	//std::sort(pagefile_segment_tab.begin(), pagefile_segment_tab.end());
-/*	for (int i = 0; i < pagefile_segment_tab[pagefile_segment_tab.size() - 1].base + pagefile_segment_tab[pagefile_segment_tab.size() - 1].limit; i++) {
-		std::cout <<i<<" : "<< pagefile[i]<<" ";
-		if (i % 10 == 0 && i != 0)std::cout << std::endl;
-	}*/
-	for (int i = 0; i < kvirtualmemory_size; i++) {
-		std::cout << pagefile[i];
+	TablePrinter tp2;
+	tp2.AddColumn("virtual memory", 70);
+	tp2.PrintHeader();
+	int k = 0;
+	for (int i = 0; i < kvirtualmemory_size; i+=64)
+	{
+		std::string temp; 
+		for (int j = 0; j < 64; j++) {
+			temp+= pagefile[i + j];
+		}
+		tp2 << temp;
+	
 	}
+
+	/*for (int i = 1; i < 129; i++) {
+		std::cout<<i << ": "  << memory[i] << "\t";
+	}*/
+	tp2.PrintFooter();
+
 }
 
 void VirtualMemory::display_pagefile_segment_tab()
