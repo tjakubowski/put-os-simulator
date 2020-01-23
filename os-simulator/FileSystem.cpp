@@ -19,7 +19,7 @@ void FileSystem::print_fat() const
 	TablePrinter tp;
 	tp.AddColumn("Indeks", 6);
 	tp.AddColumn("Zajety", 6);
-	tp.AddColumn("Nastepny indeks", 5);
+	tp.AddColumn("Nastepny", 5, false);
 
 	tp.PrintHeader();
 	for (int i = 0; i < clusters_count_; i++)
