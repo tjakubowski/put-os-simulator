@@ -57,6 +57,8 @@ void Assembler::set_licznik(int v)
 void Assembler::saveFile(Assembler& reg, Process* pcb)
 {
 	 string program = pcb->text_segment();
+	 if (program == " " || program == "") // gdy pusto po .text ? XOXO
+		 return;
 	 int o = program.size();
 	 if (program[o] != ' ')
 	 {
@@ -69,6 +71,12 @@ void Assembler::saveFile(Assembler& reg, Process* pcb)
 	com = program[pom1];
 	com += program[pom2];
 	int i, j;
+	if (reg.ile_arg(com)==-1)
+	{
+		std::cout << "\nNierozpoznano komendy!";
+		reg.set_licznik(reg.get_licznik() + 3);
+		return;
+	}
 	for (i = reg.get_licznik(), j = 0; j < reg.ile_arg(com)+1; i++)
 	{
 		if (program[i] == ' ')
@@ -166,8 +174,8 @@ int Assembler::ile_arg(const string command)
 		return 1;
 	else
 	{
-		std::cout << "\nNierozpoznano komendy w ILE_ARG!";
-		return 0;
+	//	std::cout << "\nNierozpoznano komendy w ILE_ARG!";
+		return -1;
 	}
 }
 void toJump()
@@ -1018,7 +1026,7 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 			stringstream ss;
 			ss << rej_A;
 			string A = ss.str();
-			ProcessManager::GetInstance().WriteFile(ProcessManager::GetInstance().running_process(), line[1], A);
+			ProcessManager::GetInstance().WriteFile(ProcessManager::GetInstance().running_process(), line[1], A,true);
 		}
 		else if (line[2] == "B")
 		{
@@ -1026,7 +1034,7 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 			stringstream ss;
 			ss << rej_B;
 			string B = ss.str();
-			ProcessManager::GetInstance().WriteFile(ProcessManager::GetInstance().running_process(), line[1], B);
+			ProcessManager::GetInstance().WriteFile(ProcessManager::GetInstance().running_process(), line[1], B,true);
 		}
 		else if (line[2] == "C")
 		{
@@ -1211,25 +1219,5 @@ void Assembler::runProgram()
 //	if (name != "Dummy") {
 		process_run->set_instruction_counter(reg.get_licznik());
 	lastLineControl(reg, process_run);
-	//get_licznik jest wczesniej zrobione w funkcji countLine
-	reg.print(reg);
-	//sprawdzenie czy ostatnia linia
+	//reg.print(reg);
 }
-/*
-int main()
-{
-	Assembler reg;
-	string program;
-	cout << "\nPodaj program: ";
-	getline(cin, program);
-
-
-	reg.savefile(program, reg);
-	//reg.runCommand(reg);
-	reg.runProgram(reg);
-	reg.runProgram(reg);
-	system("pause");
-	return 0;
-
-}
-*/
