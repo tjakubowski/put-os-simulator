@@ -122,6 +122,17 @@ void ProcessManager::TryAllocateNewProcesses()
 	}
 }
 
+void ProcessManager::ChangeProcessPriority(std::string process_name, int priority)
+{
+	ChangeProcessPriority(GetProcess(process_name), priority);
+}
+
+void ProcessManager::ChangeProcessPriority(Process* process, int priority)
+{
+	process->set_priority(priority);
+	CPU_M::GetInstance().scheduling();
+}
+
 void ProcessManager::KillProcess(Process* process)
 {
 	if (process == dummy_process_)
@@ -199,12 +210,16 @@ void ProcessManager::SetProcessWaiting(Process* process)
 	case Process::Ready:
 		RemoveFromVector(process, ready_processes_); break;
 	case Process::Running:
-		SetProcessRunning(dummy_process_); break;
+		break;
 	default: break;
 	}
 
 	process->set_process_state(Process::Waiting);
 	waiting_processes_.push_back(process);
+
+	dummy_process_->set_process_state(Process::Running);
+	running_process_ = dummy_process_;
+	CPU_M::GetInstance().scheduling();
 }
 
 void ProcessManager::SetProcessWaiting(int process_id)
@@ -306,6 +321,17 @@ void ProcessManager::PrintProcesses()
 	PrintProcesses(processes_);
 }
 
+void ProcessManager::PrintProcessOpenedFiles(Process* process)
+{
+	process->print_opened_files();
+}
+
+void ProcessManager::PrintProcessOpenedFiles(std::string process_name)
+{
+	const auto process = GetProcess(process_name);
+	PrintProcessOpenedFiles(process);
+}
+
 void ProcessManager::PrintProcess(Process* process) 
 {
 	process_printer_.PrintHeader();
@@ -318,7 +344,7 @@ void ProcessManager::PrintProcess(int process_id)
 	PrintProcess(GetProcess(process_id));
 }
 
-void ProcessManager::PrintProcess(std::string process_name) 
+void ProcessManager::PrintProcess(std::string process_name)
 {
 	PrintProcess(GetProcess(process_name));
 }

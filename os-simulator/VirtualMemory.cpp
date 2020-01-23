@@ -69,12 +69,26 @@ bool VirtualMemory::create_program(Process* pcb, std::string file)
 
 	bool bool_text = false;
 	bool bool_data = false;
-	if (text_begin != std::string::npos) {
+	int temp = 0;
+	/*if (text_begin != std::string::npos) {
 		bool_text = true;
+		temp++;
 	}
 	if (data_begin != std::string::npos) {
 		bool_data = true;
+		temp++;
+	}*/
+	if (text_begin < file.size()) {
+		bool_text = true;
+		temp++;
 	}
+	if (data_begin < file.size()) {
+		bool_data = true;
+		temp++;
+	}
+	//	std::cout << "temp" << temp << " indeks pocatku textu  " << text_begin << " indeks pocatku data " << data_begin << " string size " << file.size() << std::endl;
+		//std::cout << std::string::npos << std::endl;
+		//std::cout << "text " << bool_text << " data " << bool_data << std::endl;
 	if (bool_text && bool_data) {
 
 		int text_limit = data_begin - text_begin - 6;
@@ -129,9 +143,39 @@ bool VirtualMemory::create_program(Process* pcb, std::string file)
 		}
 		text_pcbseg->data = string_text;
 		segment_tab.push_back(text_pcbseg);
-		segment_tab.emplace_back();
+		//
+		int data_limit = 1;
+		int data_base = get_base(data_limit);
+		std::string string_data = " ";
+		VMSegment data_seg(data_base, data_limit);
+		pagefile_segment_tab.push_back(data_seg);
+		data_pcbseg->baseVM = data_base;
+		data_pcbseg->limit = data_limit;
+		data_pcbseg->is_in_RAM = false;
+		for (int i = 0; i < string_data.size(); i++) {
+			pagefile[data_base] = ' ';
+		}
+		data_pcbseg->data = string_data;
+		segment_tab.push_back(data_pcbseg);
+		//segment_tab.emplace_back();
 	}
 	else if (!bool_text && bool_data) {
+		//
+		int text_limit = 1;
+		int text_base = get_base(text_limit);
+		std::string string_text = " ";
+		VMSegment text_seg(text_base, text_limit);
+		pagefile_segment_tab.push_back(text_seg);
+		text_pcbseg->baseVM = text_base;
+		text_pcbseg->limit = text_limit;
+		text_pcbseg->is_in_RAM = false;
+		for (int i = 0; i < string_text.size(); i++) {
+			pagefile[text_base] = ' ';
+		}
+		text_pcbseg->data = string_text;
+		segment_tab.push_back(text_pcbseg);
+		//
+
 		int data_limit = file.size() - data_begin - 6;
 		int data_base = get_base(data_limit);
 		VMSegment data_seg(data_base, data_limit);
@@ -146,8 +190,7 @@ bool VirtualMemory::create_program(Process* pcb, std::string file)
 			pagefile[data_base + i] = file[data_begin + 6 + i];
 			string_data += file[data_begin + 6 + i];
 		}
-		text_pcbseg->data = "";
-		segment_tab.push_back(text_pcbseg);
+
 		data_pcbseg->data = string_data;
 		segment_tab.push_back(data_pcbseg);
 
@@ -164,13 +207,13 @@ bool VirtualMemory::create_program(Process* pcb, std::string file)
 bool VirtualMemory::delete_program(Process* pcb) {
 	auto segment_tab = pcb->segment_tab();
 	int size = segment_tab.size();
-	for (int i = 0; i < size; i++) { 
+	for (int i = 0; i < size; i++) {
 		VMSegment segment = pagefile_segment_tab[i];
 		for (int j = 0; j < pagefile_segment_tab.size(); j++) {
 			if (segment.base == segment_tab[i]->baseVM && segment.limit == segment_tab[i]->limit) {
-			//	for (int k = segment.base; k < segment.base + segment.limit; k++) {
-				//	pagefile[k] = ' ';
-				//}
+				for (int k = segment.base; k < segment.base + segment.limit; k++) {
+						pagefile[k] = ' ';
+					}
 				pagefile_segment_tab.erase(pagefile_segment_tab.begin() + j);
 				segment_tab.erase(segment_tab.begin() + i);
 				i--;
@@ -206,18 +249,6 @@ bool VirtualMemory::load_to_virtualmemory(Process* pcb, const std::string data)
 
 void VirtualMemory::display_pagefile()
 {
-	/*TablePrinter tp1;
-	tp1.AddColumn("index", 15);
-	tp1.PrintHeader();
-	for (int i = 0; i < 64; i++) {
-		std::string s;
-		s += std::to_string(i+i*64);
-		s += "---";
-		s += std::to_string(i + i * 64 + 64);
-		tp1 << s;
-
-	}
-	tp1.PrintFooter();*/
 
 	TablePrinter tp2;
 	tp2.AddColumn("index", 12);
@@ -228,14 +259,14 @@ void VirtualMemory::display_pagefile()
 	for (int i = 0; i < kvirtualmemory_size; i += 64)
 	{
 		std::string id;
-		id = std::to_string(index ) + "-" + std::to_string(index + 64);
+		id = std::to_string(index) + "-" + std::to_string(index + 64);
 		std::string temp;
 		for (int j = 0; j < 64; j++) {
 			temp += pagefile[i + j];
 		}
 		tp2 << id;
 		tp2 << temp;
-		index +=64;
+		index += 64;
 
 	}
 	tp2.PrintFooter();

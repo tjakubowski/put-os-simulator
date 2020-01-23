@@ -59,7 +59,7 @@ public:
 	void show_RAM(); //wyswietlenie zawartosci ram
 	string char_RAM(int place);
 	string read_RAM(Process* process, int counter); 
-	bool modify_RAM(int position, int byte);
+	void modify_RAM(int position, int byte);
 
 
 

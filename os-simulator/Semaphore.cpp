@@ -40,6 +40,11 @@ Process* Semaphore::Signal()
 	}
 }
 
+bool Semaphore::is_opened()
+{
+	return value != 1;
+}
+
 //interfejs pracy krokowej 
 
 void Semaphore::show_Semaphore() 
