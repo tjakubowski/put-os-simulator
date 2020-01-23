@@ -189,13 +189,13 @@ void RAM::show_RAM() {
 
 	TablePrinter tp;
 	tp.AddColumn("ID", 4);
-	tp.AddColumn("SIZE", 5);
-	tp.AddColumn("BEGINING", 5);
-	tp.AddColumn("END", 5);
-	tp.AddColumn("DATA SEGMENT", 70);
+	tp.AddColumn("ROZMIAR", 5);
+	tp.AddColumn("POCZATEK", 5);
+	tp.AddColumn("KONIEC", 5);
+	tp.AddColumn("KOMENDY", 70);
 	std::cout << std::endl;
 	std::cout << std::endl;
-	std::cout << "RAM PROCESSES LIST" << endl;
+	std::cout << "LISTA PROCESOW W PAMIECI" << endl;
 	tp.PrintHeader();
 
 	for (it = RAM_processes_list.begin(); it != RAM_processes_list.end(); ++it)
@@ -212,10 +212,10 @@ std:cout << std::endl;
 
 	TablePrinter tp1;
 
-	tp1.AddColumn("START", 5);
-	tp1.AddColumn("END", 5);
-	tp1.AddColumn("SIZE", 5);
-	std::cout << "FREE BLOCKS LIST" << endl;
+	tp1.AddColumn("POCZATEK", 5);
+	tp1.AddColumn("KONIEC", 5);
+	tp1.AddColumn("ROZMIAR", 5);
+	std::cout << "LISTA WOLNYCH DZIUR" << endl;
 	tp1.PrintHeader();
 
 	;
@@ -224,13 +224,13 @@ std:cout << std::endl;
 		tp1 << e.begining << e.end << e.size;
 		ilosc_w += e.size;
 	}
-	cout << "FREE SPACE:  " << ilosc_w << endl;
+	cout << "CALKOWITE WOLNE MIEJSCE:  " << ilosc_w << endl;
 	tp1.PrintFooter();
 	std::cout << std::endl;
-	std::cout << "RAM" << std::endl;
+	std::cout << "PAMIEC RAM" << std::endl;
 	TablePrinter tp2;
-	tp2.AddColumn("CELL", 10);
-	tp2.AddColumn("DATA", 8 * 2);
+	tp2.AddColumn("KOMORKA", 10);
+	tp2.AddColumn("DANE", 8 * 2);
 	tp2.PrintHeader();
 
 	for (int i = 0; i < 32; i++)

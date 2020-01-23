@@ -196,7 +196,7 @@ bool VirtualMemory::create_program(Process* pcb, std::string file)
 
 	}
 	else if (!bool_data && !bool_text) {
-		throw std::exception("THERE IS NOT .TEXT AND .DATA SEGMENT");
+		throw std::exception("NIE MA .data BADZ .text");
 		return false;
 	}
 
@@ -211,13 +211,8 @@ bool VirtualMemory::delete_program(Process* pcb) {
 		VMSegment segment = pagefile_segment_tab[i];
 		for (int j = 0; j < pagefile_segment_tab.size(); j++) {
 			if (segment.base == segment_tab[i]->baseVM && segment.limit == segment_tab[i]->limit) {
-				for (int k = segment.base; k < segment.base + segment.limit; k++) {
-						pagefile[k] = ' ';
-					}
 				pagefile_segment_tab.erase(pagefile_segment_tab.begin() + j);
 				segment_tab.erase(segment_tab.begin() + i);
-				i--;
-				size--;
 				break;
 			}
 		}
@@ -251,8 +246,8 @@ void VirtualMemory::display_pagefile()
 {
 
 	TablePrinter tp2;
-	tp2.AddColumn("index", 12);
-	tp2.AddColumn("virtual memory", 70);
+	tp2.AddColumn("INDEX", 12);
+	tp2.AddColumn("PAMIEC WIRTUALNA", 70);
 	tp2.PrintHeader();
 	int k = 0;
 	int index = 0;
@@ -277,7 +272,7 @@ void VirtualMemory::display_pagefile_segment_tab()
 	std::cout << std::endl;
 	for (int i = 0; i < pagefile_segment_tab.size(); i++)
 	{
-		std::cout << "<base: " << pagefile_segment_tab[i].base << " limit: " << pagefile_segment_tab[i].limit << " >" << std::endl;
+		std::cout << "POCZATEK: " << pagefile_segment_tab[i].base << " LIMIT: " << pagefile_segment_tab[i].limit << " >" << std::endl;
 	}
 }
 
@@ -286,10 +281,10 @@ void VirtualMemory::display_segment_tab(Process* pcb)
 	std::cout << std::endl;
 	std::vector<Segment*> segment_tab = pcb->segment_tab();
 	TablePrinter tp;
-	tp.AddColumn("BASE", 5);
+	tp.AddColumn("POCZATEK", 5);
 	tp.AddColumn("LIMIT", 5);
 	tp.AddColumn("IS IN RAM", 5);
-	tp.AddColumn("BASE IN RAM", 5);
+	tp.AddColumn("POCZATEK W RAM", 5);
 	tp.PrintHeader();
 	for (int i = 0; i < segment_tab.size(); i++)
 	{
