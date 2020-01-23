@@ -33,14 +33,6 @@ int RAM::add_to_RAM(Process* process) {
 		commands += help1;
 		
 	}
-	
-	else {
-		//commands += "=";
-		//return 2;
-	}
-	//cout << "all commands together:" << commands << "\n";
-	//std::cout << "COMMANDS: " << commands;
-	//::cout << "dligosc " << length;
 
 	bool empty = true;
 	for (int i = 0; i < commands.length(); i++)
@@ -78,8 +70,8 @@ int RAM::add_to_RAM(Process* process) {
 
 		if (last == 0) {
 			Free_blocks_list.pop_back();
-			F_b.begining = length+1; //tutaj zmiana zaaaa
-			last = length+1;// tutaj zmiana
+			F_b.begining = length+1; 
+			last = length+1;
 			F_b.end = 256;
 			F_b.size = F_b.end - F_b.begining;
 			Free_blocks_list.push_back(F_b);
@@ -104,7 +96,7 @@ int RAM::add_to_RAM(Process* process) {
 			for (fbi = Free_blocks_list.begin(); fbi != Free_blocks_list.end(); fbi++) {
 				if (fbi->biggest == true && fbi->size >= length)
 				{
-					F_b.begining = fbi->begining + length;//tutaj zmiana aaaa
+					F_b.begining = fbi->begining + length;
 
 					break;
 
@@ -120,9 +112,9 @@ int RAM::add_to_RAM(Process* process) {
 				}
 			}
 			if (!finder) {
-				F_b.end = 256; // test
+				F_b.end = 256;
 			}
-			F_b.size = F_b.end - F_b.begining+1; // tutaj sprawdzam teraz
+			F_b.size = F_b.end - F_b.begining+1; 
 
 			if (F_b.size > 0)
 				Free_blocks_list.emplace_front(F_b);
@@ -135,7 +127,7 @@ int RAM::add_to_RAM(Process* process) {
 		RAM_process.id = id;
 		RAM_process.size = length;
 		RAM_process.commands = commands;
-		RAM_process.start = (F_b.begining - length);//tutaj zmiana
+		RAM_process.start = (F_b.begining - length);
 		RAM_processes_list.push_back(RAM_process);
 
 		segment_tab[1]->is_in_RAM = true;
@@ -145,7 +137,7 @@ int RAM::add_to_RAM(Process* process) {
 		for (auto i = RAM_process.start; i < (RAM_process.size + RAM_process.start); i++) {
 
 			memory[i] = commands[j];
-			//std::cout<< "twoje komendy: " << commands[j]<<std::endl;
+			
 			j++;
 		}
 
@@ -298,7 +290,7 @@ void RAM::delete_from_RAM(Process* process) {
 
 	F_b.begining = starting_point;
 	F_b.size = it->size;
-	F_b.end = starting_point + F_b.size-1; // sprawdzanie 2.0
+	F_b.end = starting_point + F_b.size-1; 
 	Free_blocks_list.push_back(F_b);
 
 	/*for (int i = it->start; i < F_b.end; i++) {

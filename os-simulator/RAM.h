@@ -11,9 +11,7 @@
 #include "Segment.h"
 
 using namespace std;
-//TODO sprawdziæ co siê dzieje jak jest bardzo du¿o ma³ych wolnych dziur i chce siê dodaæ proces
-//TODO dodaæ wyj¹tek albo coœ jak Assembler albo kotkolwiek prosi o coœ co jest mniejsze ni¿ 1 i wieksze niz 128
-//TODO do dogadania z Assemblerem
+
 struct Free_blocks {
 	int size;
 	int begining;
@@ -31,7 +29,7 @@ struct RAM_process
 
 };
 
-class RAM : public Singleton<RAM> { //single tone do sprawdzenia
+class RAM : public Singleton<RAM> { 
 	friend class Singleton<RAM>;
  //private potem
 	int memory_capacity = 256;
@@ -53,11 +51,9 @@ private:
 	void merge_RAM();
 public:
 	int add_to_RAM(Process* process);
-
-	//dodaæ wskaŸnik na proces jako argument albo ciagnac po id pobraæ kod programu z modu³u FAT //zamienic na proces
-	void delete_from_RAM(Process* process);  //dodaæ wskaŸnik na proces jako argument
-	void show_RAM(); //wyswietlenie zawartosci ram
-	string char_RAM(int place);
+	void delete_from_RAM(Process* process);
+	void show_RAM(); 
+	string char_RAM(int place);//pobranie bajtu
 	string read_RAM(Process* process, int counter); 
 	void modify_RAM(int position, int byte);
 
