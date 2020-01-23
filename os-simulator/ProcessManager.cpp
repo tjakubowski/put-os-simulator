@@ -122,6 +122,17 @@ void ProcessManager::TryAllocateNewProcesses()
 	}
 }
 
+void ProcessManager::ChangeProcessPriority(std::string process_name, int priority)
+{
+	ChangeProcessPriority(GetProcess(process_name), priority);
+}
+
+void ProcessManager::ChangeProcessPriority(Process* process, int priority)
+{
+	process->set_priority(priority);
+	CPU_M::GetInstance().scheduling();
+}
+
 void ProcessManager::KillProcess(Process* process)
 {
 	if (process == dummy_process_)

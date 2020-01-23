@@ -35,6 +35,8 @@ public:
 	void CloseProcessFiles(Process* process);
 	void RemoveProcessFromMemory(Process* process);
 	void TryAllocateNewProcesses();
+	void ChangeProcessPriority(std::string process_name, int priority);
+	void ChangeProcessPriority(Process* process, int priority);
 
 	void KillProcess(Process* process);
 	void KillProcess(int process_id);
