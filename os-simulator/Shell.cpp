@@ -90,10 +90,13 @@ void Shell::perform_command() {
 				}
 				else {
 					std::cout << system_name << arguments;
+					std::cout << helpdesk[command[0]];
 				}
 				break;
 			default:
 				std::cout << system_name << arguments;
+				std::cout << helpdesk[command[0]];
+				break;
 			}
 			break;
 
@@ -114,6 +117,8 @@ void Shell::perform_command() {
 				break;
 			default:
 				std::cout << system_name << arguments;
+				std::cout << helpdesk[command[0]];
+				break;
 			}
 			break;
 
@@ -132,6 +137,8 @@ void Shell::perform_command() {
 				break;
 			default:
 				std::cout << system_name << arguments;
+				std::cout << helpdesk[command[0]];
+				break;
 			}
 			break;
 
@@ -148,6 +155,8 @@ void Shell::perform_command() {
 				break;
 			default:
 				std::cout << system_name << arguments;
+				std::cout << helpdesk[command[0]];
+				break;
 			}
 			break;
 
@@ -170,6 +179,8 @@ void Shell::perform_command() {
 				break;
 			default:
 				std::cout << system_name << arguments;
+				std::cout << helpdesk[command[0]];
+				break;
 			}
 			break;
 
@@ -190,6 +201,8 @@ void Shell::perform_command() {
 				break;
 			default:
 				std::cout << system_name << arguments;
+				std::cout << helpdesk[command[0]];
+				break;
 			}
 			break;
 
@@ -200,8 +213,10 @@ void Shell::perform_command() {
 				if (command[1] == "-h") {
 					std::cout << helpdesk[command[0]];
 				}
-				else
+				else {
 					std::cout << system_name << arguments;
+					std::cout << helpdesk[command[0]];
+				}
 				break;
 			case 4:
 				// metoda edytujaca plik
@@ -209,11 +224,15 @@ void Shell::perform_command() {
 					FileSystem::GetInstance().write(command[3], command[1], true); // dopisywanie
 				else if (command[2] == ">")
 					FileSystem::GetInstance().write(command[3], command[1], false); // nadpisywanie
-				else
+				else {
 					std::cout << system_name << arguments;
+					std::cout << helpdesk[command[0]];
+				}
 				break;
 			default:
 				std::cout << system_name << arguments;
+				std::cout << helpdesk[command[0]];
+				break;
 			}
 			break;
 
@@ -234,6 +253,8 @@ void Shell::perform_command() {
 				break;
 			default:
 				std::cout << system_name << arguments;
+				std::cout << helpdesk[command[0]];
+				break;
 			}
 			break;
 
@@ -253,10 +274,13 @@ void Shell::perform_command() {
 				}
 				else {
 					std::cout << system_name << arguments;
+					std::cout << helpdesk[command[0]];
 				}
 				break;
 			default:
 				std::cout << system_name << arguments;
+				std::cout << helpdesk[command[0]];
+				break;
 			}
 			break;
 
@@ -269,6 +293,7 @@ void Shell::perform_command() {
 				}
 				else {
 					std::cout << system_name << arguments;
+					std::cout << helpdesk[command[0]];
 				}
 				break;
 			case 3:
@@ -278,6 +303,8 @@ void Shell::perform_command() {
 				break;
 			default:
 				std::cout << system_name << arguments;
+				std::cout << helpdesk[command[0]];
+				break;
 			}
 			break;
 
@@ -297,10 +324,13 @@ void Shell::perform_command() {
 				}
 				else {
 					std::cout << system_name << arguments;
+					std::cout << helpdesk[command[0]];
 				}
 				break;
 			default:
 				std::cout << system_name << arguments;
+				std::cout << helpdesk[command[0]];
+				break;
 			}
 			break;
 
@@ -318,10 +348,13 @@ void Shell::perform_command() {
 				}
 				else {
 					std::cout << system_name << arguments;
+					std::cout << helpdesk[command[0]];
 				}
 				break;
 			default:
 				std::cout << system_name << arguments;
+				std::cout << helpdesk[command[0]];
+				break;
 			}
 			break;
 
@@ -340,10 +373,13 @@ void Shell::perform_command() {
 				}
 				else {
 					std::cout << system_name << arguments;
+					std::cout << helpdesk[command[0]];
 				}
 				break;
 			default:
 				std::cout << system_name << arguments;
+				std::cout << helpdesk[command[0]];
+				break;
 			}
 			break;
 
@@ -361,6 +397,8 @@ void Shell::perform_command() {
 				break;
 			default:
 				std::cout << system_name << arguments;
+				std::cout << helpdesk[command[0]];
+				break;
 			}
 			break;
 
@@ -380,10 +418,13 @@ void Shell::perform_command() {
 				}
 				else {
 					std::cout << system_name << arguments;
+					std::cout << helpdesk[command[0]];
 				}
 				break;
 			default:
 				std::cout << system_name << arguments;
+				std::cout << helpdesk[command[0]];
+				break;
 			}
 			break;
 
@@ -401,6 +442,8 @@ void Shell::perform_command() {
 				break;
 			default:
 				std::cout << system_name << arguments;
+				std::cout << helpdesk[command[0]];
+				break;
 			}
 			break;
 
@@ -415,6 +458,7 @@ void Shell::perform_command() {
 				}
 				else {
 					std::cout << system_name << arguments;
+					std::cout << helpdesk[command[0]];
 				}
 				break;
 			case 4:
@@ -423,6 +467,8 @@ void Shell::perform_command() {
 				break;
 			default:
 				std::cout << system_name << arguments;
+				std::cout << helpdesk[command[0]];
+				break;
 			}
 			break;
 
@@ -439,6 +485,8 @@ void Shell::perform_command() {
 				break;
 			default:
 				std::cout << system_name << arguments;
+				std::cout << helpdesk[command[0]];
+				break;
 			}
 			break;
 
@@ -451,13 +499,17 @@ void Shell::perform_command() {
 				}
 				else {
 					std::cout << system_name << arguments;
+					std::cout << helpdesk[command[0]];
 				}
 				break;
 			case 3:
 				// metoda ladujaca program do procesu
+				ProcessManager::GetInstance().GetProcess(command[1])->set_file_name(command[2]);
 				break;
 			default:
 				std::cout << system_name << arguments;
+				std::cout << helpdesk[command[0]];
+				break;
 			}
 			break;
 
@@ -474,10 +526,31 @@ void Shell::perform_command() {
 				}
 				else {
 					std::cout << system_name << arguments;
+					std::cout << helpdesk[command[0]];
 				}
 				break;
 			default:
 				std::cout << system_name << arguments;
+				std::cout << helpdesk[command[0]];
+				break;
+			}
+			break;
+
+		case commands::of:
+
+			switch (command.size()) {
+			case 2:
+				if (command[1] == "-h") {
+					std::cout << helpdesk[command[0]];
+				}
+				else {
+					ProcessManager::GetInstance().PrintProcessOpenedFiles(command[1]);
+				}
+				break;
+			default:
+				std::cout << system_name << arguments;
+				std::cout << helpdesk[command[0]];
+				break;
 			}
 			break;
 
@@ -495,10 +568,13 @@ void Shell::perform_command() {
 				}
 				else {
 					std::cout << system_name << arguments;
+					std::cout << helpdesk[command[0]];
 				}
 				break;
 			default:
 				std::cout << system_name << arguments;
+				std::cout << helpdesk[command[0]];
+				break;
 			}
 			break;
 
@@ -516,10 +592,13 @@ void Shell::perform_command() {
 				}
 				else {
 					std::cout << system_name << arguments;
+					std::cout << helpdesk[command[0]];
 				}
 				break;
 			default:
 				std::cout << system_name << arguments;
+				std::cout << helpdesk[command[0]];
+				break;
 			}
 			break;
 		}
