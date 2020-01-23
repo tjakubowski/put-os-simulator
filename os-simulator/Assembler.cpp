@@ -57,6 +57,8 @@ void Assembler::set_licznik(int v)
 void Assembler::saveFile(Assembler& reg, Process* pcb)
 {
 	 string program = pcb->text_segment();
+	 if (program == " " || program == "")
+		 return;
 	 int o = program.size();
 	 if (program[o] != ' ')
 	 {
@@ -1211,25 +1213,5 @@ void Assembler::runProgram()
 //	if (name != "Dummy") {
 		process_run->set_instruction_counter(reg.get_licznik());
 	lastLineControl(reg, process_run);
-	//get_licznik jest wczesniej zrobione w funkcji countLine
-	reg.print(reg);
-	//sprawdzenie czy ostatnia linia
+	//reg.print(reg);
 }
-/*
-int main()
-{
-	Assembler reg;
-	string program;
-	cout << "\nPodaj program: ";
-	getline(cin, program);
-
-
-	reg.savefile(program, reg);
-	//reg.runCommand(reg);
-	reg.runProgram(reg);
-	reg.runProgram(reg);
-	system("pause");
-	return 0;
-
-}
-*/
