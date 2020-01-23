@@ -116,8 +116,6 @@ int Assembler::ile_arg(const string command)
 		return 2;
 	else if (command == "MU")
 		return 2;
-	else if (command == "RD")
-		return 1;
 	else if (command == "IC")
 		return 1;
 	else if (command == "DC")
@@ -135,6 +133,8 @@ int Assembler::ile_arg(const string command)
 	else if (command == "EX")
 		return 0;
 	else if (command == "NP")
+		return 0;
+	else if (command == "PN")
 		return 0;
 	else if (command == "FO")
 		return 1;
@@ -203,7 +203,12 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 	{
 		if (line[1] == "A")
 		{
-			if (line[2] == "B")
+
+			if (line[2] == "A")
+			{
+
+			}
+			else if (line[2] == "B")
 			{
 				reg.set_A(reg.get_B());
 			}
@@ -229,7 +234,7 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 				}
 				else if (x[0] >= '0' && x[0] <= '9')
 				{
-					reg.set_B(stoi(x));
+					reg.set_A(stoi(x));
 				}
 				else
 				{
@@ -245,6 +250,10 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 			if (line[2] == "A")
 			{
 				reg.set_B(reg.get_A());
+			}
+			else if (line[2] == "B")
+			{
+
 			}
 			else if (line[2] == "C")
 			{
@@ -288,6 +297,10 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 			{
 				reg.set_C(reg.get_B());
 			}
+			else if (line[2] == "C")
+			{
+
+			}
 			else if (line[2] == "D")
 			{
 				reg.set_C(reg.get_D());
@@ -316,9 +329,9 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 			}
 		}
 
-		else if (line[1] == "C")
+		else if (line[1] == "D")
 		{
-			if (line[2] == "D")
+			if (line[2] == "A")
 			{
 				reg.set_D(reg.get_A());
 			}
@@ -330,6 +343,11 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 			{
 				reg.set_D(reg.get_C());
 			}
+			else if (line[2] == "D")
+			{
+			
+			}
+
 			else
 			{
 				string x = line[2];
@@ -863,7 +881,8 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 				}
 			}
 		}
-		//
+		
+
 		else if (line[1] == "A")
 		{
 			if (line[2] == "A")
@@ -903,6 +922,12 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 			}
 		}
 	}
+	
+
+	else if (line[0] == "JP")
+	{
+		reg.set_licznik(stoi(line[1]));
+	}
 
 
 	else if (line[0] == "JC")
@@ -930,13 +955,6 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 		else
 			reg.set_licznik(reg.get_licznik() + reg.countLine(c_line));
 	}
-
-
-	else if (line[0] == "JP")
-	{
-		reg.set_licznik(stoi(line[1]));
-	}
-
 
 	else if (line[0] == "JM")
 	{
@@ -985,7 +1003,7 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 
 	else if (line[0] == "WF")
 	{
-	ProcessManager::GetInstance().WriteFile(ProcessManager::GetInstance().running_process(), line[1], line[2], false);
+		ProcessManager::GetInstance().WriteFile(ProcessManager::GetInstance().running_process(), line[1], line[2], false);
 	}
 
 	else if (line[0] == "AR")
@@ -996,8 +1014,7 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 			stringstream ss;
 			ss << rej_A;
 			string A = ss.str();
-			FileSystem::GetInstance().write(line[1], A);
-
+			ProcessManager::GetInstance().WriteFile(ProcessManager::GetInstance().running_process(), line[1], A);
 		}
 		else if (line[2] == "B")
 		{
@@ -1005,7 +1022,7 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 			stringstream ss;
 			ss << rej_B;
 			string B = ss.str();
-			FileSystem::GetInstance().write(line[1], B);
+			ProcessManager::GetInstance().WriteFile(ProcessManager::GetInstance().running_process(), line[1], B);
 		}
 		else if (line[2] == "C")
 		{
@@ -1013,7 +1030,7 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 			stringstream ss;
 			ss << rej_C;
 			string C = ss.str();
-			FileSystem::GetInstance().write(line[1], C);
+			ProcessManager::GetInstance().WriteFile(ProcessManager::GetInstance().running_process(), line[1], C);
 		}
 		else if (line[2] == "D")
 		{
@@ -1021,7 +1038,7 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 			stringstream ss;
 			ss << rej_D;
 			string D = ss.str();
-			FileSystem::GetInstance().write(line[1], D);
+			ProcessManager::GetInstance().WriteFile(ProcessManager::GetInstance().running_process(), line[1], D);
 		}
 		else
 		{
@@ -1095,14 +1112,12 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 
 	else if (line[0] == "FO")
 	{
-		
-		FileSystem::GetInstance().open(ProcessManager::GetInstance().running_process(), line[1]);
-	
+		ProcessManager::GetInstance().OpenFile(ProcessManager::GetInstance().running_process(), line[1]);
 	}
 
 	else if (line[0] == "FC")
 	{
-		FileSystem::GetInstance().close(line[1]);
+		ProcessManager::GetInstance().OpenFile(ProcessManager::GetInstance().running_process(), line[1]);
 	}
 
 	else if (line[0] == "DF")
@@ -1124,21 +1139,21 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 		//(line[1]);
 	}
 
-	else if (line[0] == "SF")
-	{
-		FileSystem::GetInstance().set_file_name(line[1], line[2]);
-	}
-
 	else if (line[0] == "NP")
 	{
 		//nic nie robi!
-		return;
+	}
+
+
+	else if (line[0] == "PN")
+	{
+	//nic nie robi!
 	}
 
 	else if (line[0] == "EX")		//Koniec programu
 	{
-		//reg.set_licznik();
-		cout << "Koniec programu ";
+		reg.set_licznik(int(-100));
+		//cout << "Koniec programu ";
 	}
 	else
 	{
@@ -1152,7 +1167,7 @@ void Assembler::lastLineControl(Assembler& reg, Process* pcb)
 	string program = "";
 	program = pcb->text_segment();
 	int sizeProgram = program.size();
-	if (sizeProgram <= reg.get_licznik())
+	if (sizeProgram <= reg.get_licznik() || reg.get_licznik() < 0)
 	{
 		ProcessManager::GetInstance().KillProcess(pcb);
 	}
@@ -1182,6 +1197,7 @@ void Assembler::runProgram()
 	reg.set_licznik(process_run->instruction_counter());
 	reg.saveFile(reg, process_run);
 
+ 
 	process_run->set_ax(reg.get_A());
 	process_run->set_bx(reg.get_B());
 	process_run->set_cx(reg.get_C());
@@ -1190,8 +1206,7 @@ void Assembler::runProgram()
 //	std::string name = process_run->name;
 //	if (name != "Dummy") {
 		process_run->set_instruction_counter(reg.get_licznik());
-		lastLineControl(reg, process_run);
-	//}
+	lastLineControl(reg, process_run);
 	//get_licznik jest wczesniej zrobione w funkcji countLine
 	reg.print(reg);
 	//sprawdzenie czy ostatnia linia
