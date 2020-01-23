@@ -63,7 +63,7 @@ void Semaphore::show_Semaphore()
 	{
 		table_printer.AddColumn("Poczatek kolejki", 2);
 		table_printer.PrintHeader();
-		table_printer << value << queue.size() << queue.front()->file_name();
+		table_printer << value << queue.size() << queue.front()->name();
 	}
 	table_printer.PrintFooter();
 }

@@ -7,7 +7,7 @@ class Shell {
 private:
 
 	enum class commands{
-		step, cf, df, op, sf, pf, ef,
+		step, cf, df, op, sf, pf, ef, copy,
 
 		sem,
 
@@ -19,7 +19,7 @@ private:
 		
 		vmem, cvmem,
 		
-		cp, load, lp, kp, of,
+		cp, load, lp, kp, of, setp,
 		
 		help,
 		
@@ -37,6 +37,7 @@ private:
 		{"sf",commands::sf},
 		{"pf",commands::pf},
 		{"ef",commands::ef},
+		{"copy",commands::copy},
 
 		{"sem",commands::sem},
 		
@@ -57,6 +58,7 @@ private:
 		{"lp",commands::lp},
 		{"kp",commands::kp},
 		{"of",commands::of},
+		{"setp",commands::setp},
 
 		{"help",commands::help},
 
@@ -71,7 +73,8 @@ private:
 		{"op","op [nazwa_pliku] - wyswietla zawartosc pliku\n"},
 		{"pf","pf [nazwa_pliku] - wyswietla atrybuty pliku/plików (nazwa pliku opcjonalna)\n"},
 		{"sf","sf [nazwa_pliku] - sprawdza, czy plik o podanej nazwie istnieje\n"},
-		{"ef","ef [text] > | >> [nazwa_pliku] - edycja pliku ([text] koniecznie w cudzyslowie!) (> - nadpisanie, >> - dopisanie)\n"},
+		{"ef","ef [text] > | >> [nazwa_pliku] - edytuje pliku ([text] koniecznie w cudzyslowie!) (> - nadpisanie, >> - dopisanie)\n"},
+		{"copy","copy [nazwa_input][nazwa_output] - kopiuje plik\n"},
 
 		{"sem","sem [nazwa_pliku] - wyswietla informacje o semaforze (nazwa pliku opcjonalna)\n"},
 
@@ -84,14 +87,15 @@ private:
 		{"mem","mem - wyswietla aktualny stan pamieci RAM\n"},
 		{"cmem","cmem [komorka] - wyswietla pojedyncza komorke pamieci RAM\n"},
 
-		{"vmem","vmem - wyswietla plik pamieci wirtualnej\n"},
+		{"vmem","vmem - wyswietla zawartosc pamieci wirtualnej\n"},
 		{"cvmem","cvmem [nazwa_procesu] - wyswietla zawartosc pamieci wirtualnej dla procesu\n"},
 
 		{"cp","cp [nazwa_procesu][nazwa_pliku][priorytet] - tworzy nowy proces\n"},
-		{"load","load [nazwa_procesu][nazwa_pliku] - wczytuje program do procesu\n"},
+		//{"load","load [nazwa_procesu][nazwa_pliku] - wczytuje program do procesu\n"},
 		{"lp","lp - wyswietla liste utworzonych procesow\n"},
 		{"kp","kp - zamyka proces\n"},
 		{"of","of [nazwa_procesu] - wyswietla plik otwarte przez podany proces"},
+		{"setp","setp [nazwa_procesu][priorytet] - zmienia priorytet podanego procesu"},
 
 		{"help","help - wyswietla wszystkie dostepne komendy\n"},
 

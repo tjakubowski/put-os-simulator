@@ -169,11 +169,10 @@ void Shell::perform_command() {
 				}
 				else {
 					if (FileSystem::GetInstance().exists(command[1])) { // w warunku metoda zwracajaca bool wyszukujaca nazwy pliku w tablicy FAT
-
-						std::cout << "Plik o nazwie \"" << command[1] << "\" istnieje\n";
+						std::cout << system_name << "Plik o nazwie \"" << command[1] << "\" istnieje\n";
 					}
 					else {
-						std::cout << "Plik o nazwie \"" << command[1] << "\" nie istnieje\n";
+						std::cout << system_name << "Plik o nazwie \"" << command[1] << "\" nie istnieje\n";
 					}
 				}
 				break;
@@ -228,6 +227,29 @@ void Shell::perform_command() {
 					std::cout << system_name << arguments;
 					std::cout << helpdesk[command[0]];
 				}
+				break;
+			default:
+				std::cout << system_name << arguments;
+				std::cout << helpdesk[command[0]];
+				break;
+			}
+			break;
+
+		case commands::copy:
+
+			switch (command.size()) {
+			case 2:
+				if (command[1] == "-h") {
+					std::cout << helpdesk[command[0]];
+				}
+				else {
+					std::cout << system_name << arguments;
+					std::cout << helpdesk[command[0]];
+				}
+				break;
+			case 3:
+				// metoda kopiujaca plik
+				FileSystem::GetInstance().copy_file(command[1], command[2]);
 				break;
 			default:
 				std::cout << system_name << arguments;
@@ -338,7 +360,7 @@ void Shell::perform_command() {
 
 			switch (command.size()) {
 			case 1:
-				std::cout << system_name << "Wyswietlenie informacji o fat.\n";
+				std::cout << system_name << "Wyswietlenie informacji o systemie plikow.\n";
 				// metoda wyswietlajaca zawartosc calego dysku
 				FileSystem::GetInstance().print_fat();
 				break;
@@ -408,7 +430,7 @@ void Shell::perform_command() {
 
 			switch (command.size()) {
 			case 1:
-				std::cout << system_name << "Wyswietlenie pliku wymiany.\n";
+				std::cout << system_name << "Wyswietlenie zawartosci wirtualnej pamieci.\n";
 				// metoda wyswietlajaca plik wymiany
 				VirtualMemory::GetInstance().display_pagefile();
 				break;
@@ -464,6 +486,7 @@ void Shell::perform_command() {
 			case 4:
 				//metoda tworzaca proces z programem
 				ProcessManager::GetInstance().CreateProcess(command[1], command[2], std::stoi(command[3]));
+				std::cout << system_name << " Utworzono proces " << command[1] << "\n";
 				break;
 			default:
 				std::cout << system_name << arguments;
@@ -481,6 +504,7 @@ void Shell::perform_command() {
 				}
 				else {
 					ProcessManager::GetInstance().KillProcess(command[1]);
+					std::cout << system_name << " Usunieto proces " << command[1] << "\n";
 				}
 				break;
 			default:
@@ -504,7 +528,7 @@ void Shell::perform_command() {
 				break;
 			case 3:
 				// metoda ladujaca program do procesu
-				ProcessManager::GetInstance().GetProcess(command[1])->set_file_name(command[2]);
+				
 				break;
 			default:
 				std::cout << system_name << arguments;
@@ -518,6 +542,7 @@ void Shell::perform_command() {
 			switch (command.size()) {
 			case 1:
 				// metoda wyswietlajaca wszystkie istniejace procesy
+				std::cout << system_name << " Wyswietlenie listy procesow\n";
 				ProcessManager::GetInstance().PrintProcesses();
 				break;
 			case 2:
@@ -546,6 +571,29 @@ void Shell::perform_command() {
 				else {
 					ProcessManager::GetInstance().PrintProcessOpenedFiles(command[1]);
 				}
+				break;
+			default:
+				std::cout << system_name << arguments;
+				std::cout << helpdesk[command[0]];
+				break;
+			}
+			break;
+
+		case commands::setp:
+
+			switch (command.size()) {
+			case 2:
+				if (command[1] == "-h") {
+					std::cout << helpdesk[command[0]];
+				}
+				else {
+					std::cout << system_name << arguments;
+					std::cout << helpdesk[command[0]];
+				}
+				break;
+			case 3:
+				ProcessManager::GetInstance().ChangeProcessPriority(command[1], std::stoi(command[2]));
+				std::cout << system_name << " Zmieniono priorytet procesu " << command[1] << "\n";
 				break;
 			default:
 				std::cout << system_name << arguments;
@@ -584,6 +632,7 @@ void Shell::perform_command() {
 
 			switch (command.size()) {
 			case 1:
+				std::cout << system_name << "\nZamykanie systemu\n";
 				is_running = false;
 				break;
 			case 2:

@@ -187,6 +187,13 @@ void FileSystem::copy_file(std::string file_name, std::string new_file_name)
 	auto file_bytes = read_all(file_name);
 	create(new_file_name);
 	write(new_file_name, file_bytes);
+	
+	/* if(exists(new_file_name))
+		write(new_file_name, file_bytes);
+	else {
+		create(new_file_name);
+		write(new_file_name, file_bytes);
+	} */
 }
 
 bool FileSystem::will_fit(std::string file_name, std::string bytes, bool append)
