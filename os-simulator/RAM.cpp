@@ -53,12 +53,12 @@ int RAM::add_to_RAM(Process* process) {
 	}
 
 	if (empty)
-		throw std::exception("this file is empty");
+		throw std::exception("ten plik jest pusty");
 
 	bool find_space = false;
 
 	if (free_space < length || free_space < 2)
-		throw std::exception("there is no enough space");
+		throw std::exception("nie ma wystarczjaco duzo miejsca, aby dodac do pamieci");
 
 	if (Free_blocks_list.empty() == false) {
 		for (auto e : Free_blocks_list)
@@ -66,7 +66,7 @@ int RAM::add_to_RAM(Process* process) {
 			if (e.size >= length)
 				find_space = true;
 			else {
-				throw exception("there is no hole that is big enough for this process");
+				throw exception("nie ma wystarczajco duzej dziury aby dodac do pamieci");
 			}
 		}
 	}
@@ -416,7 +416,7 @@ void RAM::merge_RAM() {
 
 void RAM::modify_RAM(int RAMposition, int byte) {
 	if (RAMposition > 256 || RAMposition < 1) {
-		throw std::exception("you are out of range");
+		throw std::exception("podana liczba przekracza zakres pamieci");
 	}
 	else {
 		memory[RAMposition] = byte;
