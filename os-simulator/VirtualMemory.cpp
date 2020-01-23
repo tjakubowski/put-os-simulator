@@ -161,6 +161,7 @@ bool VirtualMemory::create_program(Process* pcb, std::string file)
 	}
 	else if (!bool_text && bool_data) {
 		//
+		throw std::exception("THERE IS NO .TEXT SEGMENT");
 		int text_limit = 1;
 		int text_base = get_base(text_limit);
 		std::string string_text = " ";
