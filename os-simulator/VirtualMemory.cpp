@@ -211,9 +211,9 @@ bool VirtualMemory::delete_program(Process* pcb) {
 		VMSegment segment = pagefile_segment_tab[i];
 		for (int j = 0; j < pagefile_segment_tab.size(); j++) {
 			if (segment.base == segment_tab[i]->baseVM && segment.limit == segment_tab[i]->limit) {
-				//	for (int k = segment.base; k < segment.base + segment.limit; k++) {
-					//	pagefile[k] = ' ';
-					//}
+				for (int k = segment.base; k < segment.base + segment.limit; k++) {
+						pagefile[k] = ' ';
+					}
 				pagefile_segment_tab.erase(pagefile_segment_tab.begin() + j);
 				segment_tab.erase(segment_tab.begin() + i);
 				i--;
