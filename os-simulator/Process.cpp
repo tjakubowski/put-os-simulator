@@ -89,10 +89,21 @@ int Process::priority() const
 
 void Process::set_priority(int priority)
 {
+	std::string exception_string;
+	exception_string.append(std::to_string(min_priority_));
+	
 	if (priority < min_priority_)
-		throw std::exception("Minimum priority value is "); // TODO: Add priority value in exception message
+	{
+		exception_string = "Minimalna wartosc priorytetu to ";
+		exception_string.append(std::to_string(min_priority_));
+		throw std::exception(exception_string.c_str());
+	}
 	if (priority > max_priority_)
-		throw std::exception("Maximum priority value is "); // TODO: Add priority value in exception message
+	{
+		exception_string = "Maksymalna wartosc priorytetu to ";
+		exception_string.append(std::to_string(max_priority_));
+		throw std::exception(exception_string.c_str());
+	}
 	
 	priority_ = priority;
 }
