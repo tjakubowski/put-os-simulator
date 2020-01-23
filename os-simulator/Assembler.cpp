@@ -1026,7 +1026,7 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 			stringstream ss;
 			ss << rej_A;
 			string A = ss.str();
-			ProcessManager::GetInstance().WriteFile(ProcessManager::GetInstance().running_process(), line[1], A);
+			ProcessManager::GetInstance().WriteFile(ProcessManager::GetInstance().running_process(), line[1], A,true);
 		}
 		else if (line[2] == "B")
 		{
@@ -1034,7 +1034,7 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 			stringstream ss;
 			ss << rej_B;
 			string B = ss.str();
-			ProcessManager::GetInstance().WriteFile(ProcessManager::GetInstance().running_process(), line[1], B);
+			ProcessManager::GetInstance().WriteFile(ProcessManager::GetInstance().running_process(), line[1], B,true);
 		}
 		else if (line[2] == "C")
 		{
