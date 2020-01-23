@@ -33,8 +33,10 @@ public:
 	
 	void print_fat() const;
 	void print_data() const;
-	void print_files() const;
+	void print_files();
 	void print_file(std::string file_name);
+	int how_many_clusters_occupy(std::string file_name);
+	int how_many_clusters_occupy(File* file);
 	void print_files_semaphores();
 	void print_file_semaphore(std::string file_name);
 	void print_file_semaphore(File* file);
