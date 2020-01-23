@@ -56,7 +56,12 @@ void Assembler::set_licznik(int v)
 
 void Assembler::saveFile(Assembler& reg, Process* pcb)
 {
- string program = pcb->text_segment();
+	 string program = pcb->text_segment();
+	 int o = program.size();
+	 if (program[o] != ' ')
+	 {
+		 program += " ";
+	 }
 	string pom_com = "";
 	string com = "";
 	int pom1 = reg.get_licznik();
@@ -73,7 +78,6 @@ void Assembler::saveFile(Assembler& reg, Process* pcb)
 		pom_com += program[i];
 	}
 
-	int o;
 	try
 	{
 		reg.runCommand(pom_com, reg);
@@ -1117,7 +1121,7 @@ void Assembler::runCommand(string c_line, Assembler& reg)
 
 	else if (line[0] == "FC")
 	{
-		ProcessManager::GetInstance().OpenFile(ProcessManager::GetInstance().running_process(), line[1]);
+		ProcessManager::GetInstance().CloseFile(ProcessManager::GetInstance().running_process(), line[1]);
 	}
 
 	else if (line[0] == "DF")
