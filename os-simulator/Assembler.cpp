@@ -57,7 +57,7 @@ void Assembler::set_licznik(int v)
 void Assembler::saveFile(Assembler& reg, Process* pcb)
 {
 	 string program = pcb->text_segment();
-	 if (program == " " || program == "")
+	 if (program == " " || program == "") // gdy pusto po .text ? XOXO
 		 return;
 	 int o = program.size();
 	 if (program[o] != ' ')
@@ -71,6 +71,12 @@ void Assembler::saveFile(Assembler& reg, Process* pcb)
 	com = program[pom1];
 	com += program[pom2];
 	int i, j;
+	if (reg.ile_arg(com)==-1)
+	{
+		std::cout << "\nNierozpoznano komendy!";
+		reg.set_licznik(reg.get_licznik() + 3);
+		return;
+	}
 	for (i = reg.get_licznik(), j = 0; j < reg.ile_arg(com)+1; i++)
 	{
 		if (program[i] == ' ')
@@ -168,8 +174,8 @@ int Assembler::ile_arg(const string command)
 		return 1;
 	else
 	{
-		std::cout << "\nNierozpoznano komendy w ILE_ARG!";
-		return 0;
+	//	std::cout << "\nNierozpoznano komendy w ILE_ARG!";
+		return -1;
 	}
 }
 void toJump()
