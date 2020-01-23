@@ -426,7 +426,12 @@ void RAM::modify_RAM(int RAMposition, int byte) {
 	
 }
 string RAM::char_RAM(int position) {
+	if (position > 256 || position < 1) {
+		throw std::exception("podana liczba przekracza zakres pamieci");
+	}
+	else {
+		return memory[position];
+	}
 
-	return memory[position];
 
 }
