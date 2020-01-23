@@ -86,9 +86,9 @@ bool VirtualMemory::create_program(Process* pcb, std::string file)
 		bool_data = true;
 		temp++;
 	}
-	std::cout << "temp" << temp << " indeks pocatku textu  " << text_begin << " indeks pocatku data " << data_begin << " string size " << file.size() << std::endl;
-	std::cout << std::string::npos << std::endl;
-	std::cout << "text " << bool_text << " data " << bool_data << std::endl;
+	//	std::cout << "temp" << temp << " indeks pocatku textu  " << text_begin << " indeks pocatku data " << data_begin << " string size " << file.size() << std::endl;
+		//std::cout << std::string::npos << std::endl;
+		//std::cout << "text " << bool_text << " data " << bool_data << std::endl;
 	if (bool_text && bool_data) {
 
 		int text_limit = data_begin - text_begin - 6;
@@ -152,8 +152,8 @@ bool VirtualMemory::create_program(Process* pcb, std::string file)
 		data_pcbseg->baseVM = data_base;
 		data_pcbseg->limit = data_limit;
 		data_pcbseg->is_in_RAM = false;
-		for (int i = 0; i < string_data.size(); i++){
-		pagefile[data_base] = ' ';
+		for (int i = 0; i < string_data.size(); i++) {
+			pagefile[data_base] = ' ';
 		}
 		data_pcbseg->data = string_data;
 		segment_tab.push_back(data_pcbseg);
@@ -169,8 +169,8 @@ bool VirtualMemory::create_program(Process* pcb, std::string file)
 		text_pcbseg->baseVM = text_base;
 		text_pcbseg->limit = text_limit;
 		text_pcbseg->is_in_RAM = false;
-		for (int i = 0; i < string_text.size(); i++){
-		pagefile[text_base] = ' ';
+		for (int i = 0; i < string_text.size(); i++) {
+			pagefile[text_base] = ' ';
 		}
 		text_pcbseg->data = string_text;
 		segment_tab.push_back(text_pcbseg);
@@ -190,7 +190,7 @@ bool VirtualMemory::create_program(Process* pcb, std::string file)
 			pagefile[data_base + i] = file[data_begin + 6 + i];
 			string_data += file[data_begin + 6 + i];
 		}
-		
+
 		data_pcbseg->data = string_data;
 		segment_tab.push_back(data_pcbseg);
 
