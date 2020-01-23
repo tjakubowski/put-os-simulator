@@ -13,7 +13,7 @@ bool compare(const Free_blocks& a, const Free_blocks& b) {
 
 int RAM::add_to_RAM(Process* process) {
 	fstream file;
-	string commands, help, line[256];
+	string commands, help, help1, line[256];
 	int max_size = 0;
 	int list_index = 0;
 	int id = process->id();
@@ -24,20 +24,19 @@ int RAM::add_to_RAM(Process* process) {
 
 	if (segment_tab[0]->data != "") {
 		help = segment_tab[0]->data;
+		commands += help;
 	}
 
 	if (segment_tab[1]->data != "") {
-		help += segment_tab[1]->data;
-		length += help.size();
-		commands = help;
+		help1 += segment_tab[1]->data;
+		length += help.size() + help1.size();
+		commands += help1;
+		
 	}
-
-
-
-
+	
 	else {
-		cout << "This string cannot be found." << endl;
-		return 2;
+		//commands += "=";
+		//return 2;
 	}
 	//cout << "all commands together:" << commands << "\n";
 	//std::cout << "COMMANDS: " << commands;
