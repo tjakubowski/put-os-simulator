@@ -414,14 +414,16 @@ void RAM::merge_RAM() {
 }
 
 
-bool RAM::modify_RAM(int RAMposition, int byte) {
-
-	memory[RAMposition] = byte;
-	int position = stoi(memory[RAMposition]);
-	if (position == byte)
-		return true;
-	else
-		return false;
+void RAM::modify_RAM(int RAMposition, int byte) {
+	if (RAMposition > 256 || RAMposition < 1) {
+		throw std::exception("you are out of range");
+	}
+	else {
+		memory[RAMposition] = byte;
+		int position = stoi(memory[RAMposition]);
+	}
+	
+	
 }
 string RAM::char_RAM(int position) {
 
