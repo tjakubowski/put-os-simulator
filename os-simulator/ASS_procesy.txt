@@ -1,0 +1,5 @@
+.text PC ciagEulera file200 1 PC proc_As2 file200 9 PD proc_As2 PD ciagEulera EX
+
+Pamiętać stworzyć plik i wpisać cos do niego.
+
+tutaj pokazuje dobry wyjatek ze proces proc_As2 nie isnieje zostawić czy usunac?

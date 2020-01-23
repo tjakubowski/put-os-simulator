@@ -1,1 +1,1 @@
-.text CF wynik FO wynik MV C 45 AR wynik C AF wynik 61 MV B 0 JL 132 IC B MV A B MU A A SB A B AD A 41 DC C AR wynik A AF wynik 43 JP 56 AF wynik FC wynik C EX .data 5
+CF wynik FO wynik MV C 5 MV B 0 JL 100 IC B MV A B MU A A SB A B AD A 41 DC C AR wynik A AF wynik + JP 32 FC wynik C EX
