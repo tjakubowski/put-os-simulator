@@ -136,7 +136,7 @@ void ProcessManager::ChangeProcessPriority(Process* process, int priority)
 void ProcessManager::KillProcess(Process* process)
 {
 	if (process == dummy_process_)
-		throw std::exception("Dummy process cannot be killed");
+		throw std::exception("Proces dummy nie moze byc zabity");
 	
 	switch (process->process_state())
 	{
@@ -184,7 +184,7 @@ Process* ProcessManager::GetProcess(int process_id)
 	auto process = std::find_if(processes_.begin(), processes_.end(), [process_id](Process* process) { return process->id() == process_id; });
 
 	if (process == processes_.end())
-		throw std::exception("Process doesn't exist"); // TODO: Create own exception
+		throw std::exception("Proces nie istnieje");
 	
 	return *process;
 }
@@ -194,7 +194,7 @@ Process* ProcessManager::GetProcess(std::string process_name)
 	auto process = std::find_if(processes_.begin(), processes_.end(), [process_name](Process* process) { return process->name() == process_name; });
 
 	if (process == processes_.end())
-		throw std::exception("Process doesn't exist"); // TODO: Create own exception
+		throw std::exception("Proces nie istnieje");
 
 	return *process;
 }
@@ -297,10 +297,10 @@ void ProcessManager::SetProcessRunning(std::string process_name)
 void ProcessManager::InitializeProcessPrinter()
 {
 	process_printer_.AddColumn("ID", 2);
-	process_printer_.AddColumn("Name", 10);
-	process_printer_.AddColumn("File", 10);
-	process_printer_.AddColumn("Priority", 2);
-	process_printer_.AddColumn("State", 7);
+	process_printer_.AddColumn("Nazwa", 10);
+	process_printer_.AddColumn("Plik", 10);
+	process_printer_.AddColumn("Priorytet", 2);
+	process_printer_.AddColumn("Stan", 7);
 	process_printer_.AddColumn("AX", 3);
 	process_printer_.AddColumn("BX", 3);
 	process_printer_.AddColumn("CX", 3);
@@ -352,7 +352,7 @@ void ProcessManager::PrintProcess(std::string process_name)
 void ProcessManager::OpenFile(Process* process, std::string file_name)
 {
 	if (process->is_file_opened(file_name))
-		throw std::exception("File is already opened.");
+		throw std::exception("Plik jest juz otwarty");
 
 	FileSystem::GetInstance().open(process, file_name);
 }
@@ -369,7 +369,7 @@ void ProcessManager::CloseFile(Process* process, std::string file_name)
 void ProcessManager::WriteFile(Process* process, std::string file_name, std::string bytes, bool append)
 {
 	if(!process->is_file_opened(file_name))
-		throw std::exception("Process cannot write to not opened file.");
+		throw std::exception("Proces nie moze zapisac danych do nieotwartego pliku");
 
 	FileSystem::GetInstance().write(file_name, bytes, append);
 }
@@ -377,7 +377,7 @@ void ProcessManager::WriteFile(Process* process, std::string file_name, std::str
 std::string ProcessManager::ReadFile(Process* process, std::string file_name)
 {
 	if(!process->is_file_opened(file_name))
-		throw std::exception("Process cannot read not opened file.");
+		throw std::exception("Proces nie moze odczytac nieotwartego pliku");
 
 	return FileSystem::GetInstance().read_all(file_name);
 }
@@ -385,7 +385,7 @@ std::string ProcessManager::ReadFile(Process* process, std::string file_name)
 char ProcessManager::ReadFileByte(Process* process, std::string file_name)
 {
 	if(!process->is_file_opened(file_name))
-		throw std::exception("Process cannot read not opened file.");
+		throw std::exception("Proces nie moze odczytac nieotwartego pliku");
 
 	return FileSystem::GetInstance().read_next_byte(file_name);
 }
@@ -393,7 +393,7 @@ char ProcessManager::ReadFileByte(Process* process, std::string file_name)
 void ProcessManager::ResetFilePointer(Process* process, std::string file_name)
 {
 	if(!process->is_file_opened(file_name))
-		throw std::exception("Process cannot read not opened file.");
+		throw std::exception("Proces nie moze zresetowac nieotwartego pliku");
 
 	FileSystem::GetInstance().reset_last_read_byte(file_name);
 }

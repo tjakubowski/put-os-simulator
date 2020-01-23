@@ -108,7 +108,7 @@ void CPU_M::print_heap(){
 	auto heap = ProcessManager::GetInstance().ready_processes();
 	int n = heap.size();
 	for(int i = 0; i < n; i++){
-		std::cout<< "P.id: " << heap[i]->id() << " P.priority: " << heap[i]->priority();
+		std::cout<< "P.id: " << heap[i]->id() << " P.proirytet: " << heap[i]->priority();
 		std::cout<< std:: endl;
 	}
 }

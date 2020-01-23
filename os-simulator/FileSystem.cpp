@@ -17,9 +17,9 @@ FileSystem::~FileSystem()
 void FileSystem::print_fat() const
 {
 	TablePrinter tp;
-	tp.AddColumn("Index", 5);
-	tp.AddColumn("Is busy", 5);
-	tp.AddColumn("Next index", 5);
+	tp.AddColumn("Indeks", 6);
+	tp.AddColumn("Zajety", 6);
+	tp.AddColumn("Nastepny", 5, false);
 
 	tp.PrintHeader();
 	for (int i = 0; i < clusters_count_; i++)
@@ -30,8 +30,8 @@ void FileSystem::print_fat() const
 void FileSystem::print_data() const
 {
 	TablePrinter tp;
-	tp.AddColumn("Clusters", 15);
-	tp.AddColumn("Bytes", cluster_size_ * 2);
+	tp.AddColumn("Klastry", 15);
+	tp.AddColumn("Bajty", cluster_size_ * 2);
 	
 	tp.PrintHeader();
 	for(int i = 0; i < clusters_count_; i++)
@@ -53,9 +53,9 @@ void FileSystem::print_data() const
 void FileSystem::print_files() const
 {
 	TablePrinter tp;
-	tp.AddColumn("File name", 16);
-	tp.AddColumn("Start cluster", 5);
-	tp.AddColumn("File size", 5);
+	tp.AddColumn("Nazwa pliku", 16);
+	tp.AddColumn("Klaster poczatkowy", 5);
+	tp.AddColumn("Rozmiar pliku", 5);
 
 	tp.PrintHeader();
 	for (auto& file : root_directory_.files())
@@ -67,9 +67,9 @@ void FileSystem::print_file(std::string file_name)
 {
 	auto file = root_directory_.get_file(file_name);
 	TablePrinter tp;
-	tp.AddColumn("File name", 16);
-	tp.AddColumn("Start cluster", 5);
-	tp.AddColumn("File size", 5);
+	tp.AddColumn("Nazwa pliku", 16);
+	tp.AddColumn("Klaster poczatkowy", 5);
+	tp.AddColumn("Rozmiar pliku", 5);
 
 	tp.PrintHeader();
 	tp << file->file_name() << file->start_cluster() << file->file_size();
@@ -121,16 +121,16 @@ int FileSystem::get_first_empty_cluster_index()
 			return fat_index;
 	}
 
-	throw std::exception("There are no free clusters");
+	throw std::exception("Brak wolnych klastrow");
 }
 
 void FileSystem::create(std::string file_name)
 {
 	if (exists(file_name))
-		throw std::exception("File already exists");
+		throw std::exception("Plik juz istnieje");
 
 	if(get_free_clusters_count() < 1)
-		throw std::exception("There are no free clusters");
+		throw std::exception("Brak wolnych klastrow");
 
 	const auto cluster_index = get_first_empty_cluster_index();
 	root_directory_.create(file_name, cluster_index);
@@ -147,12 +147,12 @@ void FileSystem::create(std::string file_name, std::string bytes)
 void FileSystem::remove(std::string file_name)
 {
 	if (!exists(file_name))
-		throw std::exception("File does not exist");
+		throw std::exception("Plik nie istnieje");
 
 	const auto file = root_directory_.get_file(file_name);
 
 	if (file->is_opened())
-		throw std::exception("Opened file cannot be removed");
+		throw std::exception("Otwarty plik nie moze byc usuniety");
 	
 	root_directory_.remove(file);
 
@@ -216,7 +216,7 @@ void FileSystem::write(std::string file_name, std::string bytes, bool append)
 	reset_last_read_byte(file);
 
 	if (!will_fit(file_name, bytes, append))
-		throw std::exception("There is not enough memory in file system.");
+		throw std::exception("Brakuje pamieci w systemie plikow");
 
 	while (true)
 	{
@@ -281,7 +281,7 @@ char FileSystem::read_next_byte(File* file)
 	auto cluster_index = file->start_cluster();
 
 	if (byte_to_read >= file->file_size())
-		throw std::exception("End of file");
+		throw std::exception("Koniec pliku");
 
 	auto cluster_offset = byte_to_read / cluster_size_;
 
