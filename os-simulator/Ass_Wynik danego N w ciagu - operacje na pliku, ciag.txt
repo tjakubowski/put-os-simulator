@@ -1,0 +1,1 @@
+.text CF wynik FO wynik MV A 45 MV B A MU A A SB A B AD A 41 AR wynik A FC wynik EX

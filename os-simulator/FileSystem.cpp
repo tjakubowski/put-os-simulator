@@ -50,16 +50,17 @@ void FileSystem::print_data() const
 	tp.PrintFooter();
 }
 
-void FileSystem::print_files() const
+void FileSystem::print_files()
 {
 	TablePrinter tp;
 	tp.AddColumn("Nazwa pliku", 16);
 	tp.AddColumn("Klaster poczatkowy", 5);
 	tp.AddColumn("Rozmiar pliku", 5);
+	tp.AddColumn("Klastrow", 5);
 
 	tp.PrintHeader();
 	for (auto& file : root_directory_.files())
-		tp << file->file_name() << file->start_cluster() << file->file_size();
+		tp << file->file_name() << file->start_cluster() << file->file_size() << how_many_clusters_occupy(file);
 	tp.PrintFooter();
 }
 
@@ -70,10 +71,31 @@ void FileSystem::print_file(std::string file_name)
 	tp.AddColumn("Nazwa pliku", 16);
 	tp.AddColumn("Klaster poczatkowy", 5);
 	tp.AddColumn("Rozmiar pliku", 5);
+	tp.AddColumn("Klastrow", 5);
 
 	tp.PrintHeader();
-	tp << file->file_name() << file->start_cluster() << file->file_size();
+	tp << file->file_name() << file->start_cluster() << file->file_size() << how_many_clusters_occupy(file);
 	tp.PrintFooter();
+}
+
+int FileSystem::how_many_clusters_occupy(std::string file_name)
+{
+	const auto file = root_directory_.get_file(file_name);
+	return how_many_clusters_occupy(file);
+}
+
+int FileSystem::how_many_clusters_occupy(File* file)
+{
+	auto cluster = file->start_cluster();
+	int clusters = 1;
+
+	while(fat_[cluster].next_ != -1)
+	{
+		clusters++;
+		cluster = fat_[cluster].next_;
+	}
+
+	return clusters;
 }
 
 void FileSystem::print_files_semaphores()
@@ -188,12 +210,25 @@ void FileSystem::copy_file(std::string file_name, std::string new_file_name)
 	create(new_file_name);
 	write(new_file_name, file_bytes);
 	
-	/* if(exists(new_file_name))
-		write(new_file_name, file_bytes);
+	 if(exists(new_file_name))
+	 {
+		 auto old_file_size = how_many_clusters_occupy(root_directory_.get_file(new_file_name));
+		 auto new_file_size = how_many_clusters_occupy(root_directory_.get_file(file_name));
+
+	 	if(old_file_size >= new_file_size)
+	 	{
+			remove(new_file_name);
+			write(new_file_name, file_bytes);
+	 	}
+		else
+		{
+			throw std::exception("Kopiowany plik sie nie zmiesci");
+		}
+	 }
 	else {
 		create(new_file_name);
 		write(new_file_name, file_bytes);
-	} */
+	}
 }
 
 bool FileSystem::will_fit(std::string file_name, std::string bytes, bool append)
@@ -335,3 +370,4 @@ std::string FileSystem::read_all(File* file)
 		cluster_index = fat_[cluster_index].next_;
 	}
 }
+
