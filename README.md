@@ -10,6 +10,6 @@ https://tjakubowski.github.io/put-os-simulator/
 | Virtual memory management        | @kamilmosek      |
 | RAM management                   | @ruscin          |
 | Process synchronization          | @PrzerostNadSens |
-| FAT - file management            | -                |
+| FAT - file management            | @tjakubowski     |
 | Assembler interpreter            | @molejnik1998    |
 | Windows-based interface          | @Vidugavia       |
