@@ -143,7 +143,7 @@ void ProcessManager::KillProcess(Process* process)
 	case Process::New:
 		RemoveFromVector(process, new_processes_); break;
 	case Process::Waiting:
-		RemoveFromVector(process, waiting_processes_); break;
+		throw std::exception("Proces oczekujacy nie moze byc zabity"); break;
 	case Process::Ready:
 		RemoveFromVector(process, ready_processes_); break;
 	case Process::Running:
